@@ -1,0 +1,243 @@
+# CES 2025 Common Content: questionnaire response labels for persona construction.
+# IMPORTANT: These are questionnaire IDs. Check against the .tab header.
+
+variables:
+  caseid:
+    description: Unique respondent identifier (verify name in released data)
+    type: identifier
+  commonweight:
+    description: Common Content survey weight (verify name and usage in released data)
+    type: numeric
+  birthyr:
+    description: Year of birth
+    type: numeric
+  race:
+    description: Racial or ethnic group
+    codes:
+      1: White
+      2: Black or African-American
+      3: Hispanic or Latino
+      4: Asian or Asian-American
+      5: Native American
+      6: Two or more races
+      7: Other
+      8: Middle Eastern
+      98: Skipped
+      99: Not Asked
+    missing: [98, 99]
+  gender4:
+    description: Gender
+    codes:
+      1: Man
+      2: Woman
+      3: Non-binary
+      4: Other
+      8: Skipped
+      9: Not Asked
+    missing: [8, 9]
+  inputstate:
+    description: State of residence (numeric codes correspond to state FIPS)
+    codes:
+      1: Alabama
+      2: Alaska
+      4: Arizona
+      5: Arkansas
+      6: California
+      8: Colorado
+      9: Connecticut
+      10: Delaware
+      11: District of Columbia
+      12: Florida
+      13: Georgia
+      15: Hawaii
+      16: Idaho
+      17: Illinois
+      18: Indiana
+      19: Iowa
+      20: Kansas
+      21: Kentucky
+      22: Louisiana
+      23: Maine
+      24: Maryland
+      25: Massachusetts
+      26: Michigan
+      27: Minnesota
+      28: Mississippi
+      29: Missouri
+      30: Montana
+      31: Nebraska
+      32: Nevada
+      33: New Hampshire
+      34: New Jersey
+      35: New Mexico
+      36: New York
+      37: North Carolina
+      38: North Dakota
+      39: Ohio
+      40: Oklahoma
+      41: Oregon
+      42: Pennsylvania
+      44: Rhode Island
+      45: South Carolina
+      46: South Dakota
+      47: Tennessee
+      48: Texas
+      49: Utah
+      50: Vermont
+      51: Virginia
+      53: Washington
+      54: West Virginia
+      55: Wisconsin
+      56: Wyoming
+      98: Skipped
+      99: Not Asked
+    missing: [98, 99]
+  educ:
+    description: Highest level of education completed
+    codes:
+      1: Did not graduate from high school
+      2: High school graduate
+      3: Some college, but no degree
+      4: 2-year college degree
+      5: 4-year college degree
+      6: Postgraduate degree
+      8: Skipped
+      9: Not Asked
+    missing: [8, 9]
+  religpew:
+    description: Present religion, if any
+    codes:
+      1: Protestant
+      2: Roman Catholic
+      3: Mormon
+      4: Eastern or Greek Orthodox
+      5: Jewish
+      6: Muslim
+      7: Buddhist
+      8: Hindu
+      9: Atheist
+      10: Agnostic
+      11: Nothing in particular
+      12: Something else
+      98: Skipped
+      99: Not Asked
+    missing: [98, 99]
+  marstat:
+    description: Marital status
+    codes:
+      1: Married
+      2: Separated
+      3: Divorced
+      4: Widowed
+      5: Never married
+      6: Domestic / civil partnership
+      8: Skipped
+      9: Not Asked
+    missing: [8, 9]
+  sexuality:
+    description: Sexual orientation
+    codes:
+      1: Heterosexual / straight
+      2: Lesbian / gay woman
+      3: Gay man
+      4: Bisexual
+      5: Other
+      6: Prefer not to say
+      8: Skipped
+      9: Not Asked
+    missing: [6, 8, 9]
+  faminc_new:
+    description: Family annual income in the previous year
+    codes:
+      1: Less than $10,000
+      2: $10,000 - $19,999
+      3: $20,000 - $29,999
+      4: $30,000 - $39,999
+      5: $40,000 - $49,999
+      6: $50,000 - $59,999
+      7: $60,000 - $69,999
+      8: $70,000 - $79,999
+      9: $80,000 - $99,999
+      10: $100,000 - $119,999
+      11: $120,000 - $149,999
+      12: $150,000 - $199,999
+      13: $200,000 - $249,999
+      14: $250,000 - $349,999
+      15: $350,000 - $499,999
+      16: $500,000 or more
+      97: Prefer not to say
+      998: Skipped
+      999: Not Asked
+    missing: [97, 998, 999]
+  votereg:
+    description: Registered to vote
+    codes:
+      1: 'Yes'
+      2: 'No'
+      3: Don't know
+      8: Skipped
+      9: Not Asked
+    missing: [3, 8, 9]
+  pid3:
+    description: Three-category party identification (also allows other and unsure)
+    codes:
+      1: Democrat
+      2: Republican
+      3: Independent
+      4: Other
+      5: Not sure
+      8: Skipped
+      9: Not Asked
+    missing: [5, 8, 9]
+  pid7:
+    description: Seven-point party identification
+    codes:
+      1: Strong Democrat
+      2: Not very strong Democrat
+      3: The Democratic Party
+      4: Neither party
+      5: The Republican Party
+      6: Not very strong Republican
+      7: Strong Republican
+      8: Not sure
+      9: Don't know
+      98: Skipped
+      99: Not Asked
+    missing: [8, 9, 98, 99]
+  ideo5:
+    description: Political ideology
+    codes:
+      1: Very liberal
+      2: Liberal
+      3: Moderate
+      4: Conservative
+      5: Very conservative
+      6: Not sure
+      8: Skipped
+      9: Not Asked
+    missing: [6, 8, 9]
+  CC25_363:
+    description: Intended party vote for US House in 2026
+    codes:
+      1: Do not intend to vote in the 2026 election
+      2: Likely to vote for the Democratic US House candidate
+      3: Likely to vote for the Republican US House candidate
+      4: Not sure
+      8: Skipped
+      9: Not Asked
+    missing: [4, 8, 9]
+  presvote24post:
+    description: Self-reported vote for president in 2024
+    codes:
+      1: Kamala Harris
+      2: Donald Trump
+      3: Robert F. Kennedy Jr.
+      4: Jill Stein
+      5: Cornel West
+      6: Chase Oliver
+      8: Other
+      9: Did not vote for president
+      98: Skipped
+      99: Not Asked
+    missing: [98, 99]
+# No direct 2026 Senate vote-intention question is present in this questionnaire.
