@@ -3,10 +3,10 @@
 
 variables:
   caseid:
-    description: Unique respondent identifier (verify name in released data)
+    description: Unique respondent identifier 
     type: identifier
   commonweight:
-    description: Common Content survey weight (verify name and usage in released data)
+    description: Common Content survey weight 
     type: numeric
   birthyr:
     description: Year of birth
