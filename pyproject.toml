@@ -11,7 +11,10 @@ dependencies = [
     "pathlib>=1.0.1",
     "polars>=2.0.0",
     "pyarrow>=26.0.0",
+<<<<<<< HEAD
 
+=======
+>>>>>>> a26c6d4ae8f0023384520bda6006c6025c03068c
     "pyyaml>=6.0.3",
     "requests>=2.34.2",
 ]
