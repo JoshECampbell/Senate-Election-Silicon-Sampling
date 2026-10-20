@@ -759,7 +759,7 @@ requires-dist = [
     { name = "pathlib", specifier = ">=1.0.1" },
     { name = "polars", specifier = ">=2.0.0" },
     { name = "pyarrow", specifier = ">=26.0.0" },
-    { name = "pyyaml", specifier = ">=6.0" },
+    { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "requests", specifier = ">=2.34.2" },
 ]
 
