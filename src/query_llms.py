@@ -18,7 +18,7 @@ Typical use:
   uv run python src/query_llms.py --run-name pilot --dry-run      # show requests, no API calls
   uv run python src/query_llms.py --run-name pilot --smoke-test   # one live call per model
   uv run python src/query_llms.py --run-name pilot --limit 5      # 5 personas per state
-  uv run python src/query_llms.py --run-name grid --persona-level 3 9 11 \
+  uv run python src/query_llms.py --run-name grid --persona-level 3 9 11 --persona-format list sentence \
       --prompt-style role_play prediction population
 
 Re-running the same --run-name skips anything already answered, so an
@@ -43,7 +43,8 @@ import polars as pl
 import requests
 import yaml
 
-from persona_text import HELD_OUT, code_to_label, describe_persona, load_value_labels
+from persona_text import (HELD_OUT, PERSONA_FORMATS, code_to_label, describe_persona,
+                          load_value_labels)
 
 DEFAULT_CONFIG = Path("config/query_config.yaml")
 DEFAULT_PERSONAS = Path("data/personas/test")
@@ -63,6 +64,8 @@ def args_parser():
     p.add_argument("--config", default=str(DEFAULT_CONFIG))
     p.add_argument("--models", nargs="+", default=None, help="Model keys from the config (default: all)")
     p.add_argument("--persona-level", nargs="+", type=int, default=[11], help="3, 9 and/or 11")
+    p.add_argument("--persona-format", nargs="+", default=["list"],
+                   help="'list' (trait: value; ...) and/or 'sentence' (a White woman living in ...)")
     p.add_argument("--prompt-style", nargs="+", default=["prediction"], help="Keys under prompt_styles")
     p.add_argument("--news-file", nargs="+", default=None,
                    help="Text file(s) with a news summary; each one is a separate news condition")
@@ -234,26 +237,39 @@ def build_jobs(personas: pl.DataFrame, cfg: dict, labels: dict, args) -> list[di
         if HELD_OUT.intersection(cfg["persona_levels"][level]):
             sys.exit(f"Persona level {level} includes a held-out outcome column")
 
+    for fmt in args.persona_format:
+        if fmt not in PERSONA_FORMATS:
+            sys.exit(f"Unknown persona format '{fmt}'. Options: {list(PERSONA_FORMATS)}")
+        for style in args.prompt_style:
+            ctx = cfg["prompt_styles"][style]["context"]
+            if isinstance(ctx, dict) and fmt not in ctx:
+                sys.exit(f"Prompt style '{style}' has no context template for format '{fmt}'")
+
     jobs = []
     rows = personas.to_dicts()
-    for model_key, level, style, (news_label, news) in product(
-            model_keys, args.persona_level, args.prompt_style, news_conditions):
+    for model_key, level, style, fmt, (news_label, news) in product(
+            model_keys, args.persona_level, args.prompt_style, args.persona_format, news_conditions):
         model_cfg = cfg["models"][model_key]
         tmpl = cfg["prompt_styles"][style]
+        # A context is either one template, or one template per persona format.
+        context_tmpl = tmpl["context"][fmt] if isinstance(tmpl["context"], dict) else tmpl["context"]
         for row in rows:
             state = code_to_label("inputstate", row["inputstate"], labels)
-            persona = describe_persona(row, cfg["persona_levels"][level], cfg["display_names"], labels)
+            persona = describe_persona(row, cfg["persona_levels"][level], cfg["display_names"],
+                                       labels, persona_format=fmt)
             fill = {"persona": persona, "state": state, **cfg["election"]}
-            context = tmpl["context"].format(**fill)
+            context = context_tmpl.format(**fill)
             if news:
                 context = cfg["news_template"].format(news=news) + "\n\n" + context
             question = tmpl["question"].format(**fill)
             jobs.append({
-                "key": f"{model_key}|{level}|{style}|{news_label}|{row['state_file']}|{row['persona_row']}",
+                "key": f"{model_key}|{level}|{style}|{fmt}|{news_label}|{row['state_file']}|{row['persona_row']}",
                 "model_key": model_key,
                 "model": model_cfg["model"],
                 "persona_level": level,
                 "prompt_style": style,
+                "persona_format": fmt,
+                "persona_text": persona,
                 "news": news_label,
                 "state": state,
                 "persona_row": row["persona_row"],
@@ -305,13 +321,16 @@ def write_results(out_dir: Path, cfg: dict) -> None:
         return
 
     p_cols = [slug(o) for o in cfg["options"]]
-    keep = ["model_key", "model", "model_snapshot", "persona_level", "prompt_style", "news",
-            "state", "persona_row", "caseid", "commonweight", "CC25_363", "presvote24post",
-            "status", "choice", "confidence", *p_cols, "cost_usd", "input_tokens", "requested_at"]
+    keep = ["model_key", "model", "model_snapshot", "persona_level", "prompt_style",
+            "persona_format", "news", "state", "persona_row", "caseid", "commonweight",
+            "CC25_363", "presvote24post", "status", "choice", "confidence", *p_cols,
+            "cost_usd", "input_tokens", "requested_at", "persona_text"]
+    for r in done:
+        r.setdefault("persona_format", "list")  # runs made before formats existed
     results = pl.DataFrame([{k: r.get(k) for k in keep} for r in done], infer_schema_length=None)
     results.write_parquet(out_dir / "results.parquet")
 
-    config_cols = ["model_key", "persona_level", "prompt_style", "news"]
+    config_cols = ["model_key", "persona_level", "prompt_style", "persona_format", "news"]
     summary = (results.group_by([*config_cols, "state"])
                .agg(pl.len().alias("n"), (pl.col("status") == "refused").mean().alias("refusal_rate"),
                     *[pl.col(c).mean() for c in p_cols])

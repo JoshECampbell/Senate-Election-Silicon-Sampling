@@ -21,7 +21,8 @@ persona_levels:
   9: [race, gender4, inputstate, educ, religpew, marstat, sexuality, votereg, faminc_new]
   11: [race, gender4, inputstate, educ, religpew, marstat, sexuality, votereg, faminc_new, pid7, ideo5]
 
-# How each CES column is named in the persona text.
+# How each CES column is named in the "list" persona format. (The "sentence"
+# format's wording lives in src/persona_text.py.)
 display_names:
   race: "race/ethnicity"
   gender4: "gender"
@@ -37,16 +38,25 @@ display_names:
 
 # Prompt styles adapted from the paper. Decision models take a context (the
 # persona) plus a question, so each style is a context template and a question
-# template. Placeholders: {persona}, {state}, {office}, {year}.
+# template. The context has one version per persona format (--persona-format):
+#   list:     {persona} = "race/ethnicity: White; gender: Woman; ..."
+#   sentence: {persona} = "a White woman living in Alabama who ..."
+# Placeholders: {persona}, {state}, {office}, {year}.
 prompt_styles:
   role_play:
-    context: "You are a person with the following characteristics: {persona}."
+    context:
+      list: "You are a person with the following characteristics: {persona}."
+      sentence: "You are {persona}."
     question: "If the {year} {office} election in {state} were held today, how would you vote?"
   prediction:
-    context: "Consider a person with the following characteristics: {persona}."
+    context:
+      list: "Consider a person with the following characteristics: {persona}."
+      sentence: "Consider {persona}."
     question: "If the {year} {office} election in {state} were held today, how would such a person vote?"
   population:
-    context: "Consider people with the following characteristics: {persona}."
+    context:
+      list: "Consider people with the following characteristics: {persona}."
+      sentence: "Consider the people who match this description: {persona}."
     question: "If the {year} {office} election in {state} were held today, which option would people like this most likely choose?"
 
 # Optional news diet, prepended to the context when --news-file is given.
