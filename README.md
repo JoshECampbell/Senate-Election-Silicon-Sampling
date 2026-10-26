@@ -39,9 +39,32 @@ uv run python src/query_llms.py --run-name grid --persona-level 3 9 11 \
 
 Results go to `data/llm_responses/<run-name>/`: `results.parquet` (one row per
 persona x configuration), `summary.parquet` (mean probabilities by state),
-`run_metadata.json` (config, arguments and git commit for each invocation) and
+`run_metadata.json` (arguments, timestamps and validation counts) and
 `responses.jsonl` (raw requests and responses; gitignored because it gets large).
-Re-running a `--run-name` skips anything already answered.
+After the initial batch, failed, refused, or numerically invalid responses receive
+up to three additional attempts with the same request. Probabilities must be
+finite numbers between 0 and 1 inclusive and sum to 1 within `1e-6` absolute error.
+Each retry is appended to `responses.jsonl`; restarting preserves the retry limit.
+Transport retries for network/server errors remain separate.
+
+`results.parquet` retains every sampled row, including unresolved rows marked
+with `probability_valid=false` and null probability columns. `summary.parquet`
+averages all four probabilities over the same valid rows, preserving repeated
+draws. It reports `n` (expected draws), `n_valid`, `n_invalid`,
+`n_unique_invalid`, `invalid_percentage`, and `complete`. A state with no valid
+responses has null averages. Per-state counts are also recorded in run metadata;
+an incomplete summary describes responding personas rather than the full sample.
+
+Re-running the same `--run-name` reuses valid responses and retries unresolved
+ones only within their remaining budget. Changing cached request contents or
+sampled multiplicities requires a new run name. Exact prompts and model IDs are
+retained in the raw request log; metadata contains no copied config or Git revision.
+
+Offline validation tests (no API requests):
+
+```sh
+uv run python -m unittest discover -s test -p "test_query_validation.py" -v
+```
 
 ## Validate the sampled personas
 
