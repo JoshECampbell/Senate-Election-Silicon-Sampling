@@ -110,7 +110,7 @@ def load_personas(folder: Path, states: list[str] | None, limit: int | None) -> 
     """Read each per-state persona file and tag rows with state and row number."""
     frames = []
     for f in sorted(folder.iterdir()):
-        if not f.is_file() or f.name.startswith("."):
+        if not f.is_file() or f.name.startswith(".") or f.suffix.lower() in (".yaml", ".yml"):
             continue
         state = f.stem
         if states and state not in states:
