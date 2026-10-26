@@ -11,7 +11,7 @@ Workflow:
     - Sampling probability determined by the common weight 
     - Sample with replacement 
 - Keep all of the columns for further analysis 
-- Save each state in a seperate file under a 
+- Save each state in a separate <State>.parquet file
 """
 DEFAULT_DATA_PATH = "data/cleaned/cleaned_CES_data.parquet"
 SENATE_STATES_2026 = {
@@ -102,7 +102,7 @@ def create_personas() -> None:
         persona_config[state] = state_results
 
         personas = state_df[indices]
-        personas.write_parquet(output_dir / state)
+        personas.write_parquet(output_dir / f"{state}.parquet")
         print(f"Personas created for {state}. {args.samples}/{state_df.shape[0]} (samples/total respondants)")
 
     with open(output_dir / "persona_config.yaml", "w") as file: 

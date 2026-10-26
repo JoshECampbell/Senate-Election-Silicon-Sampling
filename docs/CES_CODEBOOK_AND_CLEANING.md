@@ -330,7 +330,7 @@ These steps happen after cleaning, in [create_personas.py](../src/create_persona
 1. Read the cleaned Parquet file and restrict it to the 35 state codes in the script's `SENATE_STATES_2026` mapping. This filter does not change the cleaned file.
 2. Within each state, calculate each respondent's draw probability as `commonweight / sum(commonweight)` for that state's respondents.
 3. Draw the requested number of respondents **with replacement**, using NumPy's random generator. Defaults are seed `42` and `100` draws per state. A respondent can therefore appear more than once.
-4. Preserve all 17 columns in each sampled row and save a Parquet file named for the state, without a file extension, under `data/personas/<run-name>/`.
+4. Preserve all 17 columns in each sampled row and save a Parquet file named `<State>.parquet` under `data/personas/<run-name>/`.
 5. Write `persona_config.yaml` with the input path, seed, draw count, and each state's available respondent count and `samples / population` ratio. Because sampling uses replacement, this ratio is not the fraction of unique respondents selected.
 
 Example:
