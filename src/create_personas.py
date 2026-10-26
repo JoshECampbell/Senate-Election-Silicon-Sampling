@@ -1,5 +1,6 @@
 import polars as pl 
 import numpy as np
+import yaml
 from pathlib import Path
 from argparse import ArgumentParser
 
@@ -74,7 +75,12 @@ def create_personas() -> None:
     output_dir = Path(f"data/personas/{args.run_name}")
     output_dir.mkdir(parents=True, exist_ok =True)
 
-
+    persona_config = {
+        "run_name": args.run_name, 
+        "seed": args.seed, 
+        "samples": args.samples, 
+        "data_path": str(args.data_path)
+    }
     for code, state in SENATE_STATES_2026.items(): 
         
         state_df = df.filter(pl.col('inputstate') == code).collect()
@@ -89,12 +95,19 @@ def create_personas() -> None:
             p=probabilities
         )
 
+        state_results = { 
+            "population": state_df.shape[0],
+            "proportion_sampled": round(args.samples/state_df.shape[0], ndigits=3)
+        }
+        persona_config[state] = state_results
+
         personas = state_df[indices]
         personas.write_parquet(output_dir / state)
         print(f"Personas created for {state}. {args.samples}/{state_df.shape[0]} (samples/total respondants)")
 
-
-
+    with open(output_dir / "persona_config.yaml", "w") as file: 
+        yaml.safe_dump(persona_config, file)
+    print("Persona config saved")
 
 if __name__ == "__main__": 
     create_personas()

@@ -1,0 +1,109 @@
+Alabama:
+  population: 269
+  proportion_sampled: 0.372
+Alaska:
+  population: 23
+  proportion_sampled: 4.348
+Arkansas:
+  population: 157
+  proportion_sampled: 0.637
+Colorado:
+  population: 309
+  proportion_sampled: 0.324
+Delaware:
+  population: 72
+  proportion_sampled: 1.389
+Florida:
+  population: 1315
+  proportion_sampled: 0.076
+Georgia:
+  population: 612
+  proportion_sampled: 0.163
+Idaho:
+  population: 80
+  proportion_sampled: 1.25
+Illinois:
+  population: 608
+  proportion_sampled: 0.164
+Iowa:
+  population: 160
+  proportion_sampled: 0.625
+Kansas:
+  population: 124
+  proportion_sampled: 0.806
+Kentucky:
+  population: 245
+  proportion_sampled: 0.408
+Louisiana:
+  population: 219
+  proportion_sampled: 0.457
+Maine:
+  population: 73
+  proportion_sampled: 1.37
+Massachusetts:
+  population: 272
+  proportion_sampled: 0.368
+Michigan:
+  population: 519
+  proportion_sampled: 0.193
+Minnesota:
+  population: 271
+  proportion_sampled: 0.369
+Mississippi:
+  population: 133
+  proportion_sampled: 0.752
+Montana:
+  population: 61
+  proportion_sampled: 1.639
+Nebraska:
+  population: 78
+  proportion_sampled: 1.282
+New Hampshire:
+  population: 56
+  proportion_sampled: 1.786
+New Jersey:
+  population: 450
+  proportion_sampled: 0.222
+New Mexico:
+  population: 125
+  proportion_sampled: 0.8
+North Carolina:
+  population: 549
+  proportion_sampled: 0.182
+Ohio:
+  population: 608
+  proportion_sampled: 0.164
+Oklahoma:
+  population: 205
+  proportion_sampled: 0.488
+Oregon:
+  population: 296
+  proportion_sampled: 0.338
+Rhode Island:
+  population: 46
+  proportion_sampled: 2.174
+South Carolina:
+  population: 277
+  proportion_sampled: 0.361
+South Dakota:
+  population: 56
+  proportion_sampled: 1.786
+Tennessee:
+  population: 369
+  proportion_sampled: 0.271
+Texas:
+  population: 1467
+  proportion_sampled: 0.068
+Virginia:
+  population: 420
+  proportion_sampled: 0.238
+West Virginia:
+  population: 113
+  proportion_sampled: 0.885
+Wyoming:
+  population: 25
+  proportion_sampled: 4.0
+data_path: data/cleaned/cleaned_CES_data.parquet
+run_name: sample_100
+samples: 100
+seed: 42

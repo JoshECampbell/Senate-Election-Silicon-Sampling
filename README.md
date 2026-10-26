@@ -42,3 +42,21 @@ persona x configuration), `summary.parquet` (mean probabilities by state),
 `run_metadata.json` (config, arguments and git commit for each invocation) and
 `responses.jsonl` (raw requests and responses; gitignored because it gets large).
 Re-running a `--run-name` skips anything already answered.
+
+## Validate the sampled personas
+
+Compare each state's personas with its weighted CES reference respondents:
+
+```sh
+uv sync
+uv run python test/validate_personas.py --run-name test
+```
+
+The default features are age, race, party identification, sexual orientation,
+and education. Use `--features` to change them. Use `--states` to select states.
+The script saves Parquet tables, PNG plots, and YAML metadata under
+`data/persona_validation/<run-name>/`.
+
+Read the [validation guide](docs/PERSONA_VALIDATION.md) for the method, commands,
+outputs, and interpretation. Change the defaults in
+[persona_validation.yaml](config/persona_validation.yaml).
