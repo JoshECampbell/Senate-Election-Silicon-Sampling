@@ -1,0 +1,11 @@
+# Settings for test/validate_personas.py. CLI options can override these values.
+features: [age, race, pid7, sexuality, educ]
+
+# Estimate age in the CES survey year, not the year when this script runs.
+age_reference_year: 2025
+# Lower bounds are inclusive. Upper bounds are exclusive: 18-29, 30-44, etc.
+age_bin_edges: [18, 30, 45, 65, 121]
+
+# Keep uncertainty and refusal responses as separate categories.
+# Combine only these response labels and actual nulls into "No response".
+no_response_labels: [Skipped, Not Asked]

@@ -1,0 +1,145 @@
+reference: data\cleaned\cleaned_CES_data.parquet
+personas:
+  directory: data\personas\sample_25
+  total_draws: 875
+  states:
+    Alabama:
+      persona_file: data\personas\sample_25\Alabama
+      persona_draws: 25
+      reference_population: 269
+    Alaska:
+      persona_file: data\personas\sample_25\Alaska
+      persona_draws: 25
+      reference_population: 23
+    Arkansas:
+      persona_file: data\personas\sample_25\Arkansas
+      persona_draws: 25
+      reference_population: 157
+    Colorado:
+      persona_file: data\personas\sample_25\Colorado
+      persona_draws: 25
+      reference_population: 309
+    Delaware:
+      persona_file: data\personas\sample_25\Delaware
+      persona_draws: 25
+      reference_population: 72
+    Florida:
+      persona_file: data\personas\sample_25\Florida
+      persona_draws: 25
+      reference_population: 1315
+    Georgia:
+      persona_file: data\personas\sample_25\Georgia
+      persona_draws: 25
+      reference_population: 612
+    Idaho:
+      persona_file: data\personas\sample_25\Idaho
+      persona_draws: 25
+      reference_population: 80
+    Illinois:
+      persona_file: data\personas\sample_25\Illinois
+      persona_draws: 25
+      reference_population: 608
+    Iowa:
+      persona_file: data\personas\sample_25\Iowa
+      persona_draws: 25
+      reference_population: 160
+    Kansas:
+      persona_file: data\personas\sample_25\Kansas
+      persona_draws: 25
+      reference_population: 124
+    Kentucky:
+      persona_file: data\personas\sample_25\Kentucky
+      persona_draws: 25
+      reference_population: 245
+    Louisiana:
+      persona_file: data\personas\sample_25\Louisiana
+      persona_draws: 25
+      reference_population: 219
+    Maine:
+      persona_file: data\personas\sample_25\Maine
+      persona_draws: 25
+      reference_population: 73
+    Massachusetts:
+      persona_file: data\personas\sample_25\Massachusetts
+      persona_draws: 25
+      reference_population: 272
+    Michigan:
+      persona_file: data\personas\sample_25\Michigan
+      persona_draws: 25
+      reference_population: 519
+    Minnesota:
+      persona_file: data\personas\sample_25\Minnesota
+      persona_draws: 25
+      reference_population: 271
+    Mississippi:
+      persona_file: data\personas\sample_25\Mississippi
+      persona_draws: 25
+      reference_population: 133
+    Montana:
+      persona_file: data\personas\sample_25\Montana
+      persona_draws: 25
+      reference_population: 61
+    Nebraska:
+      persona_file: data\personas\sample_25\Nebraska
+      persona_draws: 25
+      reference_population: 78
+    New Hampshire:
+      persona_file: data\personas\sample_25\New Hampshire
+      persona_draws: 25
+      reference_population: 56
+    New Jersey:
+      persona_file: data\personas\sample_25\New Jersey
+      persona_draws: 25
+      reference_population: 450
+    New Mexico:
+      persona_file: data\personas\sample_25\New Mexico
+      persona_draws: 25
+      reference_population: 125
+    North Carolina:
+      persona_file: data\personas\sample_25\North Carolina
+      persona_draws: 25
+      reference_population: 549
+    Ohio:
+      persona_file: data\personas\sample_25\Ohio
+      persona_draws: 25
+      reference_population: 608
+    Oklahoma:
+      persona_file: data\personas\sample_25\Oklahoma
+      persona_draws: 25
+      reference_population: 205
+    Oregon:
+      persona_file: data\personas\sample_25\Oregon
+      persona_draws: 25
+      reference_population: 296
+    Rhode Island:
+      persona_file: data\personas\sample_25\Rhode Island
+      persona_draws: 25
+      reference_population: 46
+    South Carolina:
+      persona_file: data\personas\sample_25\South Carolina
+      persona_draws: 25
+      reference_population: 277
+    South Dakota:
+      persona_file: data\personas\sample_25\South Dakota
+      persona_draws: 25
+      reference_population: 56
+    Tennessee:
+      persona_file: data\personas\sample_25\Tennessee
+      persona_draws: 25
+      reference_population: 369
+    Texas:
+      persona_file: data\personas\sample_25\Texas
+      persona_draws: 25
+      reference_population: 1467
+    Virginia:
+      persona_file: data\personas\sample_25\Virginia
+      persona_draws: 25
+      reference_population: 420
+    West Virginia:
+      persona_file: data\personas\sample_25\West Virginia
+      persona_draws: 25
+      reference_population: 113
+    Wyoming:
+      persona_file: data\personas\sample_25\Wyoming
+      persona_draws: 25
+      reference_population: 25
