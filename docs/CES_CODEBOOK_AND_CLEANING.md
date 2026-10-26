@@ -1,6 +1,6 @@
 # CES 2025 codebook and data preparation
 
-This reference describes the project's CES 2025 Common Content variables and the implemented raw-to-cleaned workflow. Response labels and missing-code rules are transcribed from [ces25_value_labels.yaml](ces_codes/ces25_value_labels.yaml); that YAML file remains the machine-readable source of truth. This is a project codebook, not an independently verified copy of the full official CES codebook. It covers all 17 retained variables.
+This reference describes the project's CES 2025 Common Content variables and the implemented raw-to-cleaned workflow. Response labels and missing-code rules are transcribed from [ces25_value_labels.yaml](../config/ces_codes/ces25_value_labels.yaml); that YAML file remains the machine-readable source of truth. This is a project codebook, not an independently verified copy of the full official CES codebook. It covers all 17 retained variables.
 
 ## Raw-to-cleaned process
 
@@ -343,7 +343,7 @@ The sampler uses the weights directly; it does not implement repairs for missing
 
 ## Conversion into model prompts
 
-[query_config.yaml](query_config.yaml) defines these persona levels:
+[query_config.yaml](../config/query_config.yaml) defines these persona levels:
 
 - **3 characteristics:** `race`, `gender4`, `inputstate`.
 - **9 characteristics:** `race`, `gender4`, `inputstate`, `educ`, `religpew`, `marstat`, `sexuality`, `votereg`, `faminc_new`.
