@@ -11,7 +11,8 @@ Supported providers (set in config/query_config.yaml):
 Outputs go to data/llm_responses/<run-name>/:
   responses.jsonl     every request + raw response, appended as it runs (resumable)
   results.parquet     one tidy row per persona x configuration
-  summary.parquet     mean probabilities by state x configuration
+  summary.parquet     mean probabilities by state x configuration, with n (persona
+                      rows) and n_unique (distinct CES respondents behind them)
   run_metadata.json   config snapshot, arguments, git commit, timestamps
 
 Typical use:
@@ -23,6 +24,11 @@ Typical use:
 
 Re-running the same --run-name skips anything already answered, so an
 interrupted run can simply be restarted.
+
+Personas are drawn with replacement, so small states repeat respondents (e.g.
+100 rows from 23 Alaskans). Each distinct respondent is queried once per
+configuration and the answer is copied to all of their rows, which keeps the
+results identical in structure while avoiding duplicate API calls.
 """
 
 import json
@@ -245,8 +251,18 @@ def build_jobs(personas: pl.DataFrame, cfg: dict, labels: dict, args) -> list[di
             if isinstance(ctx, dict) and fmt not in ctx:
                 sys.exit(f"Prompt style '{style}' has no context template for format '{fmt}'")
 
+    # One request per distinct respondent in each state; remember which persona
+    # rows they fill so results can be expanded back to one row per persona.
+    people = {}
+    for row in personas.to_dicts():
+        person = (row["state_file"], row["caseid"])
+        if person in people:
+            people[person]["persona_rows"].append(row["persona_row"])
+        else:
+            people[person] = {**row, "persona_rows": [row["persona_row"]]}
+    rows = list(people.values())
+
     jobs = []
-    rows = personas.to_dicts()
     for model_key, level, style, fmt, (news_label, news) in product(
             model_keys, args.persona_level, args.prompt_style, args.persona_format, news_conditions):
         model_cfg = cfg["models"][model_key]
@@ -263,7 +279,7 @@ def build_jobs(personas: pl.DataFrame, cfg: dict, labels: dict, args) -> list[di
                 context = cfg["news_template"].format(news=news) + "\n\n" + context
             question = tmpl["question"].format(**fill)
             jobs.append({
-                "key": f"{model_key}|{level}|{style}|{fmt}|{news_label}|{row['state_file']}|{row['persona_row']}",
+                "key": f"{model_key}|{level}|{style}|{fmt}|{news_label}|{row['state_file']}|{row['caseid']}",
                 "model_key": model_key,
                 "model": model_cfg["model"],
                 "persona_level": level,
@@ -272,7 +288,7 @@ def build_jobs(personas: pl.DataFrame, cfg: dict, labels: dict, args) -> list[di
                 "persona_text": persona,
                 "news": news_label,
                 "state": state,
-                "persona_row": row["persona_row"],
+                "persona_rows": row["persona_rows"],
                 "caseid": row["caseid"],
                 "commonweight": row["commonweight"],
                 # Held-out outcomes: stored for validation, never sent to the model.
@@ -322,17 +338,21 @@ def write_results(out_dir: Path, cfg: dict) -> None:
 
     p_cols = [slug(o) for o in cfg["options"]]
     keep = ["model_key", "model", "model_snapshot", "persona_level", "prompt_style",
-            "persona_format", "news", "state", "persona_row", "caseid", "commonweight",
+            "persona_format", "news", "state", "persona_rows", "caseid", "commonweight",
             "CC25_363", "presvote24post", "status", "choice", "confidence", *p_cols,
             "cost_usd", "input_tokens", "requested_at", "persona_text"]
     for r in done:
         r.setdefault("persona_format", "list")  # runs made before formats existed
-    results = pl.DataFrame([{k: r.get(k) for k in keep} for r in done], infer_schema_length=None)
+        r.setdefault("persona_rows", [r.get("persona_row")])  # runs made before deduplication
+    # One row per API call, then expanded to one row per persona row.
+    calls = pl.DataFrame([{k: r.get(k) for k in keep} for r in done], infer_schema_length=None)
+    results = calls.explode("persona_rows").rename({"persona_rows": "persona_row"})
     results.write_parquet(out_dir / "results.parquet")
 
     config_cols = ["model_key", "persona_level", "prompt_style", "persona_format", "news"]
     summary = (results.group_by([*config_cols, "state"])
-               .agg(pl.len().alias("n"), (pl.col("status") == "refused").mean().alias("refusal_rate"),
+               .agg(pl.len().alias("n"), pl.col("caseid").n_unique().alias("n_unique"),
+                    (pl.col("status") == "refused").mean().alias("refusal_rate"),
                     *[pl.col(c).mean() for c in p_cols])
                .sort([*config_cols, "state"]))
     summary.write_parquet(out_dir / "summary.parquet")
@@ -340,8 +360,11 @@ def write_results(out_dir: Path, cfg: dict) -> None:
     overall = (results.group_by(config_cols)
                .agg(pl.len().alias("n"),
                     (pl.col("status") == "refused").mean().round(3).alias("refusal_rate"),
-                    *[pl.col(c).mean().round(3) for c in p_cols],
-                    pl.col("cost_usd").sum().alias("cost_usd"))
+                    *[pl.col(c).mean().round(3) for c in p_cols])
+               # Cost comes from the calls, not the expanded rows, so it is not double counted.
+               .join(calls.group_by(config_cols).agg(pl.len().alias("n_calls"),
+                                                     pl.col("cost_usd").sum()),
+                     on=config_cols)
                .sort(config_cols))
     n_err = sum(r["status"] == "error" for r in latest.values())
     print(f"\nSaved {results.height} responses to {out_dir / 'results.parquet'}"
@@ -369,9 +392,11 @@ def main() -> None:
             if cfg_key in seen:
                 continue
             seen.add(cfg_key)
-            print(f"\n=== {cfg_key} ({job['state']}, row {job['persona_row']}) -> {cfg['models'][job['model_key']]['endpoint']}")
+            print(f"\n=== {cfg_key} ({job['state']}, caseid {job['caseid']}, {len(job['persona_rows'])} rows) -> {cfg['models'][job['model_key']]['endpoint']}")
             print(json.dumps(job["payload"], indent=2))
-        print(f"\n{len(jobs)} requests would be sent across {len(seen)} configurations.")
+        n_rows = sum(len(j["persona_rows"]) for j in jobs)
+        print(f"\n{len(jobs)} requests would be sent across {len(seen)} configurations "
+              f"(covering {n_rows} persona rows).")
         return
 
     if args.smoke_test:
