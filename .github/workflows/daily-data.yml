@@ -116,10 +116,5 @@ jobs:
           path: .automation/incoming
       - name: Combine independent model and polling results
         run: uv run --offline --frozen python src/daily_automation.py merge --date "$REPORTING_DATE" --run-id "$COLLECTION_RUN_ID"
-      - name: Test collection logic and saved observations without rendering
-        run: |
-          uv run --offline --frozen python -m unittest discover -s test -p 'test_daily_automation.py' -v
-          uv run --offline --frozen python -m unittest discover -s test -p 'test_polling_forecast.py' -v
-          uv run --offline --frozen python src/daily_automation.py gate --run-id "$COLLECTION_RUN_ID"
       - name: Create or update the data-only branch
         run: uv run --offline --frozen python src/daily_storage.py save

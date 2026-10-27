@@ -164,7 +164,7 @@ def merge(day, run_id, root=ROOT):
 
 def gate(run_id=None, root=ROOT):
     if run_id is None:
-        return True  # Main/PR writing and code changes rebuild using saved data.
+        return True  # Manual website-only rebuilds use saved data.
     status = json.loads((root / 'data/daily_runs' / f'{run_id}.json').read_text())
     if not status['successful_models']:
         print('All models failed; retain the currently published website.')

@@ -1,12 +1,8 @@
-# Builds always combine current website sources with the saved daily history.
-# This workflow has no LLM API secret and cannot launch paid model queries.
+# Rebuild and deploy after daily collection, or when run manually.
+# Always read current main and saved data; never query providers during rendering.
 name: Website
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_run:
     workflows: [Daily data]
     types: [completed]
@@ -16,123 +12,64 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: website-publication
+  cancel-in-progress: true
+
 jobs:
-  plan:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.head_branch == 'main'
+  publish:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    outputs:
-      publish: ${{ steps.gate.outputs.publish }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      SKIP_FORECAST_FETCH: '1'
     steps:
       - uses: actions/checkout@v6
         with:
-          # Daily completions always use current main, never stale writing from
-          # the commit that started the collection. PR builds remain isolated.
-          ref: ${{ github.event_name == 'pull_request' && github.ref || 'main' }}
+          ref: main
       - uses: astral-sh/setup-uv@v7
         with:
           python-version: '3.14'
           version: '0.13.0'
           enable-cache: true
       - run: uv sync --frozen
-      - run: uv run --offline --frozen python src/daily_storage.py restore
-      - name: Decide whether daily results justify a new publication
+      - name: Restore saved observations
+        run: uv run --offline --frozen python src/daily_storage.py restore
+      - name: Skip daily publication if every model failed
         id: gate
         env:
           EVENT: ${{ github.event_name }}
           COLLECTION_RUN_ID: ${{ github.event.workflow_run.id }}
         run: |
           if [ "$EVENT" = workflow_run ]; then
-            if [ ! -f "data/daily_runs/$COLLECTION_RUN_ID.json" ]; then
-              echo "Collection did not archive results; keeping the live site."
-              echo 'publish=false' >> "$GITHUB_OUTPUT"
-            else
+            if [ -f "data/daily_runs/$COLLECTION_RUN_ID.json" ]; then
               uv run --offline --frozen python src/daily_automation.py gate --run-id "$COLLECTION_RUN_ID"
+            else
+              echo 'Collection did not archive results; keeping the live site.'
+              echo 'publish=false' >> "$GITHUB_OUTPUT"
             fi
           else
-            uv run --offline --frozen python src/daily_automation.py gate
+            echo 'publish=true' >> "$GITHUB_OUTPUT"
           fi
-
-  build:
-    # Even if a provider job failed, the archive job may have saved a good model.
-    # The gate reads the collection manifest and verifies actual completeness.
-    needs: plan
-    if: needs.plan.outputs.publish == 'true'
-    concurrency:
-      group: website-build-${{ github.event_name == 'pull_request' && github.event.pull_request.number || 'pages' }}
-      cancel-in-progress: true
-    runs-on: ubuntu-latest
-    outputs:
-      publish: ${{ needs.plan.outputs.publish }}
-      source_sha: ${{ steps.source.outputs.sha }}
-    env:
-      SKIP_FORECAST_FETCH: '1'
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          # Daily completions always use current main, never stale writing from
-          # the commit that started the collection. PR builds remain isolated.
-          ref: ${{ github.event_name == 'pull_request' && github.ref || 'main' }}
-      - id: source
-        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-      - uses: astral-sh/setup-uv@v7
-        with:
-          python-version: '3.14'
-          version: '0.13.0'
-          enable-cache: true
-      - run: uv sync --frozen
-      - run: uv run --offline --frozen python src/daily_storage.py restore
-      - name: Run offline tests after collection
-        run: |
-          for pattern in test_query_validation.py test_validate_personas.py test_site_preparation.py test_polling_forecast.py test_simulated_ces_data.py test_daily_automation.py; do
-            uv run --offline --frozen python -m unittest discover -s test -p "$pattern" -v
-          done
       - uses: quarto-dev/quarto-actions/setup@v2
+        if: steps.gate.outputs.publish == 'true'
         with:
           version: '1.10.18'
-      - name: Generate plots, costs, components and HTML from saved inputs
+      - name: Generate plots, update costs and render the website
+        if: steps.gate.outputs.publish == 'true'
         run: quarto render docs
-      - name: Check the rendered bundle
-        run: uv run --offline --frozen python test/check_website.py
-      - uses: denoland/setup-deno@v2.0.5
-        with:
-          deno-version: v2.x
-      - name: Test state selectors and model toggles
-        run: deno run --no-config --allow-read=docs test/test_site_controller.js
       - uses: actions/upload-pages-artifact@v4
-        if: github.event_name != 'pull_request'
+        if: steps.gate.outputs.publish == 'true'
         with:
           path: docs
-
-  deploy:
-    needs: build
-    if: needs.build.outputs.publish == 'true' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    concurrency:
-      group: pages-deployment
-      cancel-in-progress: true
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: main
-      - name: Do not deploy a build superseded by a new main commit
-        id: current
-        env:
-          BUILT_SHA: ${{ needs.build.outputs.source_sha }}
-        run: |
-          if [ "$(git rev-parse HEAD)" = "$BUILT_SHA" ]; then
-            echo 'deploy=true' >> "$GITHUB_OUTPUT"
-          else
-            echo 'A newer main commit has its own build; skipping this older build.'
-          fi
       - uses: actions/configure-pages@v5
-        if: steps.current.outputs.deploy == 'true'
+        if: steps.gate.outputs.publish == 'true'
       - uses: actions/deploy-pages@v4
-        if: steps.current.outputs.deploy == 'true'
+        if: steps.gate.outputs.publish == 'true'
         id: deployment

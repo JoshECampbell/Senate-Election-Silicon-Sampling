@@ -77,9 +77,10 @@ its most recent complete day, labelled with that actual date.
 2. Quarto reads `index.qmd` and those prepared components to write `index.html`
    here. The document itself does not generate research figures or make API calls.
 3. The optional checker verifies the rendered assets and 100-seat totals.
-4. Merge source changes into `main`. With Pages set to **GitHub Actions**, the
-   Website workflow restores daily observations, renders, tests and deploys.
-   No generated-file commit or daily-data PR is required.
+4. Merge source changes into `main`. The next daily rebuild includes them, or
+   manually run **Website** from the Actions tab to publish immediately using
+   saved data. There are no PR/push checks or automated test suites. Pages must
+   use **GitHub Actions**; no generated-file commit or daily-data PR is required.
 
 ## Where to edit
 

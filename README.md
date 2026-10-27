@@ -74,8 +74,8 @@ uv run python test/check_website.py
 Rendering fetches and archives the public Polling Forecast Senate benchmark,
 then discovers dated runs and prepares figures offline. Unchanged figures
 are reused. The Website Actions workflow builds from current `main` plus archived
-observations, tests the result, and deploys directly to GitHub Pages. PRs build
-and test without deploying. See the [website workflow](docs/README.md) for local
+observations and deploys directly to GitHub Pages after daily collection or a
+manual run. There are no PR or push-triggered checks. See the [website workflow](docs/README.md) for local
 preview commands and the [automation guide](misc/DAILY_AUTOMATION.md) for activation.
 
 ## Daily automation
@@ -84,8 +84,9 @@ After activation, **Daily data** collects at **9:00 a.m. America/Toronto** using
 `config/daily_run.yaml`, matching the study command in `config/oct_26_run.md`.
 Models run independently; one complete model is enough to update the site.
 Missing polling falls back to its most recent saved date. If every model fails,
-the daily publication is skipped. Merging writing or code changes into `main`
-still rebuilds the site using saved data, without paid requests.
+the daily publication is skipped. Writing or code changes merged into `main`
+appear on the next daily rebuild. To publish them sooner, manually run
+**Website** from the Actions tab; that uses saved data without paid requests.
 
 The workflow creates and maintains `daily-data` automatically. It holds only
 observations, costs and retry checkpoints; workflows, tests, website sources and

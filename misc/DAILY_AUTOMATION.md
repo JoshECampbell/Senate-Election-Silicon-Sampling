@@ -7,7 +7,8 @@ create it manually or merge it into `main`.
 
 ## What runs
 
-**Daily data** (`.github/workflows/daily-data.yml`) freezes the Toronto date,
+**Daily data** (`.github/workflows/daily-data.yml`) runs at 9:00 a.m.
+America/Toronto each day (or manually), freezes the Toronto date,
 then runs the configured models independently in parallel with polling.
 `config/daily_run.yaml` is the executable counterpart of the command in
 `config/oct_26_run.md`: same saved sample, level 9, sentence, role_play, no news,
@@ -24,28 +25,26 @@ The polling job requires 35 unique study races and `asOf` equal to the reporting
 date. On failure it writes no new observation. Earlier polling remains available
 for Latest, and historical dates never silently substitute an earlier snapshot.
 
-The archive job combines results, tests the collection logic, checks saved data,
-and saves observations even when every model failed. It does not make plots or
+The archive job combines and saves observations even when every model failed.
+It does not make plots or
 render HTML. The first archive also seeds history from `main`, preserving prior
 costs from the already published data manifest when raw logs are unavailable.
 
-**Website** (`.github/workflows/website.yml`) starts after collection completes,
-after a push to `main`, for a PR to `main`, or manually. It checks out current
-`main` (or the PR merge ref for PR checks), restores observations and:
+**Website** (`.github/workflows/website.yml`) starts after collection completes
+or when run manually. It checks out current `main`, restores observations and:
 
 - After daily collection, publishes only if at least one model has a complete,
   independently reconciled result. If all three failed, the live site stays put.
-- For writing/code changes, builds using saved observations regardless of that
-  morning's failures. No model calls or polling fetches occur during CI renders.
-- Runs query, persona, polling, simulated-CES, automation and figure tests,
-  renders plots/costs/components/HTML, checks the bundle and JavaScript selectors.
-- Deploys only successful non-PR builds from `main` through the `github-pages`
+- For a manual website run, rebuilds using saved observations regardless of
+  that morning's failures. Rendering makes no model calls or polling fetches.
+- Generates plots, updates costs and renders HTML, then deploys successful
+  builds from `main` through the `github-pages`
   environment. It does not commit generated HTML or plots back to `main`.
 
-Failed daily publication gates do not cancel writing builds. Active renders and
-deployments are coordinated; a build whose source commit has been superseded
-on `main` is skipped before deployment. The prose in `docs/index.qmd` is never
-rewritten by collection or rendering.
+There are no PR/push triggers and no automated test suites. The existing runtime
+response validation, bounded retries and publication-completeness checks remain.
+All test scripts are still available to run manually. The prose in
+`docs/index.qmd` is never rewritten by collection or rendering.
 
 Real raw-CES tests remain local because the raw download is gitignored. They
 can still be run with the full Python suite; CI does not redownload it daily.
@@ -91,4 +90,6 @@ uv run python -m unittest discover -s test -p 'test_daily_automation.py' -v
 ```
 
 For normal local renders, `quarto render docs` still fetches current polling.
-To publish website edits, follow the usual feature branch > PR > main process.
+Merge website edits through the usual feature branch > PR > main process.
+They appear on the next daily rebuild, or immediately after manually running
+**Website** on `main` in the Actions tab.
