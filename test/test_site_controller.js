@@ -1,6 +1,10 @@
-/* Offline selector tests using real prepared assets and a minimal DOM substitute.
-   No network or browser is used. Test scope isolation, missing-model rows, a
-   failed fetch and a slow stale selection as well as the normal interactions. */
+/* Tests run:
+ * - Check state selectors, daily summaries, model toggles and historical overview paths.
+ * - Keep response, validation and overview controls independent.
+ * - Reject stale fetch results and clear old data when a fetch fails.
+ * Uses prepared local assets and a minimal DOM substitute; no network requests.
+ * Usage: deno run --no-config --allow-read=docs test/test_site_controller.js
+ */
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
 const history = JSON.parse(Deno.readTextFileSync("docs/data/history.json"));
 const element = (props = {}) => ({ textContent:"", innerHTML:"", hidden:false, style:{}, dataset:{},
@@ -83,4 +87,4 @@ ids["response-state"].value="alaska";
 await ids["response-state"].listeners.change();
 assert(ids["response-chart"].innerHTML==="" && ids["response-means"].innerHTML==="","Failed fetch left stale data");
 assert(ids["chart-announcement"].textContent.includes("Could not load"),"Failure was not announced");
-console.log("Controller checks passed: three models, daily means, dated grid, all validation fields, section isolation, stale fetches and failure handling. No network calls.");
+console.log("Controller checks passed: configured models and benchmark, daily means, dated grid, all validation fields, section isolation, stale fetches and failure handling. No network calls.");

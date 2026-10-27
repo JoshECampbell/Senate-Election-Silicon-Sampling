@@ -24,6 +24,7 @@ The latest successful response for an asOf day replaces that day's saved copy.
 If a fetch fails, rendering uses saved days and prints a notice. Rendering only
 collects when it runs: run daily to accumulate daily history. No API key needed.
 Source: https://www.pollingforecast.com/us/data (CC BY 4.0; credit required).
+Usage (repository root): uv run python src/polling_forecast.py --fetch
 """
 
 from argparse import ArgumentParser
@@ -35,7 +36,7 @@ import sys
 from urllib.request import Request, urlopen
 from urllib.error import URLError
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from site_data import CATEGORIES, project_senate, slug
 

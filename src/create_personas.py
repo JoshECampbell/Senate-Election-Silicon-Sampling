@@ -1,18 +1,17 @@
-import polars as pl 
+"""Sample CES respondents for the 35 Senate states.
+
+Workflow: read cleaned CES -> filter each state -> sample with replacement using
+commonweight and the chosen seed -> retain all columns -> save state Parquet
+files and sampling metadata under data/personas/<run-name>.
+Usage: uv run python src/create_personas.py --run-name sample_100 --samples 100 --seed 42
+"""
+
+import polars as pl
 import numpy as np
 import yaml
 from pathlib import Path
 from argparse import ArgumentParser
 
-"""
-Workflow: 
-- Filter the states 
-- For each state sample X number of personas, seed (X and seed chosen by the user)
-    - Sampling probability determined by the common weight 
-    - Sample with replacement 
-- Keep all of the columns for further analysis 
-- Save each state in a separate <State>.parquet file
-"""
 DEFAULT_DATA_PATH = "data/cleaned/cleaned_CES_data.parquet"
 SENATE_STATES_2026 = {
     1: "Alabama",

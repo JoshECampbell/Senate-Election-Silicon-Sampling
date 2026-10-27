@@ -1,5 +1,9 @@
 """Prepare an offline website snapshot from saved query and validation tables.
 
+Workflow: discover dated runs -> select the configured study -> validate state
+samples and summaries -> choose one run per model/day -> assemble history.
+Usage: imported by src/prepare_website.py; no standalone command.
+
 Nothing here queries a model or modifies analysis inputs. Recompute state means
 from valid sampled rows, reconcile them with the saved summaries, and preserve
 all draw positions for the figures. Costs come from attempt records, never from

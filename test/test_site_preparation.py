@@ -1,11 +1,19 @@
-"""Known-answer checks for independently prepared SVG website figures.
+"""Tests run:
+- Check 100-seat totals, fixed seats, independent winners, ties and majority labels.
+- Preserve all persona points, response denominators, model shapes and validation categories in SVGs.
+- Check Toronto reporting dates, missing days, complete-run selection and historical views without backfilling.
+- Verify query usage totals without counting repeated personas as extra requests.
+- Check figure caching, repaired outputs and pruning limited to superseded generated figures.
 
-The important invariants are all sampled rows retained in the clouds, unchanged
-probabilities/denominators, full validation category coverage, and no confusion
-between the 35 modeled races and a 100-seat chamber projection.
+Usage: uv run python -m unittest discover -s test -p 'test_site_preparation.py' -v
 """
 
+import sys
 from pathlib import Path
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "src"))
+
 import copy
 import json
 import tempfile
@@ -13,11 +21,9 @@ from unittest.mock import patch
 
 import polars as pl
 import yaml
-import sys
 import unittest
 import xml.etree.ElementTree as ET
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from site_figures import senate_figure, response_figure, state_figure, validation_figure
 from site_data import CATEGORIES, project_senate, state_result, reporting_date, choose_candidate, load_history, headline_outcome, request_usage, cumulative_usage
 from prepare_website import overview_records, FigureCache, response_inputs, latest_overview_prefix, prune_superseded_figures
@@ -282,7 +288,7 @@ class HistoryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder)
             (root/'docs').mkdir()
-            config=yaml.safe_load((Path(__file__).resolve().parents[1]/'site-config.yml').read_text())
+            config=yaml.safe_load((ROOT/'docs/site-config.yml').read_text())
             (root/'docs/site-config.yml').write_text(yaml.safe_dump(config))
             samples={f'State {i:02}':list(range(100)) for i in range(35)}
             states={name.lower().replace(' ','-'):{'name':name,'validation':{}} for name in samples}

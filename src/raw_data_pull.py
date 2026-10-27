@@ -1,3 +1,10 @@
+"""Download the raw CES 2025 Common Content file.
+
+Workflow: create data/raw -> stream the Dataverse response -> save the original
+tab-separated file as raw_CES_2025_Common.tab. This replaces that file if present.
+Usage (repository root): uv run python src/raw_data_pull.py
+"""
+
 import requests
 from pathlib import Path
 

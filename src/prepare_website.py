@@ -3,6 +3,7 @@
 Workflow: discover -> validate each model/day -> retain eligible 100-draw states
 -> generate dated figures/data -> assemble latest page components. Quarto then
 renders index.qmd, which only includes the prepared components. See docs/README.md.
+Usage (repository root): uv run python src/prepare_website.py
 """
 
 from argparse import ArgumentParser
@@ -14,7 +15,7 @@ import sys
 from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from site_data import CATEGORIES, SEAT_CATEGORIES, load_history, headline_outcome, cumulative_usage
 from site_figures import senate_figure, response_figure, state_figure, validation_figure

@@ -1,7 +1,18 @@
-"""Known-answer checks for the external forecast's scientific interpretation."""
+"""Tests run:
+- Convert forecast margins to implied two-candidate shares, including ties and invalid bounds.
+- Preserve independent candidates, 100-seat totals and unavailable historical dates.
+- Keep saved forecasts after a failed fetch and draw forecast markers without fabricated personas.
+
+Usage: uv run python -m unittest discover -s test -p 'test_polling_forecast.py' -v
+"""
+
+import sys
+from pathlib import Path
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "src"))
 
 import json
-from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch

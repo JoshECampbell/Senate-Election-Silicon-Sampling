@@ -1,36 +1,23 @@
-"""Verify the query/validation workflow offline with known, small examples.
+"""Tests run:
+- Accept valid probability vectors and reject incomplete, malformed, nonfinite or out-of-range responses.
+- Check exact response options and preserve raw provider bodies when parsing fails.
+- Verify identical retry requests, the three-retry cap, saved budgets and changed-input rejection.
+- Check repeated-draw averages, exclusion counts and metadata cleanup.
+- Run mocked end-to-end queries and resumes without network calls or duplicate requests.
 
-Workflow covered by these tests:
-1. Build minimal provider responses and parsed records with known probabilities.
-2. Check acceptance at numeric boundaries and within floating-point tolerance;
-   reject missing, malformed, nonfinite, out-of-range, or incorrectly summed data.
-3. Simulate batches in which one respondent recovers and another never does.
-   Verify identical requests, saved retry counts, and the three-retry limit.
-4. Write temporary result/summary files for repeated draws and failures. Check
-   the averages by hand and ensure exclusion counts use sampled rows, not jobs.
-5. Run the real main() orchestration against synthetic persona files and mocked
-   API responses. Inspect metadata/results, then resume to prove that valid or
-   retry-exhausted requests are not sent again.
-
-Each test follows arrange -> act -> assert: construct a controlled example,
-exercise production functions, and compare against an independently known answer.
-Unit tests isolate individual checks; the final two integration tests exercise
-loading, deduplication, parsing, retry scheduling, output files, and resuming.
-
-No live API calls are made. Tests using main() replace call_api, disable .env
-loading, and redirect outputs into auto-cleaned temporary directories. Original
-CES/persona files and existing run outputs are not modified.
-
-Run from the repository root:
-    python -m unittest discover -s test -p "test_query_validation.py" -v
+Usage: uv run python -m unittest discover -s test -p 'test_query_validation.py' -v
 """
+
+import sys
+from pathlib import Path
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "src"))
 
 from collections import Counter
 from contextlib import redirect_stdout
 import io
 import json
-from pathlib import Path
-import sys
 import tempfile
 from types import SimpleNamespace
 import unittest
@@ -38,7 +25,6 @@ from unittest.mock import Mock, patch
 
 import polars as pl
 # Make src modules importable when unittest discovers tests from the test folder.
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 import query_llms as query
 from helper_query_validation import (clean_metadata, current_records,
                                      probability_error, retry_invalid_queries)

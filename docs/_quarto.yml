@@ -3,8 +3,8 @@ project:
   output-dir: .
   # Fetch the public benchmark, then prepare figures from saved data.
   pre-render:
-    - uv run --offline --frozen python _tools/polling_forecast.py --fetch
-    - uv run --offline --frozen python _tools/prepare_website.py
+    - uv run --offline --frozen python ../src/polling_forecast.py --fetch
+    - uv run --offline --frozen python ../src/prepare_website.py
   render:
     - index.qmd
   resources:
@@ -12,7 +12,6 @@ project:
     - data/**
     - figures/**
     - .nojekyll
-    - "!_tools/**"
     - "!design/**"
 
 website:

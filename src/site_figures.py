@@ -1,5 +1,9 @@
 """Standalone editorial SVG figures built from an already verified site snapshot.
 
+Workflow: receive prepared chart records -> draw SVG marks and labels -> return
+SVG text for the preparation script to save.
+Usage: imported by src/prepare_website.py; no standalone command.
+
 These functions do not read data or contact APIs. SVG files are independently
 viewable and are embedded by Quarto/loaded by the small selector controller.
 Draw observed reporting dates only. Model shapes and line styles come from the

@@ -1,9 +1,9 @@
 """Compare sampled personas with weighted CES respondents within each state.
 
-The script checks that every drawn persona is an unchanged CES respondent from
-the correct state. It then compares weighted CES category shares with the
-unweighted frequency of the corresponding persona draws and writes tables,
-plots, and concise input/count metadata.
+Workflow: load reference data, sampled personas and settings -> check respondent
+identity/state -> compare weighted CES shares with unweighted draw frequencies
+-> write tables, plots and input/count metadata.
+Usage: uv run python src/validate_personas.py --run-name sample_100
 """
 
 from argparse import ArgumentParser

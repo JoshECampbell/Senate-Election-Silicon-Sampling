@@ -1,8 +1,10 @@
-"""Check the rendered static bundle before hosting it under a GitHub Pages path.
+"""Tests run:
+- Check rendered HTML anchors, unique IDs and portable local asset paths.
+- Check 35-state coverage, 100-seat totals and complete synthetic samples.
+- Count persona dots and check state/validation figures for every prepared date.
+- Reject private respondent fields or request logs in the public website bundle.
 
-No browser or network is required. Verify local resources, document anchors,
-prepared data, and the 100-seat projection. Section prose is deliberately not
-tested for emptiness, so the owner can write Methods/Discussion freely later.
+Usage (after rendering): uv run python test/check_website.py
 """
 
 from collections import Counter
@@ -13,7 +15,7 @@ from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
 
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 
 
 class Page(HTMLParser):
