@@ -62,9 +62,6 @@ Silicon sampling · synthetic results
 </p>
 <h2 id="introduction-heading">Introduction</h2>
 <div class="intro-copy">
-<p class="placeholder-note">
-Layout placeholder · introduction · approximately 325 words
-</p>
 <p>Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Nullam quis risus eget urna mollis ornare vel eu leo. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue.</p>
 <p>Integer vitae justo eget magna fermentum iaculis eu non diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Quisque rutrum aenean imperdiet, etiam ultricies nisi</p>
 <p>vel augue. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu</p>
@@ -72,7 +69,7 @@ Layout placeholder · introduction · approximately 325 words
 </div>
 </div>
 <p class="snapshot-line">
-REAL SAVED DATA <span>2026-10-26 to 2026-10-27 · Jev, Mercury, Perplexity, Polling Forecast · 100 draws per synthetic model/state/day; external benchmark uses implied shares · America/Toronto</span>
+FORECASTED RESULTS <span>2026-10-26 to 2026-10-27 · Jev, Mercury, Perplexity, Polling Forecast · 100 draws per synthetic model/state/day; external benchmark uses implied shares · America/Toronto</span>
 </p>
 <div id="results" class="lead-results">
 <h2 id="who-would-control-the-senate">Who would control the Senate?</h2>
@@ -83,9 +80,6 @@ Latest model-implied projection · 100 seats
 <h3>
 TypeSafe Jev 1.13
 </h3>
-<p class="headline-model-id">
-Requested: typesafe/jev-1.13 · Returned snapshot: typesafe/jev-1.13-20260917
-</p>
 <p class="projection-outcome" style="color:#BD4942">
 Republican majority
 </p>
@@ -98,9 +92,6 @@ Republican majority
 <h3>
 Inception Mercury Decide
 </h3>
-<p class="headline-model-id">
-Requested: inception/mercury-decide · Returned snapshot: inception/mercury-decide-20260930
-</p>
 <p class="projection-outcome" style="color:#BD4942">
 Republican majority
 </p>
@@ -113,9 +104,6 @@ Republican majority
 <h3>
 Perplexity Decider V1.2
 </h3>
-<p class="headline-model-id">
-Requested: perplexity/pplx-decider-v1.2 · Returned snapshot: perplexity/pplx-decider-v1.2-20261016
-</p>
 <p class="projection-outcome" style="color:#326A9D">
 Democrats lead; no outright majority
 </p>
@@ -126,10 +114,10 @@ Democrats lead; no outright majority
 </article>
 <article class="headline-result">
 <h3>
-Polling Forecast benchmark
+Polling Forecast
 </h3>
 <p class="headline-model-id">
-<a href="https://www.pollingforecast.com/us/data">Polling Forecast</a> · CC BY 4.0 · Forecast as of 2026-10-27 · Retrieved 2026-10-27T16:38:40.765023+00:00 · Implied two-candidate shares; forecast leaders plus the same 65 fixed seats.
+<a href="https://www.pollingforecast.com/us/data">Polling Forecast</a>
 </p>
 <p class="projection-outcome" style="color:#62615D">
 Parties tied; no outright majority
@@ -140,11 +128,11 @@ Parties tied; no outright majority
 <img class="wide-figure" src="figures/2026-10-27/senate/polling_forecast.svg" alt="Polling Forecast: 49 Democratic, 49 Republican, 2 independent/other seats">
 </article>
 <p class="data-note">
-Each model is projected independently. An outright party majority requires 51 seats. Independent/other seats remain unassigned to either party. The fixed baseline is 32 Democratic, 31 Republican and 2 independent seats. Synthetic models allocate 35 contests using the largest average voting-category probability, excluding Would not vote. Polling Forecast allocates each contest to its implied two-candidate leader; ties stay unallocated. Synthetic results, not measured voter intentions. Latest snapshots: Jev: 2026-10-27; Mercury: 2026-10-27; Perplexity: 2026-10-27; Polling Forecast: 2026-10-27.
+Each model is projected independently. An outright party majority requires 51 seats. Independent/other seats remain unassigned to either party. The fixed baseline is 32 Democratic, 31 Republican and 2 independent seats. Synthetic models allocate 35 contests using the largest average voting-category probability, excluding “Would Not Vote”. Polling Forecast allocates each contest to its implied two-candidate leader. Synthetic results, not measured voter intentions.
 </p>
 </div>
 <div id="responses-over-time" class="article-section">
-<h2 id="how-simulated-responses-change-over-time.">How simulated responses change over time.</h2>
+<h2 id="how-simulated-responses-polling-change-over-time.">How simulated responses &amp; polling change over time.</h2>
 <div class="section-toolbar">
 <label for="response-state">State <select id="response-state"><option value="alabama">Alabama</option><option value="alaska">Alaska</option><option value="arkansas">Arkansas</option><option value="colorado">Colorado</option><option value="delaware">Delaware</option><option value="florida">Florida</option><option value="georgia" selected="">Georgia</option><option value="idaho">Idaho</option><option value="illinois">Illinois</option><option value="iowa">Iowa</option><option value="kansas">Kansas</option><option value="kentucky">Kentucky</option><option value="louisiana">Louisiana</option><option value="maine">Maine</option><option value="massachusetts">Massachusetts</option><option value="michigan">Michigan</option><option value="minnesota">Minnesota</option><option value="mississippi">Mississippi</option><option value="montana">Montana</option><option value="nebraska">Nebraska</option><option value="new-hampshire">New Hampshire</option><option value="new-jersey">New Jersey</option><option value="new-mexico">New Mexico</option><option value="north-carolina">North Carolina</option><option value="ohio">Ohio</option><option value="oklahoma">Oklahoma</option><option value="oregon">Oregon</option><option value="rhode-island">Rhode Island</option><option value="south-carolina">South Carolina</option><option value="south-dakota">South Dakota</option><option value="tennessee">Tennessee</option><option value="texas">Texas</option><option value="virginia">Virginia</option><option value="west-virginia">West Virginia</option><option value="wyoming">Wyoming</option></select></label>
 <fieldset>
@@ -2584,7 +2572,7 @@ Perplexity; 2026-10-27; collected 2026-10-27T13:29:05.730808+00:00; 45.87%; perp
 </title>
 </rect></g><g data-model="polling_forecast"><polygon class="mean-dot" fill="#326A9D" fill-opacity="1" stroke="#181817" stroke-width="1" points="408.000,116.956 414.500,123.456 408.000,129.956 401.500,123.456">
 <title>
-Polling Forecast; 2026-10-27; collected 2026-10-27T16:38:40.765023+00:00; 54.45%; Implied two-candidate forecast share; not a measured polling share.
+Polling Forecast; 2026-10-27; collected 2026-10-27T17:11:33.651613+00:00; 54.45%; Implied two-candidate forecast share; not a measured polling share.
 </title>
 </polygon></g>
 </svg>
@@ -5021,7 +5009,7 @@ Perplexity; 2026-10-27; collected 2026-10-27T13:29:05.730808+00:00; 27.62%; perp
 </title>
 </rect></g><g data-model="polling_forecast"><polygon class="mean-dot" fill="#BD4942" fill-opacity="1" stroke="#181817" stroke-width="1" points="408.000,134.044 414.500,140.544 408.000,147.044 401.500,140.544">
 <title>
-Polling Forecast; 2026-10-27; collected 2026-10-27T16:38:40.765023+00:00; 45.55%; Implied two-candidate forecast share; not a measured polling share.
+Polling Forecast; 2026-10-27; collected 2026-10-27T17:11:33.651613+00:00; 45.55%; Implied two-candidate forecast share; not a measured polling share.
 </title>
 </polygon></g>
 </svg>
@@ -9897,10 +9885,7 @@ Perplexity; 2026-10-27; collected 2026-10-27T13:29:05.730808+00:00; 21.31%; perp
 Select at least one model to view response probabilities.
 </p>
 <p class="figure-caption">
-Dots show variation among sampled personas, not a confidence interval. Lines show average model responses across all 100 sampled draws, including repeated respondents. Shapes identify models; horizontal jitter exposes overlap and is not a collection time. Missing model-days remain gaps. Diamonds show Polling Forecast implied two-candidate shares, calculated as left = (100 + forecast margin in percentage points) / 200 and right = 1 - left. These are modeled forecast shares, not raw polling or win probabilities. The left candidate may be independent. Other parties and non-voting are not measured by this benchmark.
-</p>
-<p id="response-quality" class="source-note">
-Synthetic models require 100/100 valid draws. The external forecast is a separate benchmark.
+Dots show variation among sampled personas, not a confidence interval. Lines show average model responses across all 100 sampled draws, including repeated respondents. Shapes identify models; horizontal jitter exposes overlap and is not a collection time.
 </p>
 <table class="accessible-summary">
 <caption>
@@ -10094,7 +10079,7 @@ Market-implied winning odds, not response shares.
 <label for="overview-date">Snapshot <select id="overview-date"><option value="latest">Latest</option><option value="2026-10-27">2026-10-27</option><option value="2026-10-26">2026-10-26</option></select></label>
 </div>
 <p id="overview-asof" class="source-note">
-Latest result per model / benchmark; actual dates shown on every row. Polling Forecast bars are implied two-candidate shares; unrepresented categories are not measured.
+Latest result per model / benchmark; actual dates shown on every row. Polling Forecast bars are implied two-candidate shares.
 </p>
 <div class="state-grid">
 <article class="state-card">
@@ -10311,9 +10296,6 @@ Wyoming
 </div>
 <div id="methods" class="article-section">
 <h2 id="methods-heading">Methods</h2>
-<p class="placeholder-note">
-Layout placeholder · methods · approximately 1,500 words
-</p>
 <div class="prose-columns">
 <p>Integer vitae justo eget magna fermentum iaculis eu non diam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nullam quis risus eget urna mollis ornare vel eu leo. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Integer vitae justo eget magna fermentum iaculis eu non diam. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis, vestibulum id ligula</p>
@@ -10340,9 +10322,6 @@ Layout placeholder · methods · approximately 1,500 words
 <span><i style="background:#326A9D"></i>Persona draws</span><span><i style="background:#343434"></i>Weighted CES reference</span>
 </div>
 </div>
-<p class="source-note">
-Sample sample_100 · seed 42 · 100 draws per state. Same saved sample across the displayed dates. Age categories follow the saved validation output. All saved validation categories are retained.
-</p>
 <div class="validation-grid">
 <article class="validation-card">
 <h3>
@@ -10391,14 +10370,11 @@ TV 11.8% · Largest gap 5.5 pp
 </article>
 </div>
 <p class="figure-caption">
-Draw frequencies versus the weighted state CES reference. TV is total variation distance; pp means percentage points. CES agreement is not proof of population representativeness.
+Draw frequencies versus the weighted state CES reference. TV is total variation distance; pp means percentage points.
 </p>
 </div>
 <div id="discussion" class="article-section">
 <h2 id="discussion-heading">Discussion</h2>
-<p class="placeholder-note">
-Layout placeholder · discussion · approximately 1,500 words
-</p>
 <div class="prose-columns">
 <p>Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus</p>
 <p>sit amet fermentum. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Fusce dapibus tellus ac</p>
@@ -10519,7 +10495,7 @@ $0.11252
 </tfoot>
 </table>
 <p class="source-note">
-Cumulative usage for the selected source run per model/day across the displayed dates. Recorded attempts include logged failures and retries; repeated persona draws do not add requests or tokens. Raw response logs supply usage where available. Without logs, distinct latest Parquet responses provide partial totals and cannot recover earlier retries. Unknown means unreported usage; ≥ marks a known subtotal with missing usage. Non-dated pilots and models outside this study are excluded. No LLM requests were sent to build this page.
+Cumulative usage for the selected source run per model/day across the displayed dates.
 </p>
 </div>
 </main>
@@ -10538,6 +10514,9 @@ Contact
 </h2>
 <p>
 Josh Campbell and Graham Sayle
+</p>
+<p>
+<a href="https://github.com/JoshECampbell/Senate-Election-Silicon-Sampling">GitHub repository</a>
 </p>
 </div>
 </footer>

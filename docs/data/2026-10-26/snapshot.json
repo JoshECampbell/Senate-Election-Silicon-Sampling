@@ -25,7 +25,7 @@
     },
     "polling_forecast": {
       "label": "Polling Forecast",
-      "full_name": "Polling Forecast benchmark",
+      "full_name": "Polling Forecast",
       "shape": "diamond",
       "dash": "9 3 2 3",
       "kind": "external_forecast"

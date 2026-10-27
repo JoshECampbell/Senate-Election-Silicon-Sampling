@@ -20,7 +20,6 @@ title-block-banner: false
 ## Introduction {#introduction-heading}
 
 ::: {.intro-copy}
-<p class="placeholder-note">Layout placeholder &middot; introduction &middot; approximately 325 words</p>
 
 Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Nullam quis risus eget urna mollis ornare vel eu leo. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue.
 
@@ -44,7 +43,7 @@ leo. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesua
 :::
 
 ::: {#responses-over-time .article-section}
-## How simulated responses change over time.
+## How simulated responses & polling change over time.
 
 {{< include components/_generated/_responses.html >}}
 :::
@@ -58,7 +57,6 @@ leo. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesua
 ::: {#methods .article-section}
 ## Methods {#methods-heading}
 
-<p class="placeholder-note">Layout placeholder &middot; methods &middot; approximately 1,500 words</p>
 
 ::: {.prose-columns}
 Integer vitae justo eget magna fermentum iaculis eu non diam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nullam quis risus eget urna mollis ornare vel eu leo. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -102,7 +100,6 @@ ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
 ::: {#discussion .article-section}
 ## Discussion {#discussion-heading}
 
-<p class="placeholder-note">Layout placeholder &middot; discussion &middot; approximately 1,500 words</p>
 
 ::: {.prose-columns}
 Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus

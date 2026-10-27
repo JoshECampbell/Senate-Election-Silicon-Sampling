@@ -1,6 +1,6 @@
 {
   "source_url": "https://www.pollingforecast.com/api/us/senate",
-  "retrieved_at": "2026-10-27T16:38:40.765023+00:00",
+  "retrieved_at": "2026-10-27T17:11:33.651613+00:00",
   "forecast": {
     "dataset": "senate",
     "title": "Senate forecast",

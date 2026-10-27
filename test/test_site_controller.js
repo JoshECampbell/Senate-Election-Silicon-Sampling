@@ -12,7 +12,7 @@ const element = (props = {}) => ({ textContent:"", innerHTML:"", hidden:false, s
 const keys = Object.keys(history.models);
 const groups = keys.map(key => element({dataset:{model:key}}));
 const rows = keys.map(key => element({dataset:{model:key}}));
-const ids = Object.fromEntries(["response-chart","model-empty","response-quality","odds-status",
+const ids = Object.fromEntries(["response-chart","model-empty","odds-status",
   "chart-announcement","overview-asof","response-means"].map(key => [key,element()]));
 ids["response-state"] = element({value:"georgia"});
 ids["validation-state"] = element({value:"alabama"});

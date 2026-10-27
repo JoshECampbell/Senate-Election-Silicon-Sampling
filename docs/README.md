@@ -197,8 +197,9 @@ These checks do not replace reviewing the page in a browser.
 
 The footer shows the contacts from `site-config.yml` and the latest saved model
 collection timestamp in America/Toronto, rather than the website render time.
-It has no GitHub/source link.
+It also links to the project's GitHub repository.
 
-Headline names use each model's `full_name` in `site-config.yml`, followed by the
-requested provider ID and returned snapshot from saved results. Short labels
-remain in compact charts and controls.
+Headline names use each model's `full_name` in `site-config.yml`. Polling Forecast
+has a source hyperlink beneath its heading. Provider IDs, returned snapshots
+and collection dates remain in saved data rather than the headline display.
+Short labels remain in compact charts and controls.

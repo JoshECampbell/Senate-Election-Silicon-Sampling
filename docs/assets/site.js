@@ -35,16 +35,7 @@
     byId("response-chart").hidden = selected.size === 0;
     byId("model-empty").hidden = selected.size !== 0;
     document.querySelector(".accessible-summary").hidden = selected.size === 0;
-    const state = byId("response-state").value;
-    const coverage = [];
-    for (const day of history.dates) {
-      for (const key of selected) {
-        const values = history.snapshots[day].models[key]?.states[state];
-        const basis = history.models[key].kind === "external_forecast" ? "implied two-candidate forecast" : "100/100 valid";
-        coverage.push(`${day} ${history.models[key].label}: ${values?.eligible ? basis : "unavailable"}`);
-      }
-    }
-    byId("response-quality").textContent = `${history.states[state].name} · ${coverage.join("; ")}`;
+
   }
 
   async function changeResponseState() {
@@ -68,7 +59,6 @@
       byId("response-chart").innerHTML = "";
       byId("response-means").innerHTML = "";
       byId("chart-announcement").textContent = `Could not load ${state.name}: ${error.message}`;
-      byId("response-quality").textContent = `Figure unavailable for ${state.name}.`;
     }
   }
 
@@ -108,7 +98,6 @@
       applyModelSelection();
     } catch (error) {
       byId("chart-announcement").textContent = error.message;
-      byId("response-quality").textContent = "Interactive data unavailable. Serve the site over HTTP and check that the offline build completed.";
     }
   }
   initialize();

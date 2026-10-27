@@ -205,10 +205,10 @@ def prepare(root=ROOT, output=None):
         for feature in history['features']:
             cache.render(site/history['validation_prefix']/f'{state}-{feature["key"]}.svg',validation_figure,info['name'],feature['name'],info['validation'][feature['key']])
     history['overview'] = {day:{'prefix':f'figures/{day}/states','label':f'Selected snapshot: {day}. Polling Forecast shows implied two-candidate shares.'} for day in history['dates']}
-    history['overview']['latest'] = {'prefix':latest_prefix,'label':'Latest result per model / benchmark; actual dates shown on every row. Polling Forecast bars are implied two-candidate shares; unrepresented categories are not measured.'}
+    history['overview']['latest'] = {'prefix':latest_prefix,'label':'Latest result per model / benchmark; actual dates shown on every row. Polling Forecast bars are implied two-candidate shares.'}
     write_json(site/'data/history.json',public_history(history))
     labels = ', '.join(v['label'] for v in models.values())
-    write(generated/'_snapshot.html',f'<p class="snapshot-line">REAL SAVED DATA <span>{history["dates"][0]} to {latest} &middot; {escape(labels)} &middot; 100 draws per synthetic model/state/day; external benchmark uses implied shares &middot; {escape(history["timezone"])}</span></p>')
+    write(generated/'_snapshot.html',f'<p class="snapshot-line">FORECASTED RESULTS <span>{history["dates"][0]} to {latest} &middot; {escape(labels)} &middot; 100 draws per synthetic model/state/day; external benchmark uses implied shares &middot; {escape(history["timezone"])}</span></p>')
     headlines = []
     for key,model in models.items():
         full_name=model.get('full_name',model['label'])
@@ -217,25 +217,18 @@ def prepare(root=ROOT, output=None):
             headlines.append(f'<article class="headline-result"><h3>{escape(full_name)}</h3><p class="source-note">No complete 35-state snapshot available.</p></article>')
             continue
         entry = history['snapshots'][day]['models'][key]
-        model_details=f"Requested: {escape(entry['model_id'])}"
-        if model.get('kind') == 'external_forecast':
-            model_details = (f'<a href="https://www.pollingforecast.com/us/data">Polling Forecast</a>'
-                             f' &middot; CC BY 4.0 &middot; Forecast as of {day}'
-                             f' &middot; Retrieved {escape(entry["collected_at"])}'
-                             ' &middot; Implied two-candidate shares; forecast leaders plus the same 65 fixed seats.')
-        if entry['model_snapshots']:
-            model_details+=' &middot; Returned snapshot: '+escape(', '.join(entry['model_snapshots']))
+        model_details = ('<p class="headline-model-id"><a href="https://www.pollingforecast.com/us/data">Polling Forecast</a></p>'
+                         if model.get('kind') == 'external_forecast' else '')
         totals = entry['senate']['totals']
         outcome, outcome_colour = headline_outcome(totals)
         categories={row[0]:row for row in SEAT_CATEGORIES}
         counts = ''.join(f'<span><b style="color:{categories[k][3]}">{totals[k]}</b>{escape(categories[k][1])}</span>' for k in ('democrat','independent','republican'))
         if totals['unallocated']:
             counts += f'<span><b>{totals["unallocated"]}</b>Unallocated seats</span>'
-        headlines.append(f'<article class="headline-result"><h3>{escape(full_name)}</h3><p class="headline-model-id">{model_details}</p><p class="projection-outcome" style="color:{outcome_colour}">{escape(outcome)}</p><div class="seat-counts">{counts}</div><img class="wide-figure" src="figures/{day}/senate/{key}.svg" alt="{escape(model["label"])}: {totals["democrat"]} Democratic, {totals["republican"]} Republican, {totals["independent"]} independent/other seats"></article>')
+        headlines.append(f'<article class="headline-result"><h3>{escape(full_name)}</h3>{model_details}<p class="projection-outcome" style="color:{outcome_colour}">{escape(outcome)}</p><div class="seat-counts">{counts}</div><img class="wide-figure" src="figures/{day}/senate/{key}.svg" alt="{escape(model["label"])}: {totals["democrat"]} Democratic, {totals["republican"]} Republican, {totals["independent"]} independent/other seats"></article>')
     fixed=history['baseline']['fixed_seats']
     baseline_note=f"{fixed['democrat']} Democratic, {fixed['republican']} Republican and {fixed['independent']} independent seats"
-    dates_note='; '.join(f"{model['label']}: {history['latest'][key] or 'unavailable'}" for key,model in models.items())
-    write(generated/'_headline.html',''.join(headlines)+f'<p class="data-note">Each model is projected independently. An outright party majority requires 51 seats. Independent/other seats remain unassigned to either party. The fixed baseline is {baseline_note}. Synthetic models allocate 35 contests using the largest average voting-category probability, excluding Would not vote. Polling Forecast allocates each contest to its implied two-candidate leader; ties stay unallocated. Synthetic results, not measured voter intentions. Latest snapshots: {escape(dates_note)}.</p>')
+    write(generated/'_headline.html',''.join(headlines)+f'<p class="data-note">Each model is projected independently. An outright party majority requires 51 seats. Independent/other seats remain unassigned to either party. The fixed baseline is {baseline_note}. Synthetic models allocate 35 contests using the largest average voting-category probability, excluding "Would Not Vote". Polling Forecast allocates each contest to its implied two-candidate leader. Synthetic results, not measured voter intentions.</p>')
     symbols = {'circle':'&#9679;','triangle':'&#9650;','square':'&#9632;', 'diamond':'&#9670;'}
     toggles = ''.join(f'<label><input type="checkbox" data-model-toggle="{key}" checked><span aria-hidden="true">{symbols[model["shape"]]}</span>{escape(model["label"])}</label>' for key,model in models.items())
     panels = ''.join('<div class="response-panel">'+(site/'figures'/latest/f'responses/georgia-{column}.svg').read_text(encoding='utf-8')+'</div>' for column,_,_ in CATEGORIES)
@@ -249,8 +242,7 @@ def prepare(root=ROOT, output=None):
 <div class="section-toolbar"><label for="response-state">State <select id="response-state">{options(history['states'],'georgia')}</select></label><fieldset><legend>Models / benchmark</legend>{toggles}</fieldset></div>
 <div id="response-chart" class="response-chart">{panels}</div>
 <p id="model-empty" class="empty-state" hidden>Select at least one model to view response probabilities.</p>
-<p class="figure-caption">Dots show variation among sampled personas, not a confidence interval. Lines show average model responses across all 100 sampled draws, including repeated respondents. Shapes identify models; horizontal jitter exposes overlap and is not a collection time. Missing model-days remain gaps. Diamonds show Polling Forecast implied two-candidate shares, calculated as left = (100 + forecast margin in percentage points) / 200 and right = 1 - left. These are modeled forecast shares, not raw polling or win probabilities. The left candidate may be independent. Other parties and non-voting are not measured by this benchmark.</p>
-<p id="response-quality" class="source-note">Synthetic models require 100/100 valid draws. The external forecast is a separate benchmark.</p>
+<p class="figure-caption">Dots show variation among sampled personas, not a confidence interval. Lines show average model responses across all 100 sampled draws, including repeated respondents. Shapes identify models; horizontal jitter exposes overlap and is not a collection time.</p>
 <table class="accessible-summary"><caption>Selected state's synthetic means and implied forecast shares</caption><thead><tr><th>Date</th><th>Model</th><th scope="col" data-category="p_democrat">Democrat</th><th scope="col" data-category="p_republican">Republican</th><th scope="col" data-category="p_third_party">Third party</th><th scope="col" data-category="p_would_not_vote">Would not vote</th></tr></thead><tbody id="response-means"></tbody></table>
 <details><summary>Daily coverage and source runs</summary><table class="cost-table"><thead><tr><th>Date</th><th>Model</th><th>Complete states</th><th>Source run</th></tr></thead><tbody>{''.join(coverage)}</tbody></table><p class="source-note">Incomplete state samples are unavailable. No older snapshot is substituted into a historical date. The headline and Latest overview may use older complete model results, labelled with their actual dates.</p></details>
 <div class="odds-panel"><h3>Polymarket: chance of winning</h3><p id="odds-status">Polymarket data is not connected.</p><p class="figure-caption">Market-implied winning odds, not response shares.</p></div>
@@ -262,7 +254,7 @@ def prepare(root=ROOT, output=None):
     for f in history['features']:
         metric = history['states']['alabama']['validation'][f['key']]
         features.append(f'<article class="validation-card"><h3>{escape(f["name"])}</h3><img data-feature="{f["key"]}" src="{history['validation_prefix']}/alabama-{f["key"]}.svg" alt="Alabama: {escape(f["name"])} persona shares versus weighted CES reference" loading="lazy"><p data-metric="{f["key"]}">TV {100*metric["tv"]:.1f}% &middot; Largest gap {metric["max_gap_pp"]:.1f} pp</p></article>')
-    write(generated/'_validation.html',f'<div class="section-toolbar"><label for="validation-state">State <select id="validation-state">{options(history["states"],"alabama")}</select></label>{legend(True)}</div><p class="source-note">Sample {escape(history["sample"])} &middot; seed {history['seed'] if history['seed'] is not None else 'unknown'} &middot; 100 draws per state. Same saved sample across the displayed dates. Age categories follow the saved validation output. All saved validation categories are retained.</p><div class="validation-grid">{"".join(features)}</div><p class="figure-caption">Draw frequencies versus the weighted state CES reference. TV is total variation distance; pp means percentage points. CES agreement is not proof of population representativeness.</p>')
+    write(generated/'_validation.html',f'<div class="section-toolbar"><label for="validation-state">State <select id="validation-state">{options(history["states"],"alabama")}</select></label>{legend(True)}</div><div class="validation-grid">{"".join(features)}</div><p class="figure-caption">Draw frequencies versus the weighted state CES reference. TV is total variation distance; pp means percentage points.</p>')
     costs=[]
     all_entries=[]
     def usage_cells(cost):
@@ -286,7 +278,7 @@ def prepare(root=ROOT, output=None):
         all_entries.extend(entries)
         costs.append(f'<tr><th scope="row">{escape(model["label"])}</th>{usage_cells(cumulative_usage(entries))}</tr>')
     total=usage_cells(cumulative_usage(all_entries)) if all_entries else '<td colspan="4">Unavailable</td>'
-    write(generated/'_costs.html',f'<table class="cost-table"><caption>Running totals: {history["dates"][0]} through {latest}</caption><thead><tr><th>Model</th><th>Recorded attempts</th><th>Input tokens</th><th>Output tokens</th><th>Reported API cost (USD)</th></tr></thead><tbody>{"".join(costs)}</tbody><tfoot><tr><th scope="row">Total</th>{total}</tr></tfoot></table><p class="source-note">Cumulative usage for the selected source run per model/day across the displayed dates. Recorded attempts include logged failures and retries; repeated persona draws do not add requests or tokens. Raw response logs supply usage where available. Without logs, distinct latest Parquet responses provide partial totals and cannot recover earlier retries. Unknown means unreported usage; &ge; marks a known subtotal with missing usage. Non-dated pilots and models outside this study are excluded. No LLM requests were sent to build this page.</p>')
+    write(generated/'_costs.html',f'<table class="cost-table"><caption>Running totals: {history["dates"][0]} through {latest}</caption><thead><tr><th>Model</th><th>Recorded attempts</th><th>Input tokens</th><th>Output tokens</th><th>Reported API cost (USD)</th></tr></thead><tbody>{"".join(costs)}</tbody><tfoot><tr><th scope="row">Total</th>{total}</tr></tfoot></table><p class="source-note">Cumulative usage for the selected source run per model/day across the displayed dates.</p>')
     last_run=max(datetime.fromisoformat(entry['collected_at'])
                  for snapshot in history['snapshots'].values()
                  for entry in snapshot['models'].values()
@@ -294,7 +286,7 @@ def prepare(root=ROOT, output=None):
     display_run=(f'{last_run.strftime("%B")} {last_run.day}, {last_run.year}, at '
                  f'{last_run.hour % 12 or 12}:{last_run.minute:02d} {last_run.strftime("%p %Z")}')
     contacts=' and '.join(escape(name) for name in history['contacts'])
-    write(generated/'_footer.html',f'<footer class="site-footer"><div><h2>Last run</h2><p><time datetime="{last_run.isoformat()}">{display_run}</time></p></div><div><h2>Contact</h2><p>{contacts}</p></div></footer>')
+    write(generated/'_footer.html',f'<footer class="site-footer"><div><h2>Last run</h2><p><time datetime="{last_run.isoformat()}">{display_run}</time></p></div><div><h2>Contact</h2><p>{contacts}</p><p><a href="https://github.com/JoshECampbell/Senate-Election-Silicon-Sampling">GitHub repository</a></p></div></footer>')
     write(site/'.nojekyll','')
     prune_superseded_figures(site,history)
     print(f'Prepared {len(history["dates"])} dates, {len(models)} configured models, and 35 states. Latest reporting day: {latest}.')

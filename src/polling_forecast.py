@@ -42,7 +42,7 @@ from site_data import CATEGORIES, project_senate, slug
 
 URL = 'https://www.pollingforecast.com/api/us/senate'
 KEY = 'polling_forecast'
-MODEL = {'label': 'Polling Forecast', 'full_name': 'Polling Forecast benchmark',
+MODEL = {'label': 'Polling Forecast', 'full_name': 'Polling Forecast',
          'shape': 'diamond', 'dash': '9 3 2 3', 'kind': 'external_forecast'}
 PARTIES = {'D': 'p_democrat', 'R': 'p_republican', 'I': 'p_third_party'}
 
