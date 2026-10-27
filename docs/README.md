@@ -1,9 +1,39 @@
 # Website: edit, build, publish
 
-Everything specific to the website lives here. Both the editable Quarto source
-and the rendered page are in this folder; GitHub Pages serves `docs/index.html`.
+Editable Quarto sources and rendered assets live here; website Python scripts
+live in `../src/` and all test scripts in `../test/`.
+GitHub Pages serves `docs/index.html`.
 The build reads saved analysis data elsewhere in the repository. It never queries
-models or changes those inputs.
+LLMs or changes those inputs. Rendering also fetches the public Polling Forecast
+Senate benchmark before preparing the figures.
+
+## Polling Forecast benchmark
+
+`../src/polling_forecast.py` explains the workflow and calculation at the top.
+Each render makes one public API request and archives the response in
+`data/polling_forecast/YYYY-MM-DD.json` at the repository root, using `asOf`.
+The most recent successful retrieval replaces that day's copy. A failed fetch
+prints a notice and leaves saved data intact. With no saved forecast, the
+benchmark is unavailable and the synthetic results still render.
+
+We assume two candidates: `left = (100 + best_bet_margin) / 200` and
+`right = 1 - left`. A +6-point margin implies 53% left, 47% Republican.
+These are **implied two-candidate forecast shares**, not measured polling shares
+or win probabilities. Independent left candidates retain their party category.
+Other parties and non-voting are unmeasured, not zero observations.
+
+The same saved daily figures feed the 100-seat headline, response time series
+(diamond markers), and 35-state grid. The larger implied share wins the seat;
+exact ties stay unallocated. The configured 65-seat baseline remains in use.
+Historic dates never borrow a forecast from another day. Daily collection requires
+a render or explicit fetch each day; there is no background schedule or verified
+historical state API. Forecast data is credited to Polling Forecast, CC BY 4.0.
+
+Fetch without rendering:
+
+```powershell
+uv run --offline --frozen python src/polling_forecast.py --fetch
+```
 
 ## The workflow
 
@@ -11,7 +41,7 @@ From the repository root:
 
 ```powershell
 quarto render docs
-uv run python docs/_tools/check_website.py
+uv run python test/check_website.py
 ```
 
 If Quarto is not on PATH on this computer, replace the render command with:
@@ -20,8 +50,9 @@ If Quarto is not on PATH on this computer, replace the render command with:
 & "$env:LOCALAPPDATA\Programs\Quarto\bin\quarto.exe" render docs
 ```
 
-Rendering automatically runs the offline preparation script first, through
-Quarto's project `pre-render` hook. It uses the existing uv environment with
+Rendering automatically fetches the public forecast and then runs the offline
+preparation script through Quarto's project `pre-render` hooks. They use the
+existing uv environment with
 `--offline --frozen`; install project dependencies with `uv sync` on a new machine
 before building. Rendering never sends model requests.
 
@@ -41,7 +72,7 @@ its most recent complete day, labelled with that actual date.
    saved results and summaries, and writes dated `data/` and `figures/` plus the
    current page's `components/_generated/`.
 2. Quarto reads `index.qmd` and those prepared components to write `index.html`
-   here. It does not generate research figures or make API calls.
+   here. The document itself does not generate research figures or make API calls.
 3. The optional checker verifies the rendered assets and 100-seat totals.
 4. Commit/push the refreshed `docs/` folder. In GitHub **Settings > Pages**, select
    **Deploy from a branch**, your branch, and **/docs**. There is no custom publishing
@@ -56,7 +87,8 @@ its most recent complete day, labelled with that actual date.
 | `styles.css` | Fonts, colours, sizes, spacing, and responsive layout. |
 | `assets/site.js` | State, model, and date selectors; loads prepared figures. |
 | `_quarto.yml` | Quarto rendering settings; output stays in this folder. |
-| `_tools/` | Offline preparation, data checks, SVG generation, and tests. |
+| `../src/` | Website preparation, forecast collection and SVG generation. |
+| `../test/` | Data, query, persona and website tests. |
 | `design/` | Detailed requirements and approved mockup for reference. |
 | `references.bib` | Saved CES citation for your later writing. |
 
@@ -125,7 +157,7 @@ counts and explanatory text use the baseline in `site-config.yml`.
 To regenerate only data/figures without rendering the page:
 
 ```powershell
-uv run python docs/_tools/prepare_website.py
+uv run python src/prepare_website.py
 ```
 
 The Costs section shows running totals per model plus an overall total across
@@ -149,24 +181,25 @@ uv run python -m http.server 8137 --bind 127.0.0.1 --directory docs
 Open <http://127.0.0.1:8137/>. Use HTTP so chart selectors can fetch the SVG/JSON
 files. Restart an older preview server if it points to another directory.
 
-Run the website's calculation and figure tests separately from the analysis tests:
+Run all Python tests from the repository root, including the website calculations:
 
 ```powershell
-uv run python -m unittest discover -s docs/_tools -p 'test_*.py' -v
+uv run python -m unittest discover -s test -p 'test_*.py' -v
 ```
 
 An optional offline controller test uses Quarto's bundled Deno on this computer:
 
 ```powershell
-& "$env:LOCALAPPDATA\Programs\Quarto\bin\tools\x86_64\deno.exe" run --no-config --allow-read=docs docs/_tools/test_site_controller.js
+& "$env:LOCALAPPDATA\Programs\Quarto\bin\tools\x86_64\deno.exe" run --no-config --allow-read=docs test/test_site_controller.js
 ```
 
 These checks do not replace reviewing the page in a browser.
 
 The footer shows the contacts from `site-config.yml` and the latest saved model
 collection timestamp in America/Toronto, rather than the website render time.
-It has no GitHub/source link.
+It also links to the project's GitHub repository.
 
-Headline names use each model's `full_name` in `site-config.yml`, followed by the
-requested provider ID and returned snapshot from saved results. Short labels
-remain in compact charts and controls.
+Headline names use each model's `full_name` in `site-config.yml`. Polling Forecast
+has a source hyperlink beneath its heading. Provider IDs, returned snapshots
+and collection dates remain in saved data rather than the headline display.
+Short labels remain in compact charts and controls.

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-`test/validate_personas.py` compares each state's sampled personas with the CES respondents from that state. It answers one question: do the sampled draws have similar marginal distributions to the weighted CES reference data?
+`src/validate_personas.py` compares each state's sampled personas with the CES respondents from that state. It answers one question: do the sampled draws have similar marginal distributions to the weighted CES reference data?
 
 It does **not** establish that CES is a census of the state, that joint distributions are preserved, or that election forecasts are accurate.
 
@@ -12,7 +12,7 @@ From the repository root:
 
 ```sh
 uv sync
-uv run python test/validate_personas.py --run-name test
+uv run python src/validate_personas.py --run-name test
 ```
 
 The command reads `data/personas/test/` and writes results to `data/persona_validation/test/`.
@@ -21,13 +21,13 @@ Useful options:
 
 ```sh
 # Compare selected states only.
-uv run python test/validate_personas.py --run-name test --states Alabama "New Hampshire"
+uv run python src/validate_personas.py --run-name test --states Alabama "New Hampshire"
 
 # Compare a different set of variables.
-uv run python test/validate_personas.py --run-name test --features age race pid3 sexuality educ gender4
+uv run python src/validate_personas.py --run-name test --features age race pid3 sexuality educ gender4
 
 # Use a different persona directory or reference dataset.
-uv run python test/validate_personas.py --run-name pilot --personas data/personas/custom --data-path data/cleaned/cleaned_CES_data.parquet
+uv run python src/validate_personas.py --run-name pilot --personas data/personas/custom --data-path data/cleaned/cleaned_CES_data.parquet
 ```
 
 Default features and age groups are in `config/persona_validation.yaml`. Command-line options override that file.

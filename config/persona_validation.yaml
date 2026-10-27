@@ -1,4 +1,4 @@
-# Settings for test/validate_personas.py. CLI options can override these values.
+# Settings for src/validate_personas.py. CLI options can override these values.
 features: [age, race, pid7, sexuality, educ]
 
 # Estimate age in the CES survey year, not the year when this script runs.

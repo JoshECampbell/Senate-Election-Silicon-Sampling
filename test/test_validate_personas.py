@@ -1,8 +1,20 @@
-"""Check the comparison with small inputs whose answers are known."""
+"""Tests run:
+- Compare weighted reference shares against repeated persona draws with known answers.
+- Preserve missing, refusal, unknown and absent categories in the denominator.
+- Check age boundaries and reject invalid weights or altered respondent/state records.
+- Run the CLI on temporary inputs and verify its tables, plot and metadata.
+
+Usage: uv run python -m unittest discover -s test -p 'test_validate_personas.py' -v
+"""
+
+import sys
+from pathlib import Path
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "src"))
 
 import tempfile
 import unittest
-from pathlib import Path
 
 import polars as pl
 
@@ -84,7 +96,7 @@ class PersonaValidationTests(unittest.TestCase):
             reference.write_parquet(root / "reference.parquet")
             reference[[0, 1, 1, 1]].write_parquet(personas / "Alabama")
             (personas / "persona_config.yaml").write_text("seed: 42\n", encoding="utf-8")
-            subprocess.run([sys.executable, "test/validate_personas.py", "--run-name", "fixture",
+            subprocess.run([sys.executable, str(ROOT / "src/validate_personas.py"), "--run-name", "fixture",
                             "--personas", str(personas), "--data-path", str(root / "reference.parquet"),
                             "--output-dir", str(root / "output"), "--features", "race", "--states", "Alabama"],
                            check=True, capture_output=True, text=True)

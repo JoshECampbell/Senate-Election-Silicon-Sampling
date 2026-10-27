@@ -1,5 +1,9 @@
 """Turn a CES persona row into the text description given to the model.
 
+Workflow: load codebook labels -> choose the persona's allowed fields -> omit
+missing/held-out values -> format a list or sentence for the query prompt.
+Usage: imported by src/query_llms.py; no standalone command.
+
 Two formats are supported, so the wording of the persona can be tested as an
 experimental variable:
 

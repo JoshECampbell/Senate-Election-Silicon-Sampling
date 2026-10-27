@@ -6,7 +6,7 @@
   let requestNumber = 0;
   const byId = id => document.getElementById(id);
   const columns = ["p_democrat", "p_republican", "p_third_party", "p_would_not_vote"];
-  const fmt = value => `${(value * 100).toFixed(1)}%`;
+  const fmt = value => value == null ? "Not measured" : `${(value * 100).toFixed(1)}%`;
   const esc = value => String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
   function responseSummary() {
@@ -35,15 +35,7 @@
     byId("response-chart").hidden = selected.size === 0;
     byId("model-empty").hidden = selected.size !== 0;
     document.querySelector(".accessible-summary").hidden = selected.size === 0;
-    const state = byId("response-state").value;
-    const coverage = [];
-    for (const day of history.dates) {
-      for (const key of selected) {
-        const values = history.snapshots[day].models[key]?.states[state];
-        coverage.push(`${day} ${history.models[key].label}: ${values?.eligible ? "100/100 valid" : "unavailable"}`);
-      }
-    }
-    byId("response-quality").textContent = `${history.states[state].name} · ${coverage.join("; ")}`;
+
   }
 
   async function changeResponseState() {
@@ -67,7 +59,6 @@
       byId("response-chart").innerHTML = "";
       byId("response-means").innerHTML = "";
       byId("chart-announcement").textContent = `Could not load ${state.name}: ${error.message}`;
-      byId("response-quality").textContent = `Figure unavailable for ${state.name}.`;
     }
   }
 
@@ -107,7 +98,6 @@
       applyModelSelection();
     } catch (error) {
       byId("chart-announcement").textContent = error.message;
-      byId("response-quality").textContent = "Interactive data unavailable. Serve the site over HTTP and check that the offline build completed.";
     }
   }
   initialize();

@@ -1,3 +1,10 @@
+"""Select the 17 CES fields needed for subsequent processing.
+
+Workflow: read the raw tab-separated file -> select CES_COLUMNS without changing
+rows or response codes -> save data/cleaned/cleaned_CES_data.parquet.
+Usage: uv run python src/data_cleaning.py [--raw-path FILE --output-dir FOLDER]
+"""
+
 import polars as pl 
 from pathlib import Path
 from argparse import ArgumentParser
@@ -33,6 +40,11 @@ CES_COLUMNS = {
     # Population weighting
     "commonweight": "Common Content survey weight",
 }
+
+# Storage types in the released data; IDs are integer-valued floats in the raw
+# export. Keep this existing format, including nullable integer response columns.
+CES_SCHEMA = {name: pl.Float64 if name in ('caseid', 'commonweight') else pl.Int64
+              for name in CES_COLUMNS}
 
 
 

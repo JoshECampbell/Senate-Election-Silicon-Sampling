@@ -1,8 +1,10 @@
-"""Check the rendered static bundle before hosting it under a GitHub Pages path.
+"""Tests run:
+- Check rendered HTML anchors, unique IDs and portable local asset paths.
+- Check 35-state coverage, 100-seat totals and complete synthetic samples.
+- Count persona dots and check state/validation figures for every prepared date.
+- Reject private respondent fields or request logs in the public website bundle.
 
-No browser or network is required. Verify local resources, document anchors,
-prepared data, and the 100-seat projection. Section prose is deliberately not
-tested for emptiness, so the owner can write Methods/Discussion freely later.
+Usage (after rendering): uv run python test/check_website.py
 """
 
 from collections import Counter
@@ -13,7 +15,7 @@ from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
 
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 
 
 class Page(HTMLParser):
@@ -63,7 +65,7 @@ def check_site(site):
             if entry['senate'] and sum(entry['senate']['totals'].values())!=100:
                 raise ValueError(f'{day}/{key}: Senate total differs from 100.')
             for state in entry['states'].values():
-                if state['eligible'] and (state['valid']!=100 or len(state['points'])!=100):
+                if entry.get('kind') != 'external_forecast' and state['eligible'] and (state['valid']!=100 or len(state['points'])!=100):
                     raise ValueError('An incomplete sample was published.')
         for state in snapshot['states']:
             if day==snapshot['date']:
@@ -74,7 +76,7 @@ def check_site(site):
                     # as-of day. Every eligible state/model/day contributes 100 dots.
                     expected=sum(100 for d in snapshot['dates'] if d<=day
                                  for entry in snapshot['snapshots'][d]['models'].values()
-                                 if entry['states'][state]['eligible'])
+                                 if entry.get('kind') != 'external_forecast' and entry['states'][state]['eligible'])
                     count=sum(n.get('class')=='persona-dot' for n in root.iter())
                     if count!=expected:
                         raise ValueError(f'{path}: expected {expected} dots, found {count}.')

@@ -62,9 +62,6 @@ Silicon sampling · synthetic results
 </p>
 <h2 id="introduction-heading">Introduction</h2>
 <div class="intro-copy">
-<p class="placeholder-note">
-Layout placeholder · introduction · approximately 325 words
-</p>
 <p>Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Nullam quis risus eget urna mollis ornare vel eu leo. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue.</p>
 <p>Integer vitae justo eget magna fermentum iaculis eu non diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Quisque rutrum aenean imperdiet, etiam ultricies nisi</p>
 <p>vel augue. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu</p>
@@ -72,7 +69,7 @@ Layout placeholder · introduction · approximately 325 words
 </div>
 </div>
 <p class="snapshot-line">
-REAL SAVED DATA <span>2026-10-26 to 2026-10-27 · Jev, Mercury, Perplexity · 100 draws per state/model/day · America/Toronto</span>
+FORECASTED RESULTS <span>2026-10-26 to 2026-10-27 · Jev, Mercury, Perplexity, Polling Forecast · 100 draws per synthetic model/state/day; external benchmark uses implied shares · America/Toronto</span>
 </p>
 <div id="results" class="lead-results">
 <h2 id="who-would-control-the-senate">Who would control the Senate?</h2>
@@ -83,9 +80,6 @@ Latest model-implied projection · 100 seats
 <h3>
 TypeSafe Jev 1.13
 </h3>
-<p class="headline-model-id">
-Requested: typesafe/jev-1.13 · Returned snapshot: typesafe/jev-1.13-20260917
-</p>
 <p class="projection-outcome" style="color:#BD4942">
 Republican majority
 </p>
@@ -98,9 +92,6 @@ Republican majority
 <h3>
 Inception Mercury Decide
 </h3>
-<p class="headline-model-id">
-Requested: inception/mercury-decide · Returned snapshot: inception/mercury-decide-20260930
-</p>
 <p class="projection-outcome" style="color:#BD4942">
 Republican majority
 </p>
@@ -113,9 +104,6 @@ Republican majority
 <h3>
 Perplexity Decider V1.2
 </h3>
-<p class="headline-model-id">
-Requested: perplexity/pplx-decider-v1.2 · Returned snapshot: perplexity/pplx-decider-v1.2-20261016
-</p>
 <p class="projection-outcome" style="color:#326A9D">
 Democrats lead; no outright majority
 </p>
@@ -124,23 +112,38 @@ Democrats lead; no outright majority
 </div>
 <img class="wide-figure" src="figures/2026-10-27/senate/decider.svg" alt="Perplexity: 50 Democratic, 48 Republican, 2 independent/other seats">
 </article>
+<article class="headline-result">
+<h3>
+Polling Forecast
+</h3>
+<p class="headline-model-id">
+<a href="https://www.pollingforecast.com/us/data">Polling Forecast</a>
+</p>
+<p class="projection-outcome" style="color:#62615D">
+Parties tied; no outright majority
+</p>
+<div class="seat-counts">
+<span><b style="color:#326A9D">49</b>Democratic seats</span><span><b style="color:#777777">2</b>Independent / other seats</span><span><b style="color:#BD4942">49</b>Republican seats</span>
+</div>
+<img class="wide-figure" src="figures/2026-10-27/senate/polling_forecast.svg" alt="Polling Forecast: 49 Democratic, 49 Republican, 2 independent/other seats">
+</article>
 <p class="data-note">
-Each model is projected independently. An outright party majority requires 51 seats. Independent/other seats remain unassigned to either party. The fixed baseline is 32 Democratic, 31 Republican and 2 independent seats; 35 contests use the largest average voting-category probability, excluding Would not vote. Synthetic results, not measured voter intentions. Latest snapshots: Jev: 2026-10-27; Mercury: 2026-10-27; Perplexity: 2026-10-27.
+Each model is projected independently. An outright party majority requires 51 seats. Independent/other seats remain unassigned to either party. The fixed baseline is 32 Democratic, 31 Republican and 2 independent seats. Synthetic models allocate 35 contests using the largest average voting-category probability, excluding “Would Not Vote”. Polling Forecast allocates each contest to its implied two-candidate leader. Synthetic results, not measured voter intentions.
 </p>
 </div>
 <div id="responses-over-time" class="article-section">
-<h2 id="how-simulated-responses-change-over-time.">How simulated responses change over time.</h2>
+<h2 id="how-simulated-responses-polling-change-over-time.">How simulated responses &amp; polling change over time.</h2>
 <div class="section-toolbar">
 <label for="response-state">State <select id="response-state"><option value="alabama">Alabama</option><option value="alaska">Alaska</option><option value="arkansas">Arkansas</option><option value="colorado">Colorado</option><option value="delaware">Delaware</option><option value="florida">Florida</option><option value="georgia" selected="">Georgia</option><option value="idaho">Idaho</option><option value="illinois">Illinois</option><option value="iowa">Iowa</option><option value="kansas">Kansas</option><option value="kentucky">Kentucky</option><option value="louisiana">Louisiana</option><option value="maine">Maine</option><option value="massachusetts">Massachusetts</option><option value="michigan">Michigan</option><option value="minnesota">Minnesota</option><option value="mississippi">Mississippi</option><option value="montana">Montana</option><option value="nebraska">Nebraska</option><option value="new-hampshire">New Hampshire</option><option value="new-jersey">New Jersey</option><option value="new-mexico">New Mexico</option><option value="north-carolina">North Carolina</option><option value="ohio">Ohio</option><option value="oklahoma">Oklahoma</option><option value="oregon">Oregon</option><option value="rhode-island">Rhode Island</option><option value="south-carolina">South Carolina</option><option value="south-dakota">South Dakota</option><option value="tennessee">Tennessee</option><option value="texas">Texas</option><option value="virginia">Virginia</option><option value="west-virginia">West Virginia</option><option value="wyoming">Wyoming</option></select></label>
 <fieldset>
-<legend>Models</legend><label><input type="checkbox" data-model-toggle="jev" checked=""><span aria-hidden="true">●</span>Jev</label><label><input type="checkbox" data-model-toggle="mercury" checked=""><span aria-hidden="true">▲</span>Mercury</label><label><input type="checkbox" data-model-toggle="decider" checked=""><span aria-hidden="true">■</span>Perplexity</label>
+<legend>Models / benchmark</legend><label><input type="checkbox" data-model-toggle="jev" checked=""><span aria-hidden="true">●</span>Jev</label><label><input type="checkbox" data-model-toggle="mercury" checked=""><span aria-hidden="true">▲</span>Mercury</label><label><input type="checkbox" data-model-toggle="decider" checked=""><span aria-hidden="true">■</span>Perplexity</label><label><input type="checkbox" data-model-toggle="polling_forecast" checked=""><span aria-hidden="true">◆</span>Polling Forecast</label>
 </fieldset>
 </div>
 <div id="response-chart" class="response-chart">
 <div class="response-panel">
-<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 450 285" role="img" aria-label="Georgia: Democrat synthetic probabilities, 2026-10-26 to 2026-10-27.">
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 450 285" role="img" aria-label="Georgia: Democrat synthetic probabilities and implied forecast shares, 2026-10-26 to 2026-10-27.">
 <title>
-Georgia: Democrat synthetic probabilities, 2026-10-26 to 2026-10-27.
+Georgia: Democrat synthetic probabilities and implied forecast shares, 2026-10-26 to 2026-10-27.
 </title>
 <style>text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}</style>
 <rect width="450" height="285" fill="#FAF9F6"></rect><text x="52" y="20" font-size="17" fill="#326A9D" text-anchor="start" font-weight="bold">Democrat</text><line x1="52" y1="228.0" x2="428" y2="228.0" stroke="#D9D6CE" stroke-width="1"></line><text x="44" y="232.0" font-size="15" fill="#62615D" text-anchor="end" font-weight="normal">0%</text><line x1="52" y1="132.0" x2="428" y2="132.0" stroke="#D9D6CE" stroke-width="1"></line><text x="44" y="136.0" font-size="15" fill="#62615D" text-anchor="end" font-weight="normal">50%</text><line x1="52" y1="36.0" x2="428" y2="36.0" stroke="#D9D6CE" stroke-width="1"></line><text x="44" y="40.0" font-size="15" fill="#62615D" text-anchor="end" font-weight="normal">100%</text><line x1="52" y1="228" x2="428" y2="228" stroke="#181817" stroke-width="1"></line><line x1="100.0" y1="228" x2="100.0" y2="233" stroke="#181817" stroke-width="1"></line><text x="100.0" y="252" font-size="15" fill="#62615D" text-anchor="middle" font-weight="normal">10-26</text><line x1="380.0" y1="228" x2="380.0" y2="233" stroke="#181817" stroke-width="1"></line><text x="380.0" y="252" font-size="15" fill="#62615D" text-anchor="middle" font-weight="normal">10-27</text><text x="428" y="280" font-size="12" fill="#62615D" text-anchor="end" font-weight="normal">2026</text><g data-model="jev"><circle class="persona-dot" fill="#326A9D" fill-opacity="0.16" cx="89.777" cy="180.000" r="3">
@@ -545,7 +548,7 @@ Jev; Georgia; 2026-10-26; sampled draw 100; 13.00%. Repeated draws may share a r
 </title>
 </circle><circle class="mean-dot" fill="#326A9D" fill-opacity="1" stroke="#181817" stroke-width="1" cx="86.000" cy="154.810" r="6.5">
 <title>
-Jev; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 2026-10-26; collected 2026-10-27T01:42:29.428551+00:00; mean 38.12%; 100/100 valid sampled draws; 88 unique respondents.
+Jev; 2026-10-26; collected 2026-10-27T01:42:29.428551+00:00; 38.12%; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </circle><path d="M 86.000 154.810 L 366.000 155.616" fill="none" stroke="#326A9D" stroke-width="2" stroke-dasharray=""></path><circle class="persona-dot" fill="#326A9D" fill-opacity="0.16" cx="369.777" cy="181.920" r="3">
 <title>
@@ -949,7 +952,7 @@ Jev; Georgia; 2026-10-27; sampled draw 100; 13.00%. Repeated draws may share a r
 </title>
 </circle><circle class="mean-dot" fill="#326A9D" fill-opacity="1" stroke="#181817" stroke-width="1" cx="366.000" cy="155.616" r="6.5">
 <title>
-Jev; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 2026-10-27; collected 2026-10-27T13:29:07.876345+00:00; mean 37.70%; 100/100 valid sampled draws; 88 unique respondents.
+Jev; 2026-10-27; collected 2026-10-27T13:29:07.876345+00:00; 37.70%; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </circle></g><g data-model="mercury"><polygon class="persona-dot" fill="#326A9D" fill-opacity="0.16" points="103.777,219.723 100.777,225.723 106.777,225.723">
 <title>
@@ -1353,7 +1356,7 @@ Mercury; Georgia; 2026-10-26; sampled draw 100; 23.19%. Repeated draws may share
 </title>
 </polygon><polygon class="mean-dot" fill="#326A9D" fill-opacity="1" stroke="#181817" stroke-width="1" points="100.000,149.511 93.500,162.511 106.500,162.511">
 <title>
-Mercury; inception/mercury-decide:free; snapshot inception/mercury-decide-20260930; 2026-10-26; collected 2026-10-27T01:37:24.770729+00:00; mean 37.49%; 100/100 valid sampled draws; 88 unique respondents.
+Mercury; 2026-10-26; collected 2026-10-27T01:37:24.770729+00:00; 37.49%; inception/mercury-decide:free; snapshot inception/mercury-decide-20260930; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </polygon><path d="M 100.000 156.011 L 380.000 156.343" fill="none" stroke="#326A9D" stroke-width="2" stroke-dasharray="7 4"></path><polygon class="persona-dot" fill="#326A9D" fill-opacity="0.16" points="383.777,221.271 380.777,227.271 386.777,227.271">
 <title>
@@ -1757,7 +1760,7 @@ Mercury; Georgia; 2026-10-27; sampled draw 100; 19.58%. Repeated draws may share
 </title>
 </polygon><polygon class="mean-dot" fill="#326A9D" fill-opacity="1" stroke="#181817" stroke-width="1" points="380.000,149.843 373.500,162.843 386.500,162.843">
 <title>
-Mercury; inception/mercury-decide; snapshot inception/mercury-decide-20260930; 2026-10-27; collected 2026-10-27T13:27:39.556018+00:00; mean 37.32%; 100/100 valid sampled draws; 88 unique respondents.
+Mercury; 2026-10-27; collected 2026-10-27T13:27:39.556018+00:00; 37.32%; inception/mercury-decide; snapshot inception/mercury-decide-20260930; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </polygon></g><g data-model="decider"><rect class="persona-dot" fill="#326A9D" fill-opacity="0.16" x="114.777" y="160.190" width="6" height="6">
 <title>
@@ -2161,7 +2164,7 @@ Perplexity; Georgia; 2026-10-26; sampled draw 100; 29.84%. Repeated draws may sh
 </title>
 </rect><rect class="mean-dot" fill="#326A9D" fill-opacity="1" stroke="#181817" stroke-width="1" x="107.500" y="133.432" width="13.0" height="13.0">
 <title>
-Perplexity; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 2026-10-26; collected 2026-10-27T01:38:47.796272+00:00; mean 45.87%; 100/100 valid sampled draws; 88 unique respondents.
+Perplexity; 2026-10-26; collected 2026-10-27T01:38:47.796272+00:00; 45.87%; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </rect><path d="M 114.000 139.932 L 394.000 139.937" fill="none" stroke="#326A9D" stroke-width="2" stroke-dasharray="2 4"></path><rect class="persona-dot" fill="#326A9D" fill-opacity="0.16" x="394.777" y="160.190" width="6" height="6">
 <title>
@@ -2565,15 +2568,19 @@ Perplexity; Georgia; 2026-10-27; sampled draw 100; 29.84%. Repeated draws may sh
 </title>
 </rect><rect class="mean-dot" fill="#326A9D" fill-opacity="1" stroke="#181817" stroke-width="1" x="387.500" y="133.437" width="13.0" height="13.0">
 <title>
-Perplexity; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 2026-10-27; collected 2026-10-27T13:29:05.730808+00:00; mean 45.87%; 100/100 valid sampled draws; 88 unique respondents.
+Perplexity; 2026-10-27; collected 2026-10-27T13:29:05.730808+00:00; 45.87%; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 100/100 valid sampled draws; 88 unique respondents.
 </title>
-</rect></g>
+</rect></g><g data-model="polling_forecast"><polygon class="mean-dot" fill="#326A9D" fill-opacity="1" stroke="#181817" stroke-width="1" points="408.000,116.956 414.500,123.456 408.000,129.956 401.500,123.456">
+<title>
+Polling Forecast; 2026-10-27; collected 2026-10-27T17:11:33.651613+00:00; 54.45%; Implied two-candidate forecast share; not a measured polling share.
+</title>
+</polygon></g>
 </svg>
 </div>
 <div class="response-panel">
-<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 450 285" role="img" aria-label="Georgia: Republican synthetic probabilities, 2026-10-26 to 2026-10-27.">
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 450 285" role="img" aria-label="Georgia: Republican synthetic probabilities and implied forecast shares, 2026-10-26 to 2026-10-27.">
 <title>
-Georgia: Republican synthetic probabilities, 2026-10-26 to 2026-10-27.
+Georgia: Republican synthetic probabilities and implied forecast shares, 2026-10-26 to 2026-10-27.
 </title>
 <style>text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}</style>
 <rect width="450" height="285" fill="#FAF9F6"></rect><text x="52" y="20" font-size="17" fill="#BD4942" text-anchor="start" font-weight="bold">Republican</text><line x1="52" y1="228.0" x2="428" y2="228.0" stroke="#D9D6CE" stroke-width="1"></line><text x="44" y="232.0" font-size="15" fill="#62615D" text-anchor="end" font-weight="normal">0%</text><line x1="52" y1="132.0" x2="428" y2="132.0" stroke="#D9D6CE" stroke-width="1"></line><text x="44" y="136.0" font-size="15" fill="#62615D" text-anchor="end" font-weight="normal">50%</text><line x1="52" y1="36.0" x2="428" y2="36.0" stroke="#D9D6CE" stroke-width="1"></line><text x="44" y="40.0" font-size="15" fill="#62615D" text-anchor="end" font-weight="normal">100%</text><line x1="52" y1="228" x2="428" y2="228" stroke="#181817" stroke-width="1"></line><line x1="100.0" y1="228" x2="100.0" y2="233" stroke="#181817" stroke-width="1"></line><text x="100.0" y="252" font-size="15" fill="#62615D" text-anchor="middle" font-weight="normal">10-26</text><line x1="380.0" y1="228" x2="380.0" y2="233" stroke="#181817" stroke-width="1"></line><text x="380.0" y="252" font-size="15" fill="#62615D" text-anchor="middle" font-weight="normal">10-27</text><text x="428" y="280" font-size="12" fill="#62615D" text-anchor="end" font-weight="normal">2026</text><g data-model="jev"><circle class="persona-dot" fill="#BD4942" fill-opacity="0.16" cx="89.777" cy="216.480" r="3">
@@ -2978,7 +2985,7 @@ Jev; Georgia; 2026-10-26; sampled draw 100; 60.00%. Repeated draws may share a r
 </title>
 </circle><circle class="mean-dot" fill="#BD4942" fill-opacity="1" stroke="#181817" stroke-width="1" cx="86.000" cy="155.635" r="6.5">
 <title>
-Jev; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 2026-10-26; collected 2026-10-27T01:42:29.428551+00:00; mean 37.69%; 100/100 valid sampled draws; 88 unique respondents.
+Jev; 2026-10-26; collected 2026-10-27T01:42:29.428551+00:00; 37.69%; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </circle><path d="M 86.000 155.635 L 366.000 154.886" fill="none" stroke="#BD4942" stroke-width="2" stroke-dasharray=""></path><circle class="persona-dot" fill="#BD4942" fill-opacity="0.16" cx="369.777" cy="212.640" r="3">
 <title>
@@ -3382,7 +3389,7 @@ Jev; Georgia; 2026-10-27; sampled draw 100; 58.00%. Repeated draws may share a r
 </title>
 </circle><circle class="mean-dot" fill="#BD4942" fill-opacity="1" stroke="#181817" stroke-width="1" cx="366.000" cy="154.886" r="6.5">
 <title>
-Jev; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 2026-10-27; collected 2026-10-27T13:29:07.876345+00:00; mean 38.08%; 100/100 valid sampled draws; 88 unique respondents.
+Jev; 2026-10-27; collected 2026-10-27T13:29:07.876345+00:00; 38.08%; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </circle></g><g data-model="mercury"><polygon class="persona-dot" fill="#BD4942" fill-opacity="0.16" points="103.777,213.829 100.777,219.829 106.777,219.829">
 <title>
@@ -3786,7 +3793,7 @@ Mercury; Georgia; 2026-10-26; sampled draw 100; 55.62%. Repeated draws may share
 </title>
 </polygon><polygon class="mean-dot" fill="#BD4942" fill-opacity="1" stroke="#181817" stroke-width="1" points="100.000,152.961 93.500,165.961 106.500,165.961">
 <title>
-Mercury; inception/mercury-decide:free; snapshot inception/mercury-decide-20260930; 2026-10-26; collected 2026-10-27T01:37:24.770729+00:00; mean 35.70%; 100/100 valid sampled draws; 88 unique respondents.
+Mercury; 2026-10-26; collected 2026-10-27T01:37:24.770729+00:00; 35.70%; inception/mercury-decide:free; snapshot inception/mercury-decide-20260930; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </polygon><path d="M 100.000 159.461 L 380.000 159.232" fill="none" stroke="#BD4942" stroke-width="2" stroke-dasharray="7 4"></path><polygon class="persona-dot" fill="#BD4942" fill-opacity="0.16" points="383.777,217.105 380.777,223.105 386.777,223.105">
 <title>
@@ -4190,7 +4197,7 @@ Mercury; Georgia; 2026-10-27; sampled draw 100; 60.32%. Repeated draws may share
 </title>
 </polygon><polygon class="mean-dot" fill="#BD4942" fill-opacity="1" stroke="#181817" stroke-width="1" points="380.000,152.732 373.500,165.732 386.500,165.732">
 <title>
-Mercury; inception/mercury-decide; snapshot inception/mercury-decide-20260930; 2026-10-27; collected 2026-10-27T13:27:39.556018+00:00; mean 35.82%; 100/100 valid sampled draws; 88 unique respondents.
+Mercury; 2026-10-27; collected 2026-10-27T13:27:39.556018+00:00; 35.82%; inception/mercury-decide; snapshot inception/mercury-decide-20260930; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </polygon></g><g data-model="decider"><rect class="persona-dot" fill="#BD4942" fill-opacity="0.16" x="114.777" y="201.728" width="6" height="6">
 <title>
@@ -4594,7 +4601,7 @@ Perplexity; Georgia; 2026-10-26; sampled draw 100; 47.85%. Repeated draws may sh
 </title>
 </rect><rect class="mean-dot" fill="#BD4942" fill-opacity="1" stroke="#181817" stroke-width="1" x="107.500" y="168.465" width="13.0" height="13.0">
 <title>
-Perplexity; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 2026-10-26; collected 2026-10-27T01:38:47.796272+00:00; mean 27.62%; 100/100 valid sampled draws; 88 unique respondents.
+Perplexity; 2026-10-26; collected 2026-10-27T01:38:47.796272+00:00; 27.62%; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </rect><path d="M 114.000 174.965 L 394.000 174.965" fill="none" stroke="#BD4942" stroke-width="2" stroke-dasharray="2 4"></path><rect class="persona-dot" fill="#BD4942" fill-opacity="0.16" x="394.777" y="201.728" width="6" height="6">
 <title>
@@ -4998,15 +5005,19 @@ Perplexity; Georgia; 2026-10-27; sampled draw 100; 47.85%. Repeated draws may sh
 </title>
 </rect><rect class="mean-dot" fill="#BD4942" fill-opacity="1" stroke="#181817" stroke-width="1" x="387.500" y="168.465" width="13.0" height="13.0">
 <title>
-Perplexity; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 2026-10-27; collected 2026-10-27T13:29:05.730808+00:00; mean 27.62%; 100/100 valid sampled draws; 88 unique respondents.
+Perplexity; 2026-10-27; collected 2026-10-27T13:29:05.730808+00:00; 27.62%; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 100/100 valid sampled draws; 88 unique respondents.
 </title>
-</rect></g>
+</rect></g><g data-model="polling_forecast"><polygon class="mean-dot" fill="#BD4942" fill-opacity="1" stroke="#181817" stroke-width="1" points="408.000,134.044 414.500,140.544 408.000,147.044 401.500,140.544">
+<title>
+Polling Forecast; 2026-10-27; collected 2026-10-27T17:11:33.651613+00:00; 45.55%; Implied two-candidate forecast share; not a measured polling share.
+</title>
+</polygon></g>
 </svg>
 </div>
 <div class="response-panel">
-<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 450 285" role="img" aria-label="Georgia: Third party / independent synthetic probabilities, 2026-10-26 to 2026-10-27.">
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 450 285" role="img" aria-label="Georgia: Third party / independent synthetic probabilities and implied forecast shares, 2026-10-26 to 2026-10-27.">
 <title>
-Georgia: Third party / independent synthetic probabilities, 2026-10-26 to 2026-10-27.
+Georgia: Third party / independent synthetic probabilities and implied forecast shares, 2026-10-26 to 2026-10-27.
 </title>
 <style>text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}</style>
 <rect width="450" height="285" fill="#FAF9F6"></rect><text x="52" y="20" font-size="17" fill="#777777" text-anchor="start" font-weight="bold">Third party / independent</text><line x1="52" y1="228.0" x2="428" y2="228.0" stroke="#D9D6CE" stroke-width="1"></line><text x="44" y="232.0" font-size="15" fill="#62615D" text-anchor="end" font-weight="normal">0%</text><line x1="52" y1="132.0" x2="428" y2="132.0" stroke="#D9D6CE" stroke-width="1"></line><text x="44" y="136.0" font-size="15" fill="#62615D" text-anchor="end" font-weight="normal">50%</text><line x1="52" y1="36.0" x2="428" y2="36.0" stroke="#D9D6CE" stroke-width="1"></line><text x="44" y="40.0" font-size="15" fill="#62615D" text-anchor="end" font-weight="normal">100%</text><line x1="52" y1="228" x2="428" y2="228" stroke="#181817" stroke-width="1"></line><line x1="100.0" y1="228" x2="100.0" y2="233" stroke="#181817" stroke-width="1"></line><text x="100.0" y="252" font-size="15" fill="#62615D" text-anchor="middle" font-weight="normal">10-26</text><line x1="380.0" y1="228" x2="380.0" y2="233" stroke="#181817" stroke-width="1"></line><text x="380.0" y="252" font-size="15" fill="#62615D" text-anchor="middle" font-weight="normal">10-27</text><text x="428" y="280" font-size="12" fill="#62615D" text-anchor="end" font-weight="normal">2026</text><g data-model="jev"><circle class="persona-dot" fill="#777777" fill-opacity="0.16" cx="89.777" cy="228.000" r="3">
@@ -5411,7 +5422,7 @@ Jev; Georgia; 2026-10-26; sampled draw 100; 0.00%. Repeated draws may share a re
 </title>
 </circle><circle class="mean-dot" fill="#777777" fill-opacity="1" stroke="#181817" stroke-width="1" cx="86.000" cy="227.750" r="6.5">
 <title>
-Jev; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 2026-10-26; collected 2026-10-27T01:42:29.428551+00:00; mean 0.13%; 100/100 valid sampled draws; 88 unique respondents.
+Jev; 2026-10-26; collected 2026-10-27T01:42:29.428551+00:00; 0.13%; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </circle><path d="M 86.000 227.750 L 366.000 227.789" fill="none" stroke="#777777" stroke-width="2" stroke-dasharray=""></path><circle class="persona-dot" fill="#777777" fill-opacity="0.16" cx="369.777" cy="228.000" r="3">
 <title>
@@ -5815,7 +5826,7 @@ Jev; Georgia; 2026-10-27; sampled draw 100; 0.00%. Repeated draws may share a re
 </title>
 </circle><circle class="mean-dot" fill="#777777" fill-opacity="1" stroke="#181817" stroke-width="1" cx="366.000" cy="227.789" r="6.5">
 <title>
-Jev; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 2026-10-27; collected 2026-10-27T13:29:07.876345+00:00; mean 0.11%; 100/100 valid sampled draws; 88 unique respondents.
+Jev; 2026-10-27; collected 2026-10-27T13:29:07.876345+00:00; 0.11%; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </circle></g><g data-model="mercury"><polygon class="persona-dot" fill="#777777" fill-opacity="0.16" points="103.777,224.191 100.777,230.191 106.777,230.191">
 <title>
@@ -6219,7 +6230,7 @@ Mercury; Georgia; 2026-10-26; sampled draw 100; 3.14%. Repeated draws may share 
 </title>
 </polygon><polygon class="mean-dot" fill="#777777" fill-opacity="1" stroke="#181817" stroke-width="1" points="100.000,218.938 93.500,231.938 106.500,231.938">
 <title>
-Mercury; inception/mercury-decide:free; snapshot inception/mercury-decide-20260930; 2026-10-26; collected 2026-10-27T01:37:24.770729+00:00; mean 1.33%; 100/100 valid sampled draws; 88 unique respondents.
+Mercury; 2026-10-26; collected 2026-10-27T01:37:24.770729+00:00; 1.33%; inception/mercury-decide:free; snapshot inception/mercury-decide-20260930; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </polygon><path d="M 100.000 225.438 L 380.000 225.429" fill="none" stroke="#777777" stroke-width="2" stroke-dasharray="7 4"></path><polygon class="persona-dot" fill="#777777" fill-opacity="0.16" points="383.777,224.310 380.777,230.310 386.777,230.310">
 <title>
@@ -6623,7 +6634,7 @@ Mercury; Georgia; 2026-10-27; sampled draw 100; 2.82%. Repeated draws may share 
 </title>
 </polygon><polygon class="mean-dot" fill="#777777" fill-opacity="1" stroke="#181817" stroke-width="1" points="380.000,218.929 373.500,231.929 386.500,231.929">
 <title>
-Mercury; inception/mercury-decide; snapshot inception/mercury-decide-20260930; 2026-10-27; collected 2026-10-27T13:27:39.556018+00:00; mean 1.34%; 100/100 valid sampled draws; 88 unique respondents.
+Mercury; 2026-10-27; collected 2026-10-27T13:27:39.556018+00:00; 1.34%; inception/mercury-decide; snapshot inception/mercury-decide-20260930; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </polygon></g><g data-model="decider"><rect class="persona-dot" fill="#777777" fill-opacity="0.16" x="114.777" y="217.176" width="6" height="6">
 <title>
@@ -7027,7 +7038,7 @@ Perplexity; Georgia; 2026-10-26; sampled draw 100; 4.32%. Repeated draws may sha
 </title>
 </rect><rect class="mean-dot" fill="#777777" fill-opacity="1" stroke="#181817" stroke-width="1" x="107.500" y="211.513" width="13.0" height="13.0">
 <title>
-Perplexity; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 2026-10-26; collected 2026-10-27T01:38:47.796272+00:00; mean 5.20%; 100/100 valid sampled draws; 88 unique respondents.
+Perplexity; 2026-10-26; collected 2026-10-27T01:38:47.796272+00:00; 5.20%; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </rect><path d="M 114.000 218.013 L 394.000 218.007" fill="none" stroke="#777777" stroke-width="2" stroke-dasharray="2 4"></path><rect class="persona-dot" fill="#777777" fill-opacity="0.16" x="394.777" y="217.176" width="6" height="6">
 <title>
@@ -7431,15 +7442,15 @@ Perplexity; Georgia; 2026-10-27; sampled draw 100; 4.32%. Repeated draws may sha
 </title>
 </rect><rect class="mean-dot" fill="#777777" fill-opacity="1" stroke="#181817" stroke-width="1" x="387.500" y="211.507" width="13.0" height="13.0">
 <title>
-Perplexity; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 2026-10-27; collected 2026-10-27T13:29:05.730808+00:00; mean 5.20%; 100/100 valid sampled draws; 88 unique respondents.
+Perplexity; 2026-10-27; collected 2026-10-27T13:29:05.730808+00:00; 5.20%; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 100/100 valid sampled draws; 88 unique respondents.
 </title>
-</rect></g>
+</rect></g><g data-model="polling_forecast"></g>
 </svg>
 </div>
 <div class="response-panel">
-<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 450 285" role="img" aria-label="Georgia: Would not vote synthetic probabilities, 2026-10-26 to 2026-10-27.">
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 450 285" role="img" aria-label="Georgia: Would not vote synthetic probabilities and implied forecast shares, 2026-10-26 to 2026-10-27.">
 <title>
-Georgia: Would not vote synthetic probabilities, 2026-10-26 to 2026-10-27.
+Georgia: Would not vote synthetic probabilities and implied forecast shares, 2026-10-26 to 2026-10-27.
 </title>
 <style>text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}</style>
 <rect width="450" height="285" fill="#FAF9F6"></rect><text x="52" y="20" font-size="17" fill="#62615D" text-anchor="start" font-weight="bold">Would not vote</text><line x1="52" y1="228.0" x2="428" y2="228.0" stroke="#D9D6CE" stroke-width="1"></line><text x="44" y="232.0" font-size="15" fill="#62615D" text-anchor="end" font-weight="normal">0%</text><line x1="52" y1="132.0" x2="428" y2="132.0" stroke="#D9D6CE" stroke-width="1"></line><text x="44" y="136.0" font-size="15" fill="#62615D" text-anchor="end" font-weight="normal">50%</text><line x1="52" y1="36.0" x2="428" y2="36.0" stroke="#D9D6CE" stroke-width="1"></line><text x="44" y="40.0" font-size="15" fill="#62615D" text-anchor="end" font-weight="normal">100%</text><line x1="52" y1="228" x2="428" y2="228" stroke="#181817" stroke-width="1"></line><line x1="100.0" y1="228" x2="100.0" y2="233" stroke="#181817" stroke-width="1"></line><text x="100.0" y="252" font-size="15" fill="#62615D" text-anchor="middle" font-weight="normal">10-26</text><line x1="380.0" y1="228" x2="380.0" y2="233" stroke="#181817" stroke-width="1"></line><text x="380.0" y="252" font-size="15" fill="#62615D" text-anchor="middle" font-weight="normal">10-27</text><text x="428" y="280" font-size="12" fill="#62615D" text-anchor="end" font-weight="normal">2026</text><g data-model="jev"><circle class="persona-dot" fill="#C7C7C3" fill-opacity="0.16" cx="89.777" cy="95.520" r="3">
@@ -7844,7 +7855,7 @@ Jev; Georgia; 2026-10-26; sampled draw 100; 27.00%. Repeated draws may share a r
 </title>
 </circle><circle class="mean-dot" fill="#C7C7C3" fill-opacity="1" stroke="#181817" stroke-width="1" cx="86.000" cy="181.805" r="6.5">
 <title>
-Jev; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 2026-10-26; collected 2026-10-27T01:42:29.428551+00:00; mean 24.06%; 100/100 valid sampled draws; 88 unique respondents.
+Jev; 2026-10-26; collected 2026-10-27T01:42:29.428551+00:00; 24.06%; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </circle><path d="M 86.000 181.805 L 366.000 181.709" fill="none" stroke="#C7C7C3" stroke-width="2" stroke-dasharray=""></path><circle class="persona-dot" fill="#C7C7C3" fill-opacity="0.16" cx="369.777" cy="97.440" r="3">
 <title>
@@ -8248,7 +8259,7 @@ Jev; Georgia; 2026-10-27; sampled draw 100; 29.00%. Repeated draws may share a r
 </title>
 </circle><circle class="mean-dot" fill="#C7C7C3" fill-opacity="1" stroke="#181817" stroke-width="1" cx="366.000" cy="181.709" r="6.5">
 <title>
-Jev; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 2026-10-27; collected 2026-10-27T13:29:07.876345+00:00; mean 24.11%; 100/100 valid sampled draws; 88 unique respondents.
+Jev; 2026-10-27; collected 2026-10-27T13:29:07.876345+00:00; 24.11%; typesafe/jev-1.13; snapshot typesafe/jev-1.13-20260917; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </circle></g><g data-model="mercury"><polygon class="persona-dot" fill="#C7C7C3" fill-opacity="0.16" points="103.777,50.257 100.777,56.257 106.777,56.257">
 <title>
@@ -8652,7 +8663,7 @@ Mercury; Georgia; 2026-10-26; sampled draw 100; 18.06%. Repeated draws may share
 </title>
 </polygon><polygon class="mean-dot" fill="#C7C7C3" fill-opacity="1" stroke="#181817" stroke-width="1" points="100.000,172.590 93.500,185.590 106.500,185.590">
 <title>
-Mercury; inception/mercury-decide:free; snapshot inception/mercury-decide-20260930; 2026-10-26; collected 2026-10-27T01:37:24.770729+00:00; mean 25.47%; 100/100 valid sampled draws; 88 unique respondents.
+Mercury; 2026-10-26; collected 2026-10-27T01:37:24.770729+00:00; 25.47%; inception/mercury-decide:free; snapshot inception/mercury-decide-20260930; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </polygon><path d="M 100.000 179.090 L 380.000 178.996" fill="none" stroke="#C7C7C3" stroke-width="2" stroke-dasharray="7 4"></path><polygon class="persona-dot" fill="#C7C7C3" fill-opacity="0.16" points="383.777,45.314 380.777,51.314 386.777,51.314">
 <title>
@@ -9056,7 +9067,7 @@ Mercury; Georgia; 2026-10-27; sampled draw 100; 17.28%. Repeated draws may share
 </title>
 </polygon><polygon class="mean-dot" fill="#C7C7C3" fill-opacity="1" stroke="#181817" stroke-width="1" points="380.000,172.496 373.500,185.496 386.500,185.496">
 <title>
-Mercury; inception/mercury-decide; snapshot inception/mercury-decide-20260930; 2026-10-27; collected 2026-10-27T13:27:39.556018+00:00; mean 25.52%; 100/100 valid sampled draws; 88 unique respondents.
+Mercury; 2026-10-27; collected 2026-10-27T13:27:39.556018+00:00; 25.52%; inception/mercury-decide; snapshot inception/mercury-decide-20260930; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </polygon></g><g data-model="decider"><rect class="persona-dot" fill="#C7C7C3" fill-opacity="0.16" x="114.777" y="128.906" width="6" height="6">
 <title>
@@ -9460,7 +9471,7 @@ Perplexity; Georgia; 2026-10-26; sampled draw 100; 17.99%. Repeated draws may sh
 </title>
 </rect><rect class="mean-dot" fill="#C7C7C3" fill-opacity="1" stroke="#181817" stroke-width="1" x="107.500" y="180.590" width="13.0" height="13.0">
 <title>
-Perplexity; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 2026-10-26; collected 2026-10-27T01:38:47.796272+00:00; mean 21.31%; 100/100 valid sampled draws; 88 unique respondents.
+Perplexity; 2026-10-26; collected 2026-10-27T01:38:47.796272+00:00; 21.31%; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 100/100 valid sampled draws; 88 unique respondents.
 </title>
 </rect><path d="M 114.000 187.090 L 394.000 187.090" fill="none" stroke="#C7C7C3" stroke-width="2" stroke-dasharray="2 4"></path><rect class="persona-dot" fill="#C7C7C3" fill-opacity="0.16" x="394.777" y="128.906" width="6" height="6">
 <title>
@@ -9864,9 +9875,9 @@ Perplexity; Georgia; 2026-10-27; sampled draw 100; 17.99%. Repeated draws may sh
 </title>
 </rect><rect class="mean-dot" fill="#C7C7C3" fill-opacity="1" stroke="#181817" stroke-width="1" x="387.500" y="180.590" width="13.0" height="13.0">
 <title>
-Perplexity; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 2026-10-27; collected 2026-10-27T13:29:05.730808+00:00; mean 21.31%; 100/100 valid sampled draws; 88 unique respondents.
+Perplexity; 2026-10-27; collected 2026-10-27T13:29:05.730808+00:00; 21.31%; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-20261016; 100/100 valid sampled draws; 88 unique respondents.
 </title>
-</rect></g>
+</rect></g><g data-model="polling_forecast"></g>
 </svg>
 </div>
 </div>
@@ -9874,14 +9885,11 @@ Perplexity; perplexity/pplx-decider-v1.2; snapshot perplexity/pplx-decider-v1.2-
 Select at least one model to view response probabilities.
 </p>
 <p class="figure-caption">
-Dots show variation among sampled personas, not a confidence interval. Lines show average model responses across all 100 sampled draws, including repeated respondents. Shapes identify models; horizontal jitter exposes overlap and is not a collection time. Missing model-days remain gaps.
-</p>
-<p id="response-quality" class="source-note">
-Only complete 100/100 state/model/day samples are plotted.
+Dots show variation among sampled personas, not a confidence interval. Lines show average model responses across all 100 sampled draws, including repeated respondents. Shapes identify models; horizontal jitter exposes overlap and is not a collection time.
 </p>
 <table class="accessible-summary">
 <caption>
-Selected state’s daily mean response probabilities
+Selected state’s synthetic means and implied forecast shares
 </caption>
 <thead>
 <tr>
@@ -9974,6 +9982,20 @@ oct-26-all-models
 </tr>
 <tr>
 <td>
+2026-10-26
+</td>
+<td>
+Polling Forecast
+</td>
+<td>
+0/35
+</td>
+<td>
+Not collected
+</td>
+</tr>
+<tr>
+<td>
 2026-10-27
 </td>
 <td>
@@ -10014,6 +10036,20 @@ Perplexity
 oct-27-no-luna
 </td>
 </tr>
+<tr>
+<td>
+2026-10-27
+</td>
+<td>
+Polling Forecast
+</td>
+<td>
+35/35
+</td>
+<td>
+Polling Forecast API
+</td>
+</tr>
 </tbody>
 </table>
 <p class="source-note">
@@ -10043,7 +10079,7 @@ Market-implied winning odds, not response shares.
 <label for="overview-date">Snapshot <select id="overview-date"><option value="latest">Latest</option><option value="2026-10-27">2026-10-27</option><option value="2026-10-26">2026-10-26</option></select></label>
 </div>
 <p id="overview-asof" class="source-note">
-Latest eligible result per model; actual dates shown on every row.
+Latest result per model / benchmark; actual dates shown on every row. Polling Forecast bars are implied two-candidate shares.
 </p>
 <div class="state-grid">
 <article class="state-card">
@@ -10260,9 +10296,6 @@ Wyoming
 </div>
 <div id="methods" class="article-section">
 <h2 id="methods-heading">Methods</h2>
-<p class="placeholder-note">
-Layout placeholder · methods · approximately 1,500 words
-</p>
 <div class="prose-columns">
 <p>Integer vitae justo eget magna fermentum iaculis eu non diam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nullam quis risus eget urna mollis ornare vel eu leo. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Integer vitae justo eget magna fermentum iaculis eu non diam. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis, vestibulum id ligula</p>
@@ -10289,9 +10322,6 @@ Layout placeholder · methods · approximately 1,500 words
 <span><i style="background:#326A9D"></i>Persona draws</span><span><i style="background:#343434"></i>Weighted CES reference</span>
 </div>
 </div>
-<p class="source-note">
-Sample sample_100 · seed 42 · 100 draws per state. Same saved sample across the displayed dates. Age categories follow the saved validation output. All saved validation categories are retained.
-</p>
 <div class="validation-grid">
 <article class="validation-card">
 <h3>
@@ -10340,14 +10370,11 @@ TV 11.8% · Largest gap 5.5 pp
 </article>
 </div>
 <p class="figure-caption">
-Draw frequencies versus the weighted state CES reference. TV is total variation distance; pp means percentage points. CES agreement is not proof of population representativeness.
+Draw frequencies versus the weighted state CES reference. TV is total variation distance; pp means percentage points.
 </p>
 </div>
 <div id="discussion" class="article-section">
 <h2 id="discussion-heading">Discussion</h2>
-<p class="placeholder-note">
-Layout placeholder · discussion · approximately 1,500 words
-</p>
 <div class="prose-columns">
 <p>Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus</p>
 <p>sit amet fermentum. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Fusce dapibus tellus ac</p>
@@ -10468,7 +10495,7 @@ $0.11252
 </tfoot>
 </table>
 <p class="source-note">
-Cumulative usage for the selected source run per model/day across the displayed dates. Recorded attempts include logged failures and retries; repeated persona draws do not add requests or tokens. Raw response logs supply usage where available. Without logs, distinct latest Parquet responses provide partial totals and cannot recover earlier retries. Unknown means unreported usage; ≥ marks a known subtotal with missing usage. Non-dated pilots and models outside this study are excluded. No requests were sent to build this page.
+Cumulative usage for the selected source run per model/day across the displayed dates.
 </p>
 </div>
 </main>
@@ -10488,12 +10515,16 @@ Contact
 <p>
 Josh Campbell and Graham Sayle
 </p>
+<p>
+<a href="https://github.com/JoshECampbell/Senate-Election-Silicon-Sampling">GitHub repository</a>
+</p>
 </div>
 </footer>
 </div>
 
 
 <script src="assets/site.js" defer=""></script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")

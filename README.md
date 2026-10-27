@@ -21,7 +21,7 @@ The current data pipeline is:
 uv run python src/raw_data_pull.py
 uv run python src/data_cleaning.py
 uv run python src/create_personas.py --run-name sample_100 --samples 100 --seed 42
-uv run python test/validate_personas.py --run-name sample_100
+uv run python src/validate_personas.py --run-name sample_100
 ```
 
 Only run these when you intend to download or regenerate those inputs. The
@@ -63,25 +63,45 @@ The website applies the stricter requirement of all 100 valid responses per stat
 
 ## Website
 
-All website files live in [`docs/`](docs/README.md). After saving a daily run:
+Website sources and rendered assets live in [`docs/`](docs/README.md), build
+scripts in `src/`, and checks in `test/`. After saving a daily run:
 
 ```powershell
 quarto render docs
-uv run python docs/_tools/check_website.py
+uv run python test/check_website.py
 ```
 
-Rendering discovers dated runs and prepares figures offline. Unchanged figures
+Rendering fetches and archives the public Polling Forecast Senate benchmark,
+then discovers dated runs and prepares figures offline. Unchanged figures
 are reused. Commit/push `docs/` and configure GitHub Pages to deploy from your
 branch's `/docs` folder. See the [website workflow](docs/README.md) for the local
 Quarto executable path, folder layout and preview command. No daily query schedule
 or custom publishing workflow is currently enabled.
 
-## Offline tests
+## Data checks and offline tests
+
+The real-data checks require the saved raw and cleaned CES files. They verify
+17,000 rows, the 17 required codebook variables, storage types, allowed codes,
+unique IDs, positive finite weights, adult birth years and exact preservation
+of selected raw values. Missing files fail rather than being silently skipped.
+
+The separate simulated-data tests apply the same schema/range checks to a saved
+128-row artificial cleaned-CES fixture. It has no real respondents and is not a
+research dataset. Regenerate it reproducibly with:
+
+```powershell
+uv run python src/simulate_cleaned_ces.py
+```
+
+Run all Python tests, or just one data test script:
 
 ```powershell
 uv run python -m unittest discover -s test -p 'test_*.py' -v
-uv run python -m unittest discover -s docs/_tools -p 'test_*.py' -v
+uv run python -m unittest discover -s test -p 'test_ces_data.py' -v
+uv run python -m unittest discover -s test -p 'test_simulated_ces_data.py' -v
 ```
 
-The tests use synthetic fixtures and mocked provider calls. Website controller
-checks are described in `docs/README.md`.
+Query tests use synthetic fixtures and mocked providers; no tests send live LLM
+requests. All test scripts start with a bullet list describing their checks.
+The rendered-bundle check and JavaScript controller checks are described in
+`docs/README.md`.

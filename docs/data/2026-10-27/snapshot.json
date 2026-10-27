@@ -22,6 +22,13 @@
       "full_name": "Perplexity Decider V1.2",
       "shape": "square",
       "dash": "2 4"
+    },
+    "polling_forecast": {
+      "label": "Polling Forecast",
+      "full_name": "Polling Forecast",
+      "shape": "diamond",
+      "dash": "9 3 2 3",
+      "kind": "external_forecast"
     }
   },
   "condition": {
@@ -76365,6 +76372,535 @@
               "unallocated": 0
             }
           }
+        },
+        "polling_forecast": {
+          "run": "Polling Forecast API",
+          "date": "2026-10-27",
+          "kind": "external_forecast",
+          "model_id": "https://www.pollingforecast.com/api/us/senate",
+          "model_snapshots": [],
+          "collected_at": "2026-10-27T17:11:33.651613+00:00",
+          "complete": true,
+          "states": {
+            "alaska": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.48450000000000004,
+                "p_republican": 0.5155,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -3.1,
+              "race_key": "AK",
+              "left_party": "D"
+            },
+            "alabama": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.39399999999999996,
+                "p_republican": 0.6060000000000001,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -21.2,
+              "race_key": "AL",
+              "left_party": "D"
+            },
+            "arkansas": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.4275,
+                "p_republican": 0.5725,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -14.5,
+              "race_key": "AR",
+              "left_party": "D"
+            },
+            "colorado": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6355,
+                "p_republican": 0.36450000000000005,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 27.1,
+              "race_key": "CO",
+              "left_party": "D"
+            },
+            "delaware": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.653,
+                "p_republican": 0.347,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 30.6,
+              "race_key": "DE",
+              "left_party": "D"
+            },
+            "florida": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.45549999999999996,
+                "p_republican": 0.5445,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -8.9,
+              "race_key": "FL-S",
+              "left_party": "D"
+            },
+            "georgia": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5445,
+                "p_republican": 0.4555,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 8.9,
+              "race_key": "GA",
+              "left_party": "D"
+            },
+            "iowa": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.4925,
+                "p_republican": 0.5075000000000001,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -1.5,
+              "race_key": "IA",
+              "left_party": "D"
+            },
+            "idaho": {
+              "eligible": true,
+              "means": {
+                "p_democrat": null,
+                "p_republican": 0.5800000000000001,
+                "p_third_party": 0.42,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -16,
+              "race_key": "ID",
+              "left_party": "I"
+            },
+            "illinois": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5795,
+                "p_republican": 0.4205,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 15.9,
+              "race_key": "IL",
+              "left_party": "D"
+            },
+            "kansas": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.4885,
+                "p_republican": 0.5115000000000001,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -2.3,
+              "race_key": "KS",
+              "left_party": "D"
+            },
+            "kentucky": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.418,
+                "p_republican": 0.5820000000000001,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -16.4,
+              "race_key": "KY",
+              "left_party": "D"
+            },
+            "louisiana": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.45049999999999996,
+                "p_republican": 0.5495000000000001,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -9.9,
+              "race_key": "LA",
+              "left_party": "D"
+            },
+            "massachusetts": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.638,
+                "p_republican": 0.362,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 27.6,
+              "race_key": "MA",
+              "left_party": "D"
+            },
+            "maine": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.504,
+                "p_republican": 0.496,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 0.8,
+              "race_key": "ME",
+              "left_party": "D"
+            },
+            "michigan": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5105,
+                "p_republican": 0.48950000000000005,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 2.1,
+              "race_key": "MI",
+              "left_party": "D"
+            },
+            "minnesota": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5185,
+                "p_republican": 0.48150000000000004,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 3.7,
+              "race_key": "MN",
+              "left_party": "D"
+            },
+            "mississippi": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.4545,
+                "p_republican": 0.5455,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -9.1,
+              "race_key": "MS",
+              "left_party": "D"
+            },
+            "montana": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.377,
+                "p_republican": 0.623,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -24.6,
+              "race_key": "MT",
+              "left_party": "D"
+            },
+            "north-carolina": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.546,
+                "p_republican": 0.45399999999999996,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 9.2,
+              "race_key": "NC",
+              "left_party": "D"
+            },
+            "nebraska": {
+              "eligible": true,
+              "means": {
+                "p_democrat": null,
+                "p_republican": 0.5135000000000001,
+                "p_third_party": 0.4865,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -2.7,
+              "race_key": "NE",
+              "left_party": "I"
+            },
+            "new-hampshire": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.532,
+                "p_republican": 0.46799999999999997,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 6.4,
+              "race_key": "NH",
+              "left_party": "D"
+            },
+            "new-jersey": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.622,
+                "p_republican": 0.378,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 24.4,
+              "race_key": "NJ",
+              "left_party": "D"
+            },
+            "new-mexico": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.585,
+                "p_republican": 0.41500000000000004,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 17,
+              "race_key": "NM",
+              "left_party": "D"
+            },
+            "ohio": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.504,
+                "p_republican": 0.496,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 0.8,
+              "race_key": "OH-S",
+              "left_party": "D"
+            },
+            "oklahoma": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.35950000000000004,
+                "p_republican": 0.6405,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -28.1,
+              "race_key": "OK",
+              "left_party": "D"
+            },
+            "oregon": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6485,
+                "p_republican": 0.35150000000000003,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 29.7,
+              "race_key": "OR",
+              "left_party": "D"
+            },
+            "rhode-island": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6465000000000001,
+                "p_republican": 0.3534999999999999,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 29.3,
+              "race_key": "RI",
+              "left_party": "D"
+            },
+            "south-carolina": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.4825,
+                "p_republican": 0.5175000000000001,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -3.5,
+              "race_key": "SC",
+              "left_party": "D"
+            },
+            "south-dakota": {
+              "eligible": true,
+              "means": {
+                "p_democrat": null,
+                "p_republican": 0.5609999999999999,
+                "p_third_party": 0.439,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -12.2,
+              "race_key": "SD",
+              "left_party": "I"
+            },
+            "tennessee": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.373,
+                "p_republican": 0.627,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -25.4,
+              "race_key": "TN",
+              "left_party": "D"
+            },
+            "texas": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5015,
+                "p_republican": 0.49850000000000005,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 0.3,
+              "race_key": "TX",
+              "left_party": "D"
+            },
+            "virginia": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6095,
+                "p_republican": 0.39049999999999996,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_democrat",
+              "margin_pp": 21.9,
+              "race_key": "VA",
+              "left_party": "D"
+            },
+            "west-virginia": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.318,
+                "p_republican": 0.6819999999999999,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -36.4,
+              "race_key": "WV",
+              "left_party": "D"
+            },
+            "wyoming": {
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.349,
+                "p_republican": 0.651,
+                "p_third_party": null,
+                "p_would_not_vote": null
+              },
+              "points": [],
+              "leader": "p_republican",
+              "margin_pp": -30.2,
+              "race_key": "WY",
+              "left_party": "D"
+            }
+          },
+          "attribution": "Polling Forecast (www.pollingforecast.com). Each row's licence column gives the terms for that row.",
+          "licence": "CC BY 4.0",
+          "source_url": "https://www.pollingforecast.com/api/us/senate",
+          "senate": {
+            "baseline": {
+              "election_year": 2026,
+              "as_of": "2026-10-26",
+              "source": "Project owner: fixed-seat counts supplied on 26 October 2026",
+              "chamber_seats": 100,
+              "contested_seats": 35,
+              "fixed_seats": {
+                "democrat": 32,
+                "republican": 31,
+                "independent": 2
+              }
+            },
+            "projected": {
+              "democrat": 17,
+              "republican": 18,
+              "independent": 0
+            },
+            "totals": {
+              "democrat": 49,
+              "republican": 49,
+              "independent": 2,
+              "unallocated": 0
+            }
+          }
         }
       }
     }
@@ -76372,7 +76908,8 @@
   "latest": {
     "jev": "2026-10-27",
     "mercury": "2026-10-27",
-    "decider": "2026-10-27"
+    "decider": "2026-10-27",
+    "polling_forecast": "2026-10-27"
   },
   "notices": [],
   "baseline": {

@@ -1,5 +1,9 @@
 """Standalone editorial SVG figures built from an already verified site snapshot.
 
+Workflow: receive prepared chart records -> draw SVG marks and labels -> return
+SVG text for the preparation script to save.
+Usage: imported by src/prepare_website.py; no standalone command.
+
 These functions do not read data or contact APIs. SVG files are independently
 viewable and are embedded by Quarto/loaded by the small selector controller.
 Draw observed reporting dates only. Model shapes and line styles come from the
@@ -46,6 +50,9 @@ def marker(shape, x, y, radius, colour, css_class, title, opacity=1):
     if css_class == 'mean-dot':
         attrs += f' stroke="{INK}" stroke-width="1"'
     tooltip = f'<title>{escape(title)}</title>'
+    if shape == 'diamond':
+        coords = f'{x:.3f},{y-radius:.3f} {x+radius:.3f},{y:.3f} {x:.3f},{y+radius:.3f} {x-radius:.3f},{y:.3f}'
+        return f'<polygon {attrs} points="{coords}">{tooltip}</polygon>'
     if shape == 'triangle':
         coords = f'{x:.3f},{y-radius:.3f} {x-radius:.3f},{y+radius:.3f} {x+radius:.3f},{y+radius:.3f}'
         return f'<polygon {attrs} points="{coords}">{tooltip}</polygon>'
@@ -85,7 +92,7 @@ def response_figure(state_key, history, column, through_date):
         for day in days:
             entry = history['snapshots'][day]['models'].get(key)
             values = entry['states'][state_key] if entry else None
-            if not values or not values['eligible']:
+            if not values or not values['eligible'] or values['means'][column] is None:
                 previous = None
                 continue
             x = xpos(day)+(model_index-1)*14
@@ -98,13 +105,17 @@ def response_figure(state_key, history, column, through_date):
                 y = bottom-point[column]*(bottom-top)
                 title = f'{model["label"]}; {state}; {day}; sampled draw {point["draw"]}; {100*point[column]:.2f}%. Repeated draws may share a response.'
                 body.append(marker(model['shape'],x+jitter,y,3,colour,'persona-dot',title,.16))
-            title = (f'{model["label"]}; {entry["model_id"]}; snapshot {", ".join(entry["model_snapshots"])}; '
-                     f'{day}; collected {entry["collected_at"]}; mean {100*values["means"][column]:.2f}%; '
-                     f'{values["valid"]}/100 valid sampled draws; {values["unique"]} unique respondents.')
+            title = (f'{model["label"]}; {day}; collected {entry["collected_at"]}; '
+                     f'{100*values["means"][column]:.2f}%; ')
+            if model.get('kind') == 'external_forecast':
+                title += 'Implied two-candidate forecast share; not a measured polling share.'
+            else:
+                title += (f'{entry["model_id"]}; snapshot {", ".join(entry["model_snapshots"])}; '
+                          f'{values["valid"]}/100 valid sampled draws; {values["unique"]} unique respondents.')
             body.append(marker(model['shape'],x,mean_y,6.5,colour,'mean-dot',title))
             previous = (ordinal,x,mean_y)
         body.append('</g>')
-    return svg(450,285,f'{state}: {label} synthetic probabilities, {days[0]} to {through_date}.', ''.join(body))
+    return svg(450,285,f'{state}: {label} synthetic probabilities and implied forecast shares, {days[0]} to {through_date}.', ''.join(body))
 
 
 def state_figure(state, records, models):
@@ -113,19 +124,22 @@ def state_figure(state, records, models):
     for index,(key,model) in enumerate(models.items()):
         y = index*43
         values = records.get(key)
-        body.append(text(0,y+17,model['label'],size=14))
+        body.append(text(0,y+17,model['label'],size=12 if model.get('kind') else 14))
         body.append(text(0,y+33,values['date'] if values else 'Unavailable',size=11,fill=MUTED))
         if not values or not values['eligible']:
             body.append(text(106,y+20,'Unavailable',size=13,fill=MUTED))
             continue
         x = 106.
         for column,label,colour in CATEGORIES:
+            if values['means'][column] is None:
+                continue
             width = values['means'][column]*224
-            body.append(rect(x,y+5,width,16,colour,f'{model["label"]}; {values["date"]}; {label}: {100*values["means"][column]:.2f}%; 100/100 valid.'))
+            basis = 'implied two-candidate share' if model.get('kind') else '100/100 valid'
+            body.append(rect(x,y+5,width,16,colour,f'{model["label"]}; {values["date"]}; {label}: {100*values["means"][column]:.2f}%; {basis}.'))
             x += width
     bottom = 43*len(models)
     body.extend([text(106,bottom+7,'0%',size=12,fill=MUTED),text(330,bottom+7,'100%',size=12,fill=MUTED,anchor='end')])
-    return svg(340,bottom+13,f'{state}: synthetic response shares by model; unavailable rows are not zeros.', ''.join(body))
+    return svg(340,bottom+13,f'{state}: synthetic response shares and implied two-candidate forecast shares; unavailable rows are not zeros.', ''.join(body))
 
 
 def senate_figure(senate):

@@ -1,5 +1,7 @@
 """Check response validity and manage the post-query retry workflow.
 
+Usage: imported by src/query_llms.py; no standalone command.
+
 Workflow (called automatically by query_llms.py):
 1. After the initial query batch, select the latest saved attempt for each
    requested respondent/configuration. Reject cached requests whose actual
