@@ -1,0 +1,125 @@
+# Collect only. The separate Website workflow builds and deploys after this run.
+name: Daily data
+
+on:
+  schedule:
+    - cron: '0 9 * * *'
+      timezone: America/Toronto
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Never cancel paid requests to start another collection. A retry restores its
+# saved per-model checkpoints instead of buying the same successful responses.
+concurrency:
+  group: daily-collection
+  cancel-in-progress: false
+
+jobs:
+  context:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    outputs:
+      date: ${{ steps.day.outputs.date }}
+      run_name: ${{ steps.day.outputs.run_name }}
+      models: ${{ steps.day.outputs.models }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v9
+        with:
+          python-version: '3.14'
+          version: '0.13.0'
+          enable-cache: true
+      - run: uv sync --frozen
+      - id: day
+        run: uv run --offline --frozen python src/daily_automation.py context
+
+  models:
+    needs: context
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        model: ${{ fromJSON(needs.context.outputs.models) }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v9
+        with:
+          python-version: '3.14'
+          version: '0.13.0'
+          enable-cache: true
+      - run: uv sync --frozen
+      - name: Restore observations and retry checkpoints
+        run: uv run --offline --frozen python src/daily_storage.py restore
+      - name: Collect one model with automatic response validation and retries
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          REPORTING_DATE: ${{ needs.context.outputs.date }}
+          MODEL: ${{ matrix.model }}
+        run: uv run --offline --frozen python src/daily_automation.py model --date "$REPORTING_DATE" --model "$MODEL"
+      - name: Transfer results, checkpoints and usage (never raw logs)
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: llm-${{ matrix.model }}
+          retention-days: 7
+          path: |
+            data/llm_responses/${{ needs.context.outputs.run_name }}/models/${{ matrix.model }}/*.parquet
+            data/llm_responses/${{ needs.context.outputs.run_name }}/models/${{ matrix.model }}/*.json
+
+  polling:
+    needs: context
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v9
+        with:
+          python-version: '3.14'
+          version: '0.13.0'
+          enable-cache: true
+      - run: uv sync --frozen
+      - name: Collect the matching forecast date
+        env:
+          REPORTING_DATE: ${{ needs.context.outputs.date }}
+        run: uv run --offline --frozen python src/daily_automation.py poll --date "$REPORTING_DATE"
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: polling
+          path: .automation/polling/
+          retention-days: 7
+          include-hidden-files: true
+
+  archive:
+    needs: [context, models, polling]
+    if: always() && !cancelled() && needs.context.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      REPORTING_DATE: ${{ needs.context.outputs.date }}
+      COLLECTION_RUN_ID: ${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v9
+        with:
+          python-version: '3.14'
+          version: '0.13.0'
+          enable-cache: true
+      - run: uv sync --frozen
+      - run: uv run --offline --frozen python src/daily_storage.py restore
+      - uses: actions/download-artifact@v8
+        with:
+          path: .automation/incoming
+      - name: Combine independent model and polling results
+        run: uv run --offline --frozen python src/daily_automation.py merge --date "$REPORTING_DATE" --run-id "$COLLECTION_RUN_ID"
+      - name: Test collection logic and saved observations without rendering
+        run: |
+          uv run --offline --frozen python -m unittest discover -s test -p 'test_daily_automation.py' -v
+          uv run --offline --frozen python -m unittest discover -s test -p 'test_polling_forecast.py' -v
+          uv run --offline --frozen python src/daily_automation.py gate --run-id "$COLLECTION_RUN_ID"
+      - name: Create or update the data-only branch
+        run: uv run --offline --frozen python src/daily_storage.py save

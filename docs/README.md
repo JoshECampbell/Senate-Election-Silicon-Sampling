@@ -4,13 +4,15 @@ Editable Quarto sources and rendered assets live here; website Python scripts
 live in `../src/` and all test scripts in `../test/`.
 GitHub Pages serves `docs/index.html`.
 The build reads saved analysis data elsewhere in the repository. It never queries
-LLMs or changes those inputs. Rendering also fetches the public Polling Forecast
-Senate benchmark before preparing the figures.
+LLMs or changes those inputs. Local rendering also fetches the public Polling
+Forecast benchmark; Actions collects it separately and renders saved data only.
+The [automation guide](../misc/DAILY_AUTOMATION.md) covers the daily-data branch,
+9 a.m. Toronto schedule, failures and direct Pages deployment.
 
 ## Polling Forecast benchmark
 
 `../src/polling_forecast.py` explains the workflow and calculation at the top.
-Each render makes one public API request and archives the response in
+Each local render makes one public API request and archives the response in
 `data/polling_forecast/YYYY-MM-DD.json` at the repository root, using `asOf`.
 The most recent successful retrieval replaces that day's copy. A failed fetch
 prints a notice and leaves saved data intact. With no saved forecast, the
@@ -26,8 +28,9 @@ The same saved daily figures feed the 100-seat headline, response time series
 (diamond markers), and 35-state grid. The larger implied share wins the seat;
 exact ties stay unallocated. The configured 65-seat baseline remains in use.
 Historic dates never borrow a forecast from another day. Daily collection requires
-a render or explicit fetch each day; there is no background schedule or verified
-historical state API. Forecast data is credited to Polling Forecast, CC BY 4.0.
+a render or explicit fetch each day, or the configured daily Actions job. The
+API has no verified historical-date filter. Forecast data is credited to
+Polling Forecast, CC BY 4.0.
 
 Fetch without rendering:
 
@@ -74,9 +77,9 @@ its most recent complete day, labelled with that actual date.
 2. Quarto reads `index.qmd` and those prepared components to write `index.html`
    here. The document itself does not generate research figures or make API calls.
 3. The optional checker verifies the rendered assets and 100-seat totals.
-4. Commit/push the refreshed `docs/` folder. In GitHub **Settings > Pages**, select
-   **Deploy from a branch**, your branch, and **/docs**. There is no custom publishing
-   workflow and no daily collection schedule enabled.
+4. Merge source changes into `main`. With Pages set to **GitHub Actions**, the
+   Website workflow restores daily observations, renders, tests and deploys.
+   No generated-file commit or daily-data PR is required.
 
 ## Where to edit
 
@@ -94,8 +97,9 @@ its most recent complete day, labelled with that actual date.
 
 `index.html`, `data/`, `figures/`, `components/_generated/`, `site_libs/`, and
 `search.json` are generated: edit their sources and rebuild instead of editing
-these files. Commit the generated files because branch-based Pages does not run
-the preparation or Quarto commands. Keep `.nojekyll` alongside `index.html`.
+these files. The Actions deployment runs preparation and Quarto directly;
+generated-file commits are no longer required for publication. Keep `.nojekyll`
+alongside `index.html`.
 
 ## Daily discovery and failure rules
 

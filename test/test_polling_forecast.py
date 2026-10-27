@@ -2,6 +2,7 @@
 - Convert forecast margins to implied two-candidate shares, including ties and invalid bounds.
 - Preserve independent candidates, 100-seat totals and unavailable historical dates.
 - Keep saved forecasts after a failed fetch and draw forecast markers without fabricated personas.
+- Reject wrong-date or duplicate-state API responses without overwriting saved history.
 
 Usage: uv run python -m unittest discover -s test -p 'test_polling_forecast.py' -v
 """
@@ -13,6 +14,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
 import json
+import io
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -20,9 +22,27 @@ from urllib.error import URLError
 
 from polling_forecast import KEY, add_forecasts, fetch_forecast, implied_shares
 from site_figures import response_figure
+from src.create_personas import SENATE_STATES_2026
 
 
 class PollingForecastTests(unittest.TestCase):
+    def test_fetch_accepts_matching_date_and_rejects_bad_date_or_coverage(self):
+        data = {'dataset': 'senate', 'asOf': '2026-10-28', 'rows': [
+            {'name': name + ' Senate', 'left_party': 'D', 'best_bet_margin': 6}
+            for name in SENATE_STATES_2026.values()]}
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            with patch('polling_forecast.urlopen', return_value=io.StringIO(json.dumps(data))):
+                self.assertTrue(fetch_forecast(root, expected_date='2026-10-28'))
+            saved = root / 'data/polling_forecast/2026-10-28.json'
+            original = saved.read_bytes()
+            with patch('polling_forecast.urlopen', return_value=io.StringIO(json.dumps(data))):
+                self.assertFalse(fetch_forecast(root, expected_date='2026-10-29'))
+            data['rows'][0] = data['rows'][1]
+            with patch('polling_forecast.urlopen', return_value=io.StringIO(json.dumps(data))):
+                self.assertFalse(fetch_forecast(root, expected_date='2026-10-28'))
+            self.assertEqual(saved.read_bytes(), original)
+
     def test_margin_is_vote_share_not_win_probability(self):
         self.assertEqual(implied_shares(6), (.53, .47))
         self.assertEqual(implied_shares(-100), (0, 1))

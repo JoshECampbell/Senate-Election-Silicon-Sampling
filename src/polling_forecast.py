@@ -2,7 +2,8 @@
 
 Workflow
 --------
-1. Quarto calls this script with --fetch before preparing the website.
+1. Local Quarto renders call --fetch; Actions collects once in its polling job
+   and sets SKIP_FORECAST_FETCH=1 while rendering saved inputs.
 2. Download all 35 races in one request and save the original JSON under
    data/polling_forecast/YYYY-MM-DD.json, using the API's asOf date.
 3. Website preparation reads those saved days for the headline, time series,
@@ -31,6 +32,7 @@ from argparse import ArgumentParser
 from collections import Counter
 from datetime import date, datetime, timezone
 import json
+import os
 from pathlib import Path
 import sys
 from urllib.request import Request, urlopen
@@ -55,18 +57,25 @@ def implied_shares(margin):
     return left, 1 - left
 
 
-def fetch_forecast(root=ROOT):
+def fetch_forecast(root=ROOT, expected_date=None):
     """Save one dated API response; keep existing files if the request fails."""
     try:
         request = Request(URL, headers={'User-Agent': 'Senate-Election-Silicon-Sampling/1.0'})
         with urlopen(request, timeout=20) as response:
             data = json.load(response)
         day = date.fromisoformat(data['asOf']).isoformat()
+        if expected_date is not None and day != expected_date:
+            raise ValueError(f'Forecast asOf {day} does not match collection day {expected_date}.')
         if data['dataset'] != 'senate' or len(data['rows']) != 35:
             raise ValueError('Expected the 35 Senate races.')
         for row in data['rows']:
             implied_shares(row['best_bet_margin'])
             PARTIES[row['left_party']]
+        from src.create_personas import SENATE_STATES_2026
+        expected_states = {slug(name) for name in SENATE_STATES_2026.values()}
+        actual_states = [slug(row['name'].split(' Senate')[0]) for row in data['rows']]
+        if len(set(actual_states)) != 35 or set(actual_states) != expected_states:
+            raise ValueError('Expected one forecast for each of the 35 study states.')
         folder = root / 'data/polling_forecast'
         folder.mkdir(parents=True, exist_ok=True)
         # Retain original source fields and a separate retrieval timestamp.
@@ -74,8 +83,10 @@ def fetch_forecast(root=ROOT):
                  'forecast': data}
         (folder / f'{day}.json').write_text(json.dumps(saved, indent=2), encoding='utf-8')
         print(f'Saved Polling Forecast: {day}, 35 races.')
+        return True
     except (URLError, OSError, ValueError, KeyError) as error:
         print(f'Polling Forecast fetch unavailable; using saved history if present: {error}')
+        return False
 
 
 def add_forecasts(history, root=ROOT):
@@ -116,5 +127,6 @@ def add_forecasts(history, root=ROOT):
 if __name__ == '__main__':
     parser = ArgumentParser(description=__doc__)
     parser.add_argument('--fetch', action='store_true', help='Download and save the current forecast.')
-    if parser.parse_args().fetch:
+    # CI has a separate collection job: rendering must use its saved snapshot.
+    if parser.parse_args().fetch and os.environ.get('SKIP_FORECAST_FETCH') != '1':
         fetch_forecast()

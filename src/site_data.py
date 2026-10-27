@@ -264,6 +264,10 @@ def load_history(root):
             if day is None:
                 continue
             attempts = []
+            usage_file = folder/'usage_summary.json'
+            saved_usage = json.loads(usage_file.read_text()) if usage_file.exists() else {}
+            metadata_file = folder/'run_metadata.json'
+            metadata = json.loads(metadata_file.read_text()) if metadata_file.exists() else {}
             log = folder/'responses.jsonl'
             if log.exists():
                 # Cost records stay local. The public export never contains prompts,
@@ -297,7 +301,14 @@ def load_history(root):
                          'model_snapshots':sorted(x for x in model_rows['model_snapshot'].unique().to_list() if x),
                          'started_at':start,'collected_at':end,'states':values,
                          'complete':all(v['eligible'] for v in values.values()),
-                         'cost':request_usage(relevant,model_rows)}
+                         'cost':saved_usage.get(key) or request_usage(relevant,model_rows)}
+                # Daily automation archives failed attempts/costs, but a model
+                # with an incomplete 35-state day must not publish partial bars.
+                if metadata.get('automation') and key not in metadata['published_models']:
+                    entry['complete'] = False
+                    for value in values.values():
+                        value.update(eligible=False, means=None, points=[],
+                                     reason='Daily model collection was incomplete.')
                 entry['senate'] = project_senate(dict(Counter(v['leader'] for v in values.values())),baseline) if entry['complete'] else None
                 candidates.setdefault((day,key),[]).append(entry)
         except (ValueError, KeyError, pl.exceptions.PolarsError) as error:

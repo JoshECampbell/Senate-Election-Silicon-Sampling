@@ -98,6 +98,8 @@ def args_parser():
     """Select the input sample and experimental combinations to query."""
     p = ArgumentParser(description="Query decision models with CES personas.")
     p.add_argument("--run-name", required=True, help="Output folder name under data/llm_responses/")
+    p.add_argument("--output-root", type=Path, default=OUTPUT_ROOT,
+                   help="Parent output folder (automation isolates each model here)")
     p.add_argument("--personas", default=str(DEFAULT_PERSONAS), help="Folder of per-state persona files")
     p.add_argument("--config", default=str(DEFAULT_CONFIG))
     p.add_argument("--models", nargs="+", default=None, help="Model keys from the config (default: all)")
@@ -520,7 +522,7 @@ def main() -> None:
 
     # Step 2: reuse compatible saved attempts. The helper rejects changed request
     # contents or row memberships before any new requests can be sent.
-    out_dir = OUTPUT_ROOT / args.run_name
+    out_dir = Path(getattr(args, 'output_root', OUTPUT_ROOT)) / args.run_name
     out_dir.mkdir(parents=True, exist_ok=True)
     jsonl = out_dir / "responses.jsonl"
     latest = current_records(jobs, read_records(jsonl))

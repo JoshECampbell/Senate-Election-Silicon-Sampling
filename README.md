@@ -73,10 +73,28 @@ uv run python test/check_website.py
 
 Rendering fetches and archives the public Polling Forecast Senate benchmark,
 then discovers dated runs and prepares figures offline. Unchanged figures
-are reused. Commit/push `docs/` and configure GitHub Pages to deploy from your
-branch's `/docs` folder. See the [website workflow](docs/README.md) for the local
-Quarto executable path, folder layout and preview command. No daily query schedule
-or custom publishing workflow is currently enabled.
+are reused. The Website Actions workflow builds from current `main` plus archived
+observations, tests the result, and deploys directly to GitHub Pages. PRs build
+and test without deploying. See the [website workflow](docs/README.md) for local
+preview commands and the [automation guide](misc/DAILY_AUTOMATION.md) for activation.
+
+## Daily automation
+
+After activation, **Daily data** collects at **9:00 a.m. America/Toronto** using
+`config/daily_run.yaml`, matching the study command in `config/oct_26_run.md`.
+Models run independently; one complete model is enough to update the site.
+Missing polling falls back to its most recent saved date. If every model fails,
+the daily publication is skipped. Merging writing or code changes into `main`
+still rebuilds the site using saved data, without paid requests.
+
+The workflow creates and maintains `daily-data` automatically. It holds only
+observations, costs and retry checkpoints; workflows, tests, website sources and
+writing stay on `main`. You never need to merge the data branch into `main`.
+
+**Activation:** add Actions secret `OPENROUTER_API_KEY`, select **GitHub Actions**
+as the Pages source, and merge this implementation into `main`. The first
+scheduled/manual collection creates the storage branch. Details, failure rules,
+reruns and manual controls are in [DAILY_AUTOMATION.md](misc/DAILY_AUTOMATION.md).
 
 ## Data checks and offline tests
 
