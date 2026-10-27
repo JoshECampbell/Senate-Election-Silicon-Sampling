@@ -1,0 +1,4427 @@
+{
+  "schema_version": 2,
+  "date": "2026-10-27",
+  "dates": [
+    "2026-10-26",
+    "2026-10-27"
+  ],
+  "models": {
+    "jev": {
+      "label": "Jev",
+      "full_name": "TypeSafe Jev 1.13",
+      "shape": "circle",
+      "dash": ""
+    },
+    "mercury": {
+      "label": "Mercury",
+      "full_name": "Inception Mercury Decide",
+      "shape": "triangle",
+      "dash": "7 4"
+    },
+    "decider": {
+      "label": "Perplexity",
+      "full_name": "Perplexity Decider V1.2",
+      "shape": "square",
+      "dash": "2 4"
+    }
+  },
+  "condition": {
+    "persona_level": 9,
+    "persona_format": "sentence",
+    "prompt_style": "role_play",
+    "news": "none"
+  },
+  "timezone": "America/Toronto",
+  "sample": "sample_100",
+  "features": [
+    {
+      "key": "age",
+      "name": "Age"
+    },
+    {
+      "key": "race",
+      "name": "Race"
+    },
+    {
+      "key": "pid7",
+      "name": "Party identification"
+    },
+    {
+      "key": "sexuality",
+      "name": "Sexual orientation"
+    },
+    {
+      "key": "educ",
+      "name": "Education"
+    }
+  ],
+  "states": {
+    "alabama": {
+      "name": "Alabama",
+      "validation": {
+        "age": {
+          "tv": 0.032293952712161914,
+          "max_gap_pp": 2.5506431052834593
+        },
+        "race": {
+          "tv": 0.10779747428988277,
+          "max_gap_pp": 10.779747428988273
+        },
+        "pid7": {
+          "tv": 0.11346540801026947,
+          "max_gap_pp": 7.331780828030676
+        },
+        "sexuality": {
+          "tv": 0.04193212753278326,
+          "max_gap_pp": 3.6573608130562874
+        },
+        "educ": {
+          "tv": 0.1175569140708163,
+          "max_gap_pp": 5.535266552302705
+        }
+      }
+    },
+    "alaska": {
+      "name": "Alaska",
+      "validation": {
+        "age": {
+          "tv": 0.03647278530147439,
+          "max_gap_pp": 2.722464380294508
+        },
+        "race": {
+          "tv": 0.04649708405883713,
+          "max_gap_pp": 3.30730095972437
+        },
+        "pid7": {
+          "tv": 0.09182074227865368,
+          "max_gap_pp": 6.828888889665421
+        },
+        "sexuality": {
+          "tv": 0.012669402604280405,
+          "max_gap_pp": 1.0495842779060804
+        },
+        "educ": {
+          "tv": 0.06885537105276615,
+          "max_gap_pp": 4.146425524015937
+        }
+      }
+    },
+    "arkansas": {
+      "name": "Arkansas",
+      "validation": {
+        "age": {
+          "tv": 0.07172362946088424,
+          "max_gap_pp": 6.299519511746104
+        },
+        "race": {
+          "tv": 0.12323474924903584,
+          "max_gap_pp": 10.053718491698138
+        },
+        "pid7": {
+          "tv": 0.040281834156921145,
+          "max_gap_pp": 3.126342531121759
+        },
+        "sexuality": {
+          "tv": 0.061324782010294406,
+          "max_gap_pp": 3.396563944289124
+        },
+        "educ": {
+          "tv": 0.08124283078519942,
+          "max_gap_pp": 5.771300910888696
+        }
+      }
+    },
+    "colorado": {
+      "name": "Colorado",
+      "validation": {
+        "age": {
+          "tv": 0.1446722051697999,
+          "max_gap_pp": 12.463563603847671
+        },
+        "race": {
+          "tv": 0.04096077302365902,
+          "max_gap_pp": 3.740130142144571
+        },
+        "pid7": {
+          "tv": 0.1127764447665796,
+          "max_gap_pp": 6.469252338180246
+        },
+        "sexuality": {
+          "tv": 0.030426438687901944,
+          "max_gap_pp": 2.607419285058674
+        },
+        "educ": {
+          "tv": 0.1290927794809247,
+          "max_gap_pp": 8.138355392541435
+        }
+      }
+    },
+    "delaware": {
+      "name": "Delaware",
+      "validation": {
+        "age": {
+          "tv": 0.10641267771122297,
+          "max_gap_pp": 10.641267771122292
+        },
+        "race": {
+          "tv": 0.06832852507134735,
+          "max_gap_pp": 5.649795774288979
+        },
+        "pid7": {
+          "tv": 0.13496721528717665,
+          "max_gap_pp": 9.053024062229005
+        },
+        "sexuality": {
+          "tv": 0.004169518303028618,
+          "max_gap_pp": 0.41695183030285854
+        },
+        "educ": {
+          "tv": 0.0637494827616076,
+          "max_gap_pp": 4.430795140908558
+        }
+      }
+    },
+    "florida": {
+      "name": "Florida",
+      "validation": {
+        "age": {
+          "tv": 0.06776967496776533,
+          "max_gap_pp": 6.776967496776526
+        },
+        "race": {
+          "tv": 0.04836292860073448,
+          "max_gap_pp": 3.7354445113291335
+        },
+        "pid7": {
+          "tv": 0.09741982579503547,
+          "max_gap_pp": 5.275257394642524
+        },
+        "sexuality": {
+          "tv": 0.08914906227284214,
+          "max_gap_pp": 7.149279247463869
+        },
+        "educ": {
+          "tv": 0.04110296948361746,
+          "max_gap_pp": 3.0452441512292703
+        }
+      }
+    },
+    "georgia": {
+      "name": "Georgia",
+      "validation": {
+        "age": {
+          "tv": 0.05316223935795207,
+          "max_gap_pp": 5.316223935795208
+        },
+        "race": {
+          "tv": 0.04296690964174184,
+          "max_gap_pp": 2.7200241366050317
+        },
+        "pid7": {
+          "tv": 0.10016318178789886,
+          "max_gap_pp": 4.509381185792863
+        },
+        "sexuality": {
+          "tv": 0.04792878097848372,
+          "max_gap_pp": 2.890072652754171
+        },
+        "educ": {
+          "tv": 0.06193173719096337,
+          "max_gap_pp": 5.468795666016005
+        }
+      }
+    },
+    "idaho": {
+      "name": "Idaho",
+      "validation": {
+        "age": {
+          "tv": 0.0451668480157356,
+          "max_gap_pp": 4.516684801573562
+        },
+        "race": {
+          "tv": 0.05214604470818961,
+          "max_gap_pp": 3.12376846874639
+        },
+        "pid7": {
+          "tv": 0.06932762589189057,
+          "max_gap_pp": 5.907764421021494
+        },
+        "sexuality": {
+          "tv": 0.09533901192067627,
+          "max_gap_pp": 7.729734280003142
+        },
+        "educ": {
+          "tv": 0.06826560818217012,
+          "max_gap_pp": 3.9312218363513867
+        }
+      }
+    },
+    "illinois": {
+      "name": "Illinois",
+      "validation": {
+        "age": {
+          "tv": 0.047128325055713086,
+          "max_gap_pp": 4.0581892750965025
+        },
+        "race": {
+          "tv": 0.08132704388759576,
+          "max_gap_pp": 6.588832797475186
+        },
+        "pid7": {
+          "tv": 0.06200403050180539,
+          "max_gap_pp": 4.16012119036541
+        },
+        "sexuality": {
+          "tv": 0.01765435069417855,
+          "max_gap_pp": 1.2645297908963375
+        },
+        "educ": {
+          "tv": 0.1150885825405357,
+          "max_gap_pp": 9.768955412793142
+        }
+      }
+    },
+    "iowa": {
+      "name": "Iowa",
+      "validation": {
+        "age": {
+          "tv": 0.05498232709679021,
+          "max_gap_pp": 3.072820607162435
+        },
+        "race": {
+          "tv": 0.05290341077228002,
+          "max_gap_pp": 3.7162318285898444
+        },
+        "pid7": {
+          "tv": 0.13509953118857573,
+          "max_gap_pp": 6.713702583942947
+        },
+        "sexuality": {
+          "tv": 0.04243058288513069,
+          "max_gap_pp": 4.243058288513069
+        },
+        "educ": {
+          "tv": 0.07711890565640656,
+          "max_gap_pp": 5.303347316184231
+        }
+      }
+    },
+    "kansas": {
+      "name": "Kansas",
+      "validation": {
+        "age": {
+          "tv": 0.039922174890180726,
+          "max_gap_pp": 3.1576095726827957
+        },
+        "race": {
+          "tv": 0.06978340974031542,
+          "max_gap_pp": 5.309529091818964
+        },
+        "pid7": {
+          "tv": 0.08984435869501652,
+          "max_gap_pp": 7.073491568661999
+        },
+        "sexuality": {
+          "tv": 0.08349670017032383,
+          "max_gap_pp": 6.190247043022401
+        },
+        "educ": {
+          "tv": 0.08104060910397118,
+          "max_gap_pp": 5.28831801098526
+        }
+      }
+    },
+    "kentucky": {
+      "name": "Kentucky",
+      "validation": {
+        "age": {
+          "tv": 0.0664960606073639,
+          "max_gap_pp": 6.649606060736385
+        },
+        "race": {
+          "tv": 0.05985628892957303,
+          "max_gap_pp": 5.026895993391967
+        },
+        "pid7": {
+          "tv": 0.17334355326149797,
+          "max_gap_pp": 9.391109832719218
+        },
+        "sexuality": {
+          "tv": 0.02100548186022743,
+          "max_gap_pp": 1.5500225758737785
+        },
+        "educ": {
+          "tv": 0.12197815358882916,
+          "max_gap_pp": 9.986547645116856
+        }
+      }
+    },
+    "louisiana": {
+      "name": "Louisiana",
+      "validation": {
+        "age": {
+          "tv": 0.10826601876227122,
+          "max_gap_pp": 10.826601876227132
+        },
+        "race": {
+          "tv": 0.03805080459343461,
+          "max_gap_pp": 2.369907580738845
+        },
+        "pid7": {
+          "tv": 0.1008762327151948,
+          "max_gap_pp": 8.146150201339736
+        },
+        "sexuality": {
+          "tv": 0.023741013428556335,
+          "max_gap_pp": 1.6219678236787383
+        },
+        "educ": {
+          "tv": 0.10477740172765687,
+          "max_gap_pp": 9.308036260328976
+        }
+      }
+    },
+    "maine": {
+      "name": "Maine",
+      "validation": {
+        "age": {
+          "tv": 0.0940151954077013,
+          "max_gap_pp": 6.990975483681611
+        },
+        "race": {
+          "tv": 0.03857334000049611,
+          "max_gap_pp": 2.6211483790484973
+        },
+        "pid7": {
+          "tv": 0.14742954608357406,
+          "max_gap_pp": 7.9942307677600395
+        },
+        "sexuality": {
+          "tv": 0.032159308599744585,
+          "max_gap_pp": 1.6042952996167203
+        },
+        "educ": {
+          "tv": 0.03298847033444193,
+          "max_gap_pp": 2.7675733130073725
+        }
+      }
+    },
+    "massachusetts": {
+      "name": "Massachusetts",
+      "validation": {
+        "age": {
+          "tv": 0.06299753393628788,
+          "max_gap_pp": 6.299753393628787
+        },
+        "race": {
+          "tv": 0.08921657787910113,
+          "max_gap_pp": 4.344611637161655
+        },
+        "pid7": {
+          "tv": 0.10025122546130567,
+          "max_gap_pp": 5.030990747525752
+        },
+        "sexuality": {
+          "tv": 0.04698606106018564,
+          "max_gap_pp": 3.3125130367550915
+        },
+        "educ": {
+          "tv": 0.07167980688392585,
+          "max_gap_pp": 5.632198004883223
+        }
+      }
+    },
+    "michigan": {
+      "name": "Michigan",
+      "validation": {
+        "age": {
+          "tv": 0.045164448424955664,
+          "max_gap_pp": 4.13419709143597
+        },
+        "race": {
+          "tv": 0.08655897179116083,
+          "max_gap_pp": 7.566605985622152
+        },
+        "pid7": {
+          "tv": 0.12194685351870538,
+          "max_gap_pp": 9.394667422696209
+        },
+        "sexuality": {
+          "tv": 0.052941226027454005,
+          "max_gap_pp": 4.215464952094405
+        },
+        "educ": {
+          "tv": 0.07567940826257046,
+          "max_gap_pp": 7.155845856843146
+        }
+      }
+    },
+    "minnesota": {
+      "name": "Minnesota",
+      "validation": {
+        "age": {
+          "tv": 0.06233879723371087,
+          "max_gap_pp": 4.341298307919231
+        },
+        "race": {
+          "tv": 0.03959905090632898,
+          "max_gap_pp": 2.5008466159993343
+        },
+        "pid7": {
+          "tv": 0.05157173954051672,
+          "max_gap_pp": 5.1571739540516734
+        },
+        "sexuality": {
+          "tv": 0.02941113110624424,
+          "max_gap_pp": 2.0918601847711993
+        },
+        "educ": {
+          "tv": 0.07593432324961102,
+          "max_gap_pp": 4.197126975337636
+        }
+      }
+    },
+    "mississippi": {
+      "name": "Mississippi",
+      "validation": {
+        "age": {
+          "tv": 0.04442545962444673,
+          "max_gap_pp": 3.681037151300659
+        },
+        "race": {
+          "tv": 0.08937712367077771,
+          "max_gap_pp": 7.96396745516133
+        },
+        "pid7": {
+          "tv": 0.1309626449313381,
+          "max_gap_pp": 6.2108698940356675
+        },
+        "sexuality": {
+          "tv": 0.006520747972303692,
+          "max_gap_pp": 0.39496051881908956
+        },
+        "educ": {
+          "tv": 0.05772429322290881,
+          "max_gap_pp": 4.3950818290176885
+        }
+      }
+    },
+    "montana": {
+      "name": "Montana",
+      "validation": {
+        "age": {
+          "tv": 0.08432509497293382,
+          "max_gap_pp": 8.432509497293381
+        },
+        "race": {
+          "tv": 0.05503466889279723,
+          "max_gap_pp": 5.503466889279718
+        },
+        "pid7": {
+          "tv": 0.10687663789063692,
+          "max_gap_pp": 5.08826996076428
+        },
+        "sexuality": {
+          "tv": 0.03651578025603578,
+          "max_gap_pp": 3.2780591006457187
+        },
+        "educ": {
+          "tv": 0.04443874471802703,
+          "max_gap_pp": 4.248400480568676
+        }
+      }
+    },
+    "nebraska": {
+      "name": "Nebraska",
+      "validation": {
+        "age": {
+          "tv": 0.03669412671138106,
+          "max_gap_pp": 3.669412671138117
+        },
+        "race": {
+          "tv": 0.03566099777904804,
+          "max_gap_pp": 1.8347347058956145
+        },
+        "pid7": {
+          "tv": 0.09305260082508308,
+          "max_gap_pp": 6.690824255801872
+        },
+        "sexuality": {
+          "tv": 0.04109032531058966,
+          "max_gap_pp": 3.422955769952618
+        },
+        "educ": {
+          "tv": 0.0857121121141536,
+          "max_gap_pp": 6.08873789708859
+        }
+      }
+    },
+    "new-hampshire": {
+      "name": "New Hampshire",
+      "validation": {
+        "age": {
+          "tv": 0.015093630315324041,
+          "max_gap_pp": 1.2418182278317758
+        },
+        "race": {
+          "tv": 0.03823050670080501,
+          "max_gap_pp": 3.3560115635297096
+        },
+        "pid7": {
+          "tv": 0.08190074411281402,
+          "max_gap_pp": 3.824732228706826
+        },
+        "sexuality": {
+          "tv": 0.028109073037931046,
+          "max_gap_pp": 1.8188423854695297
+        },
+        "educ": {
+          "tv": 0.12514367187349648,
+          "max_gap_pp": 8.06492834478959
+        }
+      }
+    },
+    "new-jersey": {
+      "name": "New Jersey",
+      "validation": {
+        "age": {
+          "tv": 0.10526210953610442,
+          "max_gap_pp": 8.926452541778524
+        },
+        "race": {
+          "tv": 0.0326364390415324,
+          "max_gap_pp": 2.178592144028288
+        },
+        "pid7": {
+          "tv": 0.06814720526276413,
+          "max_gap_pp": 3.847183574091606
+        },
+        "sexuality": {
+          "tv": 0.04402689714431873,
+          "max_gap_pp": 3.5026645946992057
+        },
+        "educ": {
+          "tv": 0.031901758681430005,
+          "max_gap_pp": 2.999933766787449
+        }
+      }
+    },
+    "new-mexico": {
+      "name": "New Mexico",
+      "validation": {
+        "age": {
+          "tv": 0.024871928650912187,
+          "max_gap_pp": 2.387491745427078
+        },
+        "race": {
+          "tv": 0.04155578151303814,
+          "max_gap_pp": 2.4942086523980986
+        },
+        "pid7": {
+          "tv": 0.08037824488223769,
+          "max_gap_pp": 6.156714144040654
+        },
+        "sexuality": {
+          "tv": 0.04299796326350577,
+          "max_gap_pp": 2.286480054596423
+        },
+        "educ": {
+          "tv": 0.05547635992458156,
+          "max_gap_pp": 4.250971609159404
+        }
+      }
+    },
+    "north-carolina": {
+      "name": "North Carolina",
+      "validation": {
+        "age": {
+          "tv": 0.15184136162575335,
+          "max_gap_pp": 14.949211956305392
+        },
+        "race": {
+          "tv": 0.06364777487525719,
+          "max_gap_pp": 3.5337306845250716
+        },
+        "pid7": {
+          "tv": 0.09468081996781612,
+          "max_gap_pp": 6.852262228996493
+        },
+        "sexuality": {
+          "tv": 0.06566288749520433,
+          "max_gap_pp": 6.3224198528084035
+        },
+        "educ": {
+          "tv": 0.09858333600396069,
+          "max_gap_pp": 9.079450751801883
+        }
+      }
+    },
+    "ohio": {
+      "name": "Ohio",
+      "validation": {
+        "age": {
+          "tv": 0.07338306326716412,
+          "max_gap_pp": 6.9705694521065285
+        },
+        "race": {
+          "tv": 0.03253510658206914,
+          "max_gap_pp": 1.3358450330948068
+        },
+        "pid7": {
+          "tv": 0.11988089290385526,
+          "max_gap_pp": 6.104686495808193
+        },
+        "sexuality": {
+          "tv": 0.04224296188319636,
+          "max_gap_pp": 4.195765828008973
+        },
+        "educ": {
+          "tv": 0.10119922536235368,
+          "max_gap_pp": 6.579365738373894
+        }
+      }
+    },
+    "oklahoma": {
+      "name": "Oklahoma",
+      "validation": {
+        "age": {
+          "tv": 0.06929973156712342,
+          "max_gap_pp": 4.842461978530091
+        },
+        "race": {
+          "tv": 0.14582836383567152,
+          "max_gap_pp": 8.9718681732733
+        },
+        "pid7": {
+          "tv": 0.08425624919976488,
+          "max_gap_pp": 4.079737635638924
+        },
+        "sexuality": {
+          "tv": 0.060463091904781545,
+          "max_gap_pp": 6.04630919047815
+        },
+        "educ": {
+          "tv": 0.08257176254424653,
+          "max_gap_pp": 8.25717625442465
+        }
+      }
+    },
+    "oregon": {
+      "name": "Oregon",
+      "validation": {
+        "age": {
+          "tv": 0.11617043885982374,
+          "max_gap_pp": 11.617043885982364
+        },
+        "race": {
+          "tv": 0.10597234344595492,
+          "max_gap_pp": 8.792701426461914
+        },
+        "pid7": {
+          "tv": 0.07614701279167448,
+          "max_gap_pp": 3.3810926069482994
+        },
+        "sexuality": {
+          "tv": 0.03629829030660164,
+          "max_gap_pp": 2.0824183866927988
+        },
+        "educ": {
+          "tv": 0.07409541557253128,
+          "max_gap_pp": 4.085818467414305
+        }
+      }
+    },
+    "rhode-island": {
+      "name": "Rhode Island",
+      "validation": {
+        "age": {
+          "tv": 0.006533737269392582,
+          "max_gap_pp": 0.6533737269392701
+        },
+        "race": {
+          "tv": 0.10364919555256853,
+          "max_gap_pp": 10.364919555256868
+        },
+        "pid7": {
+          "tv": 0.10084521013711865,
+          "max_gap_pp": 6.5065214531228435
+        },
+        "sexuality": {
+          "tv": 0.03129281404752154,
+          "max_gap_pp": 1.8870199249800712
+        },
+        "educ": {
+          "tv": 0.05743123418173492,
+          "max_gap_pp": 5.743123418173502
+        }
+      }
+    },
+    "south-carolina": {
+      "name": "South Carolina",
+      "validation": {
+        "age": {
+          "tv": 0.03832687730078799,
+          "max_gap_pp": 2.5411876728046066
+        },
+        "race": {
+          "tv": 0.08078169852436758,
+          "max_gap_pp": 4.931127562772911
+        },
+        "pid7": {
+          "tv": 0.05971690888355097,
+          "max_gap_pp": 4.88148863516476
+        },
+        "sexuality": {
+          "tv": 0.04275007184573189,
+          "max_gap_pp": 3.826034678272019
+        },
+        "educ": {
+          "tv": 0.0765116267084585,
+          "max_gap_pp": 4.221286111665689
+        }
+      }
+    },
+    "south-dakota": {
+      "name": "South Dakota",
+      "validation": {
+        "age": {
+          "tv": 0.0428880050484135,
+          "max_gap_pp": 4.288800504841353
+        },
+        "race": {
+          "tv": 0.05043902549442804,
+          "max_gap_pp": 2.5456773873416716
+        },
+        "pid7": {
+          "tv": 0.07417555857077301,
+          "max_gap_pp": 4.19944101102994
+        },
+        "sexuality": {
+          "tv": 0.030867651505459327,
+          "max_gap_pp": 2.0421424532054915
+        },
+        "educ": {
+          "tv": 0.10222917992088071,
+          "max_gap_pp": 5.725393570220362
+        }
+      }
+    },
+    "tennessee": {
+      "name": "Tennessee",
+      "validation": {
+        "age": {
+          "tv": 0.06080862562358291,
+          "max_gap_pp": 6.080862562358291
+        },
+        "race": {
+          "tv": 0.04257236669424038,
+          "max_gap_pp": 2.357300590297748
+        },
+        "pid7": {
+          "tv": 0.08752312690479173,
+          "max_gap_pp": 3.8012988866310042
+        },
+        "sexuality": {
+          "tv": 0.07398677531605802,
+          "max_gap_pp": 6.381596184987459
+        },
+        "educ": {
+          "tv": 0.07181175037920429,
+          "max_gap_pp": 5.539547680456103
+        }
+      }
+    },
+    "texas": {
+      "name": "Texas",
+      "validation": {
+        "age": {
+          "tv": 0.050366361248422226,
+          "max_gap_pp": 3.257691668973184
+        },
+        "race": {
+          "tv": 0.041819433641382,
+          "max_gap_pp": 3.1682281488516817
+        },
+        "pid7": {
+          "tv": 0.13774046003258295,
+          "max_gap_pp": 7.76762952170246
+        },
+        "sexuality": {
+          "tv": 0.031388424063556394,
+          "max_gap_pp": 3.1388424063556353
+        },
+        "educ": {
+          "tv": 0.1601418252904985,
+          "max_gap_pp": 8.838439573068827
+        }
+      }
+    },
+    "virginia": {
+      "name": "Virginia",
+      "validation": {
+        "age": {
+          "tv": 0.028793614626337283,
+          "max_gap_pp": 2.4256911202268387
+        },
+        "race": {
+          "tv": 0.054305408373387605,
+          "max_gap_pp": 2.8934906172050696
+        },
+        "pid7": {
+          "tv": 0.10394804999592651,
+          "max_gap_pp": 6.8989893717570085
+        },
+        "sexuality": {
+          "tv": 0.02703173020305602,
+          "max_gap_pp": 1.8350079468048404
+        },
+        "educ": {
+          "tv": 0.09910610336655715,
+          "max_gap_pp": 5.393516706832615
+        }
+      }
+    },
+    "west-virginia": {
+      "name": "West Virginia",
+      "validation": {
+        "age": {
+          "tv": 0.012104327371591464,
+          "max_gap_pp": 1.1727973529630868
+        },
+        "race": {
+          "tv": 0.0846081381102423,
+          "max_gap_pp": 7.9861995074566705
+        },
+        "pid7": {
+          "tv": 0.040486646800867915,
+          "max_gap_pp": 2.314972631602083
+        },
+        "sexuality": {
+          "tv": 0.04071115557667632,
+          "max_gap_pp": 2.8492471854325836
+        },
+        "educ": {
+          "tv": 0.050089027387399385,
+          "max_gap_pp": 2.9605330622641395
+        }
+      }
+    },
+    "wyoming": {
+      "name": "Wyoming",
+      "validation": {
+        "age": {
+          "tv": 0.0691078430247213,
+          "max_gap_pp": 4.582241349383209
+        },
+        "race": {
+          "tv": 0.044977587228821794,
+          "max_gap_pp": 4.217092404131739
+        },
+        "pid7": {
+          "tv": 0.08300916715264431,
+          "max_gap_pp": 4.446841360344783
+        },
+        "sexuality": {
+          "tv": 0.027683451184249648,
+          "max_gap_pp": 2.768345118424968
+        },
+        "educ": {
+          "tv": 0.016976719552857723,
+          "max_gap_pp": 1.3809719476879452
+        }
+      }
+    }
+  },
+  "snapshots": {
+    "2026-10-26": {
+      "models": {
+        "jev": {
+          "run": "oct-26-all-models",
+          "date": "2026-10-26",
+          "model_id": "typesafe/jev-1.13",
+          "model_snapshots": [
+            "typesafe/jev-1.13-20260917"
+          ],
+          "started_at": "2026-10-27T01:32:34.816991+00:00",
+          "collected_at": "2026-10-27T01:42:29.428551+00:00",
+          "states": {
+            "alabama": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 72,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.23399999999999999,
+                "p_republican": 0.5446,
+                "p_third_party": 0.0016,
+                "p_would_not_vote": 0.2198
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "alaska": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 22,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.1459,
+                "p_republican": 0.7248,
+                "p_third_party": 0.0285,
+                "p_would_not_vote": 0.1008
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "arkansas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 72,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.198,
+                "p_republican": 0.5834,
+                "p_third_party": 0.0031,
+                "p_would_not_vote": 0.2155
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "colorado": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6433,
+                "p_republican": 0.1726,
+                "p_third_party": 0.008400000000000001,
+                "p_would_not_vote": 0.1757
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "delaware": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 46,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6269,
+                "p_republican": 0.21559999999999999,
+                "p_third_party": 0.0068000000000000005,
+                "p_would_not_vote": 0.1507
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "florida": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 91,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3556,
+                "p_republican": 0.4019,
+                "p_third_party": 0.0037,
+                "p_would_not_vote": 0.23879999999999998
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "georgia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 88,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3812,
+                "p_republican": 0.37689999999999996,
+                "p_third_party": 0.0013,
+                "p_would_not_vote": 0.24059999999999998
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "idaho": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 57,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.1179,
+                "p_republican": 0.7617,
+                "p_third_party": 0.0047,
+                "p_would_not_vote": 0.1157
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "illinois": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 90,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5902000000000001,
+                "p_republican": 0.12990000000000002,
+                "p_third_party": 0.0028000000000000004,
+                "p_would_not_vote": 0.2771
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "iowa": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 65,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2594,
+                "p_republican": 0.6747,
+                "p_third_party": 0.0043,
+                "p_would_not_vote": 0.0616
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "kansas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 64,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2828,
+                "p_republican": 0.5945,
+                "p_third_party": 0.0034000000000000002,
+                "p_would_not_vote": 0.1193
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "kentucky": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 69,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2163,
+                "p_republican": 0.5815,
+                "p_third_party": 0.0029,
+                "p_would_not_vote": 0.1993
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "louisiana": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2938,
+                "p_republican": 0.5355,
+                "p_third_party": 0.0028000000000000004,
+                "p_would_not_vote": 0.1679
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "maine": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 54,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5819,
+                "p_republican": 0.2021,
+                "p_third_party": 0.027200000000000002,
+                "p_would_not_vote": 0.1888
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "massachusetts": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.8076000000000001,
+                "p_republican": 0.056299999999999996,
+                "p_third_party": 0.0017000000000000001,
+                "p_would_not_vote": 0.1344
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "michigan": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 90,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5005,
+                "p_republican": 0.3618,
+                "p_third_party": 0.0057,
+                "p_would_not_vote": 0.132
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "minnesota": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 76,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5661999999999999,
+                "p_republican": 0.28150000000000003,
+                "p_third_party": 0.0077,
+                "p_would_not_vote": 0.14459999999999998
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "mississippi": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 65,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3065,
+                "p_republican": 0.49079999999999996,
+                "p_third_party": 0.0026,
+                "p_would_not_vote": 0.20010000000000003
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "montana": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 46,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2443,
+                "p_republican": 0.6966,
+                "p_third_party": 0.0154,
+                "p_would_not_vote": 0.0437
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "nebraska": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 53,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.31120000000000003,
+                "p_republican": 0.61,
+                "p_third_party": 0.008400000000000001,
+                "p_would_not_vote": 0.0704
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "new-hampshire": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 48,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5262,
+                "p_republican": 0.3247,
+                "p_third_party": 0.014199999999999999,
+                "p_would_not_vote": 0.1349
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "new-jersey": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 84,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.7483,
+                "p_republican": 0.1209,
+                "p_third_party": 0.002,
+                "p_would_not_vote": 0.1288
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "new-mexico": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 62,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6899,
+                "p_republican": 0.1112,
+                "p_third_party": 0.0041,
+                "p_would_not_vote": 0.1948
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "north-carolina": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 85,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3432,
+                "p_republican": 0.41600000000000004,
+                "p_third_party": 0.004,
+                "p_would_not_vote": 0.2368
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "ohio": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 88,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3169,
+                "p_republican": 0.47619999999999996,
+                "p_third_party": 0.0039000000000000003,
+                "p_would_not_vote": 0.203
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "oklahoma": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 67,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.1133,
+                "p_republican": 0.6093,
+                "p_third_party": 0.0034000000000000002,
+                "p_would_not_vote": 0.27399999999999997
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "oregon": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 77,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6890999999999999,
+                "p_republican": 0.1288,
+                "p_third_party": 0.0085,
+                "p_would_not_vote": 0.1736
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "rhode-island": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 41,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.8813,
+                "p_republican": 0.0821,
+                "p_third_party": 0.003,
+                "p_would_not_vote": 0.0336
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "south-carolina": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 79,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2192,
+                "p_republican": 0.5322,
+                "p_third_party": 0.0011,
+                "p_would_not_vote": 0.2475
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "south-dakota": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 41,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.0608,
+                "p_republican": 0.768,
+                "p_third_party": 0.0024,
+                "p_would_not_vote": 0.16879999999999998
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "tennessee": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 80,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2491,
+                "p_republican": 0.5193,
+                "p_third_party": 0.0024,
+                "p_would_not_vote": 0.2292
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "texas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 92,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.305,
+                "p_republican": 0.4567,
+                "p_third_party": 0.0015,
+                "p_would_not_vote": 0.2368
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "virginia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 86,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5236,
+                "p_republican": 0.2931,
+                "p_third_party": 0.0031,
+                "p_would_not_vote": 0.1802
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "west-virginia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 70,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.107,
+                "p_republican": 0.7892,
+                "p_third_party": 0.0039000000000000003,
+                "p_would_not_vote": 0.0999
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "wyoming": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 25,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.1506,
+                "p_republican": 0.7711,
+                "p_third_party": 0.0081,
+                "p_would_not_vote": 0.0702
+              },
+              "reason": null,
+              "leader": "p_republican"
+            }
+          },
+          "complete": true,
+          "cost": {
+            "attempts": 2401,
+            "partial": false,
+            "source": "attempt_log",
+            "known_cost": 0.043067808,
+            "unknown_costs": 0,
+            "input_tokens": 1025424,
+            "unknown_input_tokens": 0,
+            "output_tokens": 129654,
+            "unknown_output_tokens": 0
+          },
+          "senate": {
+            "baseline": {
+              "election_year": 2026,
+              "as_of": "2026-10-26",
+              "source": "Project owner: fixed-seat counts supplied on 26 October 2026",
+              "chamber_seats": 100,
+              "contested_seats": 35,
+              "fixed_seats": {
+                "democrat": 32,
+                "republican": 31,
+                "independent": 2
+              }
+            },
+            "projected": {
+              "democrat": 14,
+              "republican": 21,
+              "independent": 0
+            },
+            "totals": {
+              "democrat": 46,
+              "republican": 52,
+              "independent": 2,
+              "unallocated": 0
+            }
+          }
+        },
+        "mercury": {
+          "run": "oct-26-all-models",
+          "date": "2026-10-26",
+          "model_id": "inception/mercury-decide:free",
+          "model_snapshots": [
+            "inception/mercury-decide-20260930"
+          ],
+          "started_at": "2026-10-27T01:35:37.996366+00:00",
+          "collected_at": "2026-10-27T01:37:24.770729+00:00",
+          "states": {
+            "alabama": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 72,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.12234960496025103,
+                "p_republican": 0.6069847643504586,
+                "p_third_party": 0.01765943588936298,
+                "p_would_not_vote": 0.2530061947999274
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "alaska": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 22,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.18866706372444356,
+                "p_republican": 0.6570348664549683,
+                "p_third_party": 0.044372465440639254,
+                "p_would_not_vote": 0.10992560437994882
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "arkansas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 72,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.1714535096772644,
+                "p_republican": 0.5353082673500139,
+                "p_third_party": 0.022800962702693252,
+                "p_would_not_vote": 0.27043726027002846
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "colorado": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6514096841199413,
+                "p_republican": 0.13606260763127281,
+                "p_third_party": 0.022350793342301178,
+                "p_would_not_vote": 0.1901769149064847
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "delaware": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 46,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6986740472946451,
+                "p_republican": 0.13787887475097702,
+                "p_third_party": 0.011314668022229503,
+                "p_would_not_vote": 0.15213240993214844
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "florida": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 91,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.37559514463358307,
+                "p_republican": 0.36431628165611335,
+                "p_third_party": 0.019392235068419906,
+                "p_would_not_vote": 0.24069633864188364
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "georgia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 88,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.37494025461760416,
+                "p_republican": 0.35697590370186805,
+                "p_third_party": 0.01334377223865441,
+                "p_would_not_vote": 0.2547400694418734
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "idaho": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 57,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.08736993245510259,
+                "p_republican": 0.7461647219291986,
+                "p_third_party": 0.028265873888746157,
+                "p_would_not_vote": 0.13819947172695268
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "illinois": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 90,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5548162841549251,
+                "p_republican": 0.1349536676270194,
+                "p_third_party": 0.012049185898923478,
+                "p_would_not_vote": 0.298180862319132
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "iowa": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 65,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.299878813199593,
+                "p_republican": 0.5997469849782894,
+                "p_third_party": 0.03406515999870439,
+                "p_would_not_vote": 0.06630904182341324
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "kansas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 64,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.23033489980337707,
+                "p_republican": 0.6005321024744376,
+                "p_third_party": 0.034160496733022905,
+                "p_would_not_vote": 0.13497250098916255
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "kentucky": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 69,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.16710229861035886,
+                "p_republican": 0.585113571940822,
+                "p_third_party": 0.023002038590645885,
+                "p_would_not_vote": 0.2247820908581732
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "louisiana": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.19907726837329853,
+                "p_republican": 0.6082875834862382,
+                "p_third_party": 0.013730163961960395,
+                "p_would_not_vote": 0.17890498417850284
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "maine": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 54,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5997038653909115,
+                "p_republican": 0.17058512593466688,
+                "p_third_party": 0.03595137172135858,
+                "p_would_not_vote": 0.19375963695306303
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "massachusetts": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.7742421387000752,
+                "p_republican": 0.04215823430591157,
+                "p_third_party": 0.01478508420849598,
+                "p_would_not_vote": 0.16881454278551722
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "michigan": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 90,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5763129467266729,
+                "p_republican": 0.2848387079358503,
+                "p_third_party": 0.01567899375501771,
+                "p_would_not_vote": 0.12316935158245906
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "minnesota": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 76,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5741115699717657,
+                "p_republican": 0.2593680246072833,
+                "p_third_party": 0.019409905498336547,
+                "p_would_not_vote": 0.14711049992261438
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "mississippi": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 65,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.10939535787710422,
+                "p_republican": 0.6476655619759005,
+                "p_third_party": 0.01635042643193039,
+                "p_would_not_vote": 0.22658865371506487
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "montana": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 46,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.17030988867075503,
+                "p_republican": 0.7449778549513265,
+                "p_third_party": 0.04589215018513097,
+                "p_would_not_vote": 0.0388201061927875
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "nebraska": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 53,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.25659743842777427,
+                "p_republican": 0.6273123279508139,
+                "p_third_party": 0.03484842991749598,
+                "p_would_not_vote": 0.0812418037039158
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "new-hampshire": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 48,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5293941665953782,
+                "p_republican": 0.30395266707333607,
+                "p_third_party": 0.04503211041195066,
+                "p_would_not_vote": 0.12162105591933513
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "new-jersey": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 84,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.7710900838237389,
+                "p_republican": 0.08434783643954537,
+                "p_third_party": 0.012258031592208755,
+                "p_would_not_vote": 0.13230404814450694
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "new-mexico": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 62,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6275229246826052,
+                "p_republican": 0.14168353598198094,
+                "p_third_party": 0.020240769072255905,
+                "p_would_not_vote": 0.21055277026315802
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "north-carolina": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 85,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.35584175545307045,
+                "p_republican": 0.3858070565378087,
+                "p_third_party": 0.012953270886766005,
+                "p_would_not_vote": 0.24539791712235481
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "ohio": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 88,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.36683429496251746,
+                "p_republican": 0.400004376348307,
+                "p_third_party": 0.018211126395693736,
+                "p_would_not_vote": 0.21495020229348183
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "oklahoma": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 67,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.119076319786698,
+                "p_republican": 0.5301195784318183,
+                "p_third_party": 0.02461256449369084,
+                "p_would_not_vote": 0.3261915372877928
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "oregon": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 77,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.764207770157596,
+                "p_republican": 0.0431157434941027,
+                "p_third_party": 0.0191946367450482,
+                "p_would_not_vote": 0.1734818496032532
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "rhode-island": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 41,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.9113866491219745,
+                "p_republican": 0.03842783292463738,
+                "p_third_party": 0.011997888787162877,
+                "p_would_not_vote": 0.03818762916622518
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "south-carolina": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 79,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.1831514411511731,
+                "p_republican": 0.5273497464189155,
+                "p_third_party": 0.01373897508342502,
+                "p_would_not_vote": 0.2757598373464864
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "south-dakota": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 41,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.09015659503650914,
+                "p_republican": 0.6965515619602257,
+                "p_third_party": 0.020909823240255743,
+                "p_would_not_vote": 0.19238201976300937
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "tennessee": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 80,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.1750342051989533,
+                "p_republican": 0.5487427004354545,
+                "p_third_party": 0.019065196067438464,
+                "p_would_not_vote": 0.2571578982981537
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "texas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 92,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.22263334271704696,
+                "p_republican": 0.48795444339674465,
+                "p_third_party": 0.018932355416071533,
+                "p_would_not_vote": 0.27047985847013684
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "virginia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 86,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.589524558322671,
+                "p_republican": 0.20324930866679072,
+                "p_third_party": 0.012443295116354322,
+                "p_would_not_vote": 0.194782837894184
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "west-virginia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 70,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.12532316359147797,
+                "p_republican": 0.7378683951657657,
+                "p_third_party": 0.027835111618753423,
+                "p_would_not_vote": 0.10897332962400284
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "wyoming": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 25,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.08558661310462252,
+                "p_republican": 0.7991760404983811,
+                "p_third_party": 0.033749975416734426,
+                "p_would_not_vote": 0.08148737098026197
+              },
+              "reason": null,
+              "leader": "p_republican"
+            }
+          },
+          "complete": true,
+          "cost": {
+            "attempts": 2379,
+            "partial": false,
+            "source": "attempt_log",
+            "known_cost": 0.0,
+            "unknown_costs": 0,
+            "input_tokens": 427754,
+            "unknown_input_tokens": 0,
+            "output_tokens": 2379,
+            "unknown_output_tokens": 0
+          },
+          "senate": {
+            "baseline": {
+              "election_year": 2026,
+              "as_of": "2026-10-26",
+              "source": "Project owner: fixed-seat counts supplied on 26 October 2026",
+              "chamber_seats": 100,
+              "contested_seats": 35,
+              "fixed_seats": {
+                "democrat": 32,
+                "republican": 31,
+                "independent": 2
+              }
+            },
+            "projected": {
+              "democrat": 15,
+              "republican": 20,
+              "independent": 0
+            },
+            "totals": {
+              "democrat": 47,
+              "republican": 51,
+              "independent": 2,
+              "unallocated": 0
+            }
+          }
+        },
+        "decider": {
+          "run": "oct-26-all-models",
+          "date": "2026-10-26",
+          "model_id": "perplexity/pplx-decider-v1.2",
+          "model_snapshots": [
+            "perplexity/pplx-decider-v1.2-20261016"
+          ],
+          "started_at": "2026-10-27T01:37:25.003879+00:00",
+          "collected_at": "2026-10-27T01:38:47.796272+00:00",
+          "states": {
+            "alabama": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 72,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2617622540838434,
+                "p_republican": 0.4570147794347259,
+                "p_third_party": 0.05322522072679111,
+                "p_would_not_vote": 0.22799774575463957
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "alaska": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 22,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.25082831388098853,
+                "p_republican": 0.503339567026041,
+                "p_third_party": 0.09308560063772647,
+                "p_would_not_vote": 0.15274651845524398
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "arkansas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 72,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.27036985173360545,
+                "p_republican": 0.4347721105607662,
+                "p_third_party": 0.0633033943323496,
+                "p_would_not_vote": 0.23155464337327875
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "colorado": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5633436131245467,
+                "p_republican": 0.1708702507238695,
+                "p_third_party": 0.08605687922795323,
+                "p_would_not_vote": 0.1797292569236306
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "delaware": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 46,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6171359916172703,
+                "p_republican": 0.15523785960791137,
+                "p_third_party": 0.064983935186898,
+                "p_would_not_vote": 0.1626422135879203
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "florida": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 91,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.4110987267681956,
+                "p_republican": 0.3035726741730485,
+                "p_third_party": 0.06374767441343711,
+                "p_would_not_vote": 0.22158092464531884
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "georgia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 88,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.45868491293765123,
+                "p_republican": 0.27622591695063425,
+                "p_third_party": 0.0520170150277294,
+                "p_would_not_vote": 0.21307215508398503
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "idaho": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 57,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.19103591507785814,
+                "p_republican": 0.5756724364933983,
+                "p_third_party": 0.06668541968676815,
+                "p_would_not_vote": 0.16660622874197548
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "illinois": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 90,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5476581854535497,
+                "p_republican": 0.1403666389585481,
+                "p_third_party": 0.06280372198041995,
+                "p_would_not_vote": 0.24917145360748233
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "iowa": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 65,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3950420431037271,
+                "p_republican": 0.39723433559863763,
+                "p_third_party": 0.07702625829338496,
+                "p_would_not_vote": 0.1306973630042504
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "kansas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 64,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3575927778444751,
+                "p_republican": 0.4015603904640785,
+                "p_third_party": 0.07400451088037206,
+                "p_would_not_vote": 0.1668423208110744
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "kentucky": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 69,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2843843696783603,
+                "p_republican": 0.44602220215522864,
+                "p_third_party": 0.05859773218410082,
+                "p_would_not_vote": 0.21099569598231027
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "louisiana": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3080588129765194,
+                "p_republican": 0.44122902100329175,
+                "p_third_party": 0.05583588310199606,
+                "p_would_not_vote": 0.19487628291819273
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "maine": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 54,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5286482901417585,
+                "p_republican": 0.17974669644013072,
+                "p_third_party": 0.10746176282883393,
+                "p_would_not_vote": 0.18414325058927689
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "massachusetts": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6585133243220427,
+                "p_republican": 0.09891309894467101,
+                "p_third_party": 0.08893867098902372,
+                "p_would_not_vote": 0.1536349057442625
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "michigan": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 90,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5345808761403873,
+                "p_republican": 0.2416528939971444,
+                "p_third_party": 0.0653415853627255,
+                "p_would_not_vote": 0.15842464449974278
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "minnesota": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 76,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5343329830072868,
+                "p_republican": 0.23165595068823325,
+                "p_third_party": 0.07427240828796866,
+                "p_would_not_vote": 0.15973865801651121
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "mississippi": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 65,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.29376489004948014,
+                "p_republican": 0.43034690228461486,
+                "p_third_party": 0.0492943568138677,
+                "p_would_not_vote": 0.22659385085203726
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "montana": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 46,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.31995406719683844,
+                "p_republican": 0.47342415753052014,
+                "p_third_party": 0.09160180948997627,
+                "p_would_not_vote": 0.11501996578266517
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "nebraska": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 53,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.36059837766138264,
+                "p_republican": 0.4084812324097703,
+                "p_third_party": 0.08402506925417175,
+                "p_would_not_vote": 0.14689532067467523
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "new-hampshire": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 48,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.4665946586084425,
+                "p_republican": 0.2620687555163995,
+                "p_third_party": 0.11497492958470037,
+                "p_would_not_vote": 0.1563616562904576
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "new-jersey": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 84,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6383233851948664,
+                "p_republican": 0.1304320899962996,
+                "p_third_party": 0.06810710521086528,
+                "p_would_not_vote": 0.1631374195979687
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "new-mexico": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 62,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5800630645796331,
+                "p_republican": 0.14522122804316484,
+                "p_third_party": 0.06932975246060262,
+                "p_would_not_vote": 0.20538595491659947
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "north-carolina": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 85,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.40343930840679837,
+                "p_republican": 0.31200016233663314,
+                "p_third_party": 0.056279525900976915,
+                "p_would_not_vote": 0.22828100335559154
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "ohio": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 88,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3743723277293575,
+                "p_republican": 0.354586389034115,
+                "p_third_party": 0.062340963122313645,
+                "p_would_not_vote": 0.20870032011421386
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "oklahoma": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 67,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.22109160779728174,
+                "p_republican": 0.4302014949610985,
+                "p_third_party": 0.06554379708919349,
+                "p_would_not_vote": 0.28316310015242624
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "oregon": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 77,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6273705737285751,
+                "p_republican": 0.11295096829326867,
+                "p_third_party": 0.09565186410386523,
+                "p_would_not_vote": 0.16402659387429103
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "rhode-island": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 41,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.7153918588112193,
+                "p_republican": 0.10906331668896208,
+                "p_third_party": 0.0777957457808389,
+                "p_would_not_vote": 0.09774907871897982
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "south-carolina": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 79,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.26375997986599253,
+                "p_republican": 0.44544704879094477,
+                "p_third_party": 0.051800999875176966,
+                "p_would_not_vote": 0.2389919714678857
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "south-dakota": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 41,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.16750655561486721,
+                "p_republican": 0.5844564471099524,
+                "p_third_party": 0.062432017837811236,
+                "p_would_not_vote": 0.18560497943736917
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "tennessee": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 80,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.26418827379256715,
+                "p_republican": 0.4542237482448817,
+                "p_third_party": 0.055548505513853416,
+                "p_would_not_vote": 0.22603947244869768
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "texas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 92,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.36262908340867683,
+                "p_republican": 0.3418647218721865,
+                "p_third_party": 0.053867709253927545,
+                "p_would_not_vote": 0.2416384854652091
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "virginia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 86,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5556700312070789,
+                "p_republican": 0.18865268570700425,
+                "p_third_party": 0.06846120964762158,
+                "p_would_not_vote": 0.1872160734382953
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "west-virginia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 70,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2004878628480152,
+                "p_republican": 0.5751507881518405,
+                "p_third_party": 0.0651952647298855,
+                "p_would_not_vote": 0.15916608427025877
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "wyoming": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 25,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.20467472097789827,
+                "p_republican": 0.5977196935077806,
+                "p_third_party": 0.07613404650689677,
+                "p_would_not_vote": 0.12147153900742437
+              },
+              "reason": null,
+              "leader": "p_republican"
+            }
+          },
+          "complete": true,
+          "cost": {
+            "attempts": 2379,
+            "partial": false,
+            "source": "attempt_log",
+            "known_cost": 0.00884564,
+            "unknown_costs": 0,
+            "input_tokens": 442282,
+            "unknown_input_tokens": 0,
+            "output_tokens": 2379,
+            "unknown_output_tokens": 0
+          },
+          "senate": {
+            "baseline": {
+              "election_year": 2026,
+              "as_of": "2026-10-26",
+              "source": "Project owner: fixed-seat counts supplied on 26 October 2026",
+              "chamber_seats": 100,
+              "contested_seats": 35,
+              "fixed_seats": {
+                "democrat": 32,
+                "republican": 31,
+                "independent": 2
+              }
+            },
+            "projected": {
+              "democrat": 18,
+              "republican": 17,
+              "independent": 0
+            },
+            "totals": {
+              "democrat": 50,
+              "republican": 48,
+              "independent": 2,
+              "unallocated": 0
+            }
+          }
+        }
+      }
+    },
+    "2026-10-27": {
+      "models": {
+        "jev": {
+          "run": "oct-27-no-luna",
+          "date": "2026-10-27",
+          "model_id": "typesafe/jev-1.13",
+          "model_snapshots": [
+            "typesafe/jev-1.13-20260917"
+          ],
+          "started_at": "2026-10-27T13:22:05.493293+00:00",
+          "collected_at": "2026-10-27T13:29:07.876345+00:00",
+          "states": {
+            "alabama": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 72,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.23739999999999997,
+                "p_republican": 0.5436,
+                "p_third_party": 0.0018,
+                "p_would_not_vote": 0.21719999999999998
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "alaska": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 22,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.14880000000000002,
+                "p_republican": 0.723,
+                "p_third_party": 0.028399999999999998,
+                "p_would_not_vote": 0.0998
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "arkansas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 72,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.1955,
+                "p_republican": 0.5857,
+                "p_third_party": 0.0031,
+                "p_would_not_vote": 0.2157
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "colorado": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6436,
+                "p_republican": 0.174,
+                "p_third_party": 0.0084,
+                "p_would_not_vote": 0.17400000000000002
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "delaware": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 46,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6228,
+                "p_republican": 0.2188,
+                "p_third_party": 0.0076,
+                "p_would_not_vote": 0.1508
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "florida": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 91,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3514,
+                "p_republican": 0.4057,
+                "p_third_party": 0.0037,
+                "p_would_not_vote": 0.23919999999999997
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "georgia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 88,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.377,
+                "p_republican": 0.38079999999999997,
+                "p_third_party": 0.0011,
+                "p_would_not_vote": 0.24109999999999998
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "idaho": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 57,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.1201,
+                "p_republican": 0.7601,
+                "p_third_party": 0.0049,
+                "p_would_not_vote": 0.1149
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "illinois": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 90,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5844,
+                "p_republican": 0.1358,
+                "p_third_party": 0.0031,
+                "p_would_not_vote": 0.2767
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "iowa": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 65,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2595,
+                "p_republican": 0.6720999999999999,
+                "p_third_party": 0.0044,
+                "p_would_not_vote": 0.064
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "kansas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 64,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2789,
+                "p_republican": 0.5963,
+                "p_third_party": 0.004699999999999999,
+                "p_would_not_vote": 0.1201
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "kentucky": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 69,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2188,
+                "p_republican": 0.5785,
+                "p_third_party": 0.0032,
+                "p_would_not_vote": 0.19949999999999998
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "louisiana": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2991,
+                "p_republican": 0.5315,
+                "p_third_party": 0.0025,
+                "p_would_not_vote": 0.16690000000000002
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "maine": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 54,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5829,
+                "p_republican": 0.2036,
+                "p_third_party": 0.0282,
+                "p_would_not_vote": 0.18530000000000002
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "massachusetts": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.807,
+                "p_republican": 0.053899999999999997,
+                "p_third_party": 0.0015,
+                "p_would_not_vote": 0.1376
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "michigan": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 90,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.49770000000000003,
+                "p_republican": 0.365,
+                "p_third_party": 0.0058,
+                "p_would_not_vote": 0.1315
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "minnesota": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 76,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5702,
+                "p_republican": 0.2805,
+                "p_third_party": 0.008,
+                "p_would_not_vote": 0.1413
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "mississippi": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 65,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3028,
+                "p_republican": 0.4929,
+                "p_third_party": 0.0026,
+                "p_would_not_vote": 0.20170000000000002
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "montana": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 46,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.24,
+                "p_republican": 0.6995999999999999,
+                "p_third_party": 0.016300000000000002,
+                "p_would_not_vote": 0.0441
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "nebraska": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 53,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3096,
+                "p_republican": 0.6068,
+                "p_third_party": 0.0089,
+                "p_would_not_vote": 0.0747
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "new-hampshire": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 48,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5271,
+                "p_republican": 0.3233,
+                "p_third_party": 0.0151,
+                "p_would_not_vote": 0.13449999999999998
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "new-jersey": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 84,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.7433,
+                "p_republican": 0.1237,
+                "p_third_party": 0.0023,
+                "p_would_not_vote": 0.1307
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "new-mexico": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 62,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6907,
+                "p_republican": 0.11,
+                "p_third_party": 0.0037,
+                "p_would_not_vote": 0.1956
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "north-carolina": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 85,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3407,
+                "p_republican": 0.4189,
+                "p_third_party": 0.0043,
+                "p_would_not_vote": 0.2361
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "ohio": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 88,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3124,
+                "p_republican": 0.4781,
+                "p_third_party": 0.0043,
+                "p_would_not_vote": 0.2052
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "oklahoma": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 67,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.1093,
+                "p_republican": 0.6219,
+                "p_third_party": 0.0034000000000000002,
+                "p_would_not_vote": 0.26539999999999997
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "oregon": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 77,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6849,
+                "p_republican": 0.132,
+                "p_third_party": 0.0091,
+                "p_would_not_vote": 0.174
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "rhode-island": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 41,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.8769,
+                "p_republican": 0.08460000000000001,
+                "p_third_party": 0.0035000000000000005,
+                "p_would_not_vote": 0.035
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "south-carolina": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 79,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2195,
+                "p_republican": 0.5318,
+                "p_third_party": 0.0011,
+                "p_would_not_vote": 0.24760000000000001
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "south-dakota": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 41,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.061900000000000004,
+                "p_republican": 0.7667,
+                "p_third_party": 0.0026,
+                "p_would_not_vote": 0.16879999999999998
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "tennessee": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 80,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.25,
+                "p_republican": 0.5199,
+                "p_third_party": 0.0024,
+                "p_would_not_vote": 0.22769999999999999
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "texas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 92,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3053,
+                "p_republican": 0.45530000000000004,
+                "p_third_party": 0.0016,
+                "p_would_not_vote": 0.2378
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "virginia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 86,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5232,
+                "p_republican": 0.2937,
+                "p_third_party": 0.0034999999999999996,
+                "p_would_not_vote": 0.1796
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "west-virginia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 70,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.1039,
+                "p_republican": 0.7929999999999999,
+                "p_third_party": 0.0038,
+                "p_would_not_vote": 0.0993
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "wyoming": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 25,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.1563,
+                "p_republican": 0.7667999999999999,
+                "p_third_party": 0.006900000000000001,
+                "p_would_not_vote": 0.07
+              },
+              "reason": null,
+              "leader": "p_republican"
+            }
+          },
+          "complete": true,
+          "cost": {
+            "attempts": 2409,
+            "partial": false,
+            "source": "attempt_log",
+            "known_cost": 0.043209348,
+            "unknown_costs": 0,
+            "input_tokens": 1028794,
+            "unknown_input_tokens": 0,
+            "output_tokens": 130086,
+            "unknown_output_tokens": 0
+          },
+          "senate": {
+            "baseline": {
+              "election_year": 2026,
+              "as_of": "2026-10-26",
+              "source": "Project owner: fixed-seat counts supplied on 26 October 2026",
+              "chamber_seats": 100,
+              "contested_seats": 35,
+              "fixed_seats": {
+                "democrat": 32,
+                "republican": 31,
+                "independent": 2
+              }
+            },
+            "projected": {
+              "democrat": 13,
+              "republican": 22,
+              "independent": 0
+            },
+            "totals": {
+              "democrat": 45,
+              "republican": 53,
+              "independent": 2,
+              "unallocated": 0
+            }
+          }
+        },
+        "mercury": {
+          "run": "oct-27-no-luna",
+          "date": "2026-10-27",
+          "model_id": "inception/mercury-decide",
+          "model_snapshots": [
+            "inception/mercury-decide-20260930"
+          ],
+          "started_at": "2026-10-27T13:23:05.262029+00:00",
+          "collected_at": "2026-10-27T13:27:39.556018+00:00",
+          "states": {
+            "alabama": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 72,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.1224235414697012,
+                "p_republican": 0.6076307575746729,
+                "p_third_party": 0.017226999567404075,
+                "p_would_not_vote": 0.2527187013882219
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "alaska": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 22,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.19001905418490575,
+                "p_republican": 0.6542930503490542,
+                "p_third_party": 0.04642598513404541,
+                "p_would_not_vote": 0.10926191033199466
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "arkansas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 72,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.17219415632669346,
+                "p_republican": 0.5336449995243313,
+                "p_third_party": 0.02363988710538299,
+                "p_would_not_vote": 0.2705209570435923
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "colorado": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6498069977136973,
+                "p_republican": 0.1377802273218621,
+                "p_third_party": 0.022984866048679872,
+                "p_would_not_vote": 0.1894279089157608
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "delaware": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 46,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6964786445776844,
+                "p_republican": 0.14080105462170353,
+                "p_third_party": 0.011260486626281669,
+                "p_would_not_vote": 0.15145981417433052
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "florida": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 91,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3745908561152465,
+                "p_republican": 0.36378492013562697,
+                "p_third_party": 0.019708497719124862,
+                "p_would_not_vote": 0.24191572603000164
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "georgia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 88,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.37321254796118886,
+                "p_republican": 0.35816912386340893,
+                "p_third_party": 0.01339062587140672,
+                "p_would_not_vote": 0.25522770230399544
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "idaho": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 57,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.08512295049565324,
+                "p_republican": 0.7475821879493292,
+                "p_third_party": 0.027816296627884384,
+                "p_would_not_vote": 0.13947856492713323
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "illinois": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 90,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5542789225887467,
+                "p_republican": 0.13616957699635415,
+                "p_third_party": 0.011994663212526098,
+                "p_would_not_vote": 0.297556837202373
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "iowa": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 65,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.29617758135266536,
+                "p_republican": 0.6041606525738189,
+                "p_third_party": 0.033841345254060975,
+                "p_would_not_vote": 0.06582042081945481
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "kansas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 64,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2309005670382998,
+                "p_republican": 0.5989435646628639,
+                "p_third_party": 0.03471847061115256,
+                "p_would_not_vote": 0.13543739768768365
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "kentucky": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 69,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.163928772821784,
+                "p_republican": 0.5888048785449908,
+                "p_third_party": 0.02308673190652457,
+                "p_would_not_vote": 0.22417961672670067
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "louisiana": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.19772128532420286,
+                "p_republican": 0.6095170757815712,
+                "p_third_party": 0.013796036918983696,
+                "p_would_not_vote": 0.17896560197524225
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "maine": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 54,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5999171194166393,
+                "p_republican": 0.16900388195223404,
+                "p_third_party": 0.03524485828634184,
+                "p_would_not_vote": 0.1958341403447849
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "massachusetts": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.7724468555167909,
+                "p_republican": 0.04257621340029702,
+                "p_third_party": 0.01490850492095013,
+                "p_would_not_vote": 0.17006842616196186
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "michigan": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 90,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5792846903968354,
+                "p_republican": 0.28115629464122127,
+                "p_third_party": 0.015961416648887523,
+                "p_would_not_vote": 0.12359759831305586
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "minnesota": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 76,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5758523213702234,
+                "p_republican": 0.25894776775351036,
+                "p_third_party": 0.018963503378865453,
+                "p_would_not_vote": 0.14623640749740086
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "mississippi": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 65,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.10872343415398987,
+                "p_republican": 0.6486735862709285,
+                "p_third_party": 0.016374907112859875,
+                "p_would_not_vote": 0.22622807246222162
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "montana": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 46,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.16790738934374827,
+                "p_republican": 0.7473241555215338,
+                "p_third_party": 0.04589701873157307,
+                "p_would_not_vote": 0.03887143640314497
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "nebraska": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 53,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2598311236507857,
+                "p_republican": 0.6242381876486242,
+                "p_third_party": 0.03475074119242593,
+                "p_would_not_vote": 0.08117994750816428
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "new-hampshire": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 48,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5297905441635072,
+                "p_republican": 0.30425148928047085,
+                "p_third_party": 0.04449772389026621,
+                "p_would_not_vote": 0.1214602426657557
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "new-jersey": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 84,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.77148441097956,
+                "p_republican": 0.08406734025209804,
+                "p_third_party": 0.01240712803776735,
+                "p_would_not_vote": 0.13204112073057472
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "new-mexico": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 62,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6315439561000821,
+                "p_republican": 0.13849133824078,
+                "p_third_party": 0.020023973181180422,
+                "p_would_not_vote": 0.20994073247795753
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "north-carolina": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 85,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.35602619998435064,
+                "p_republican": 0.3857403614205094,
+                "p_third_party": 0.013176824365331932,
+                "p_would_not_vote": 0.24505661422980807
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "ohio": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 88,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.36714451538056786,
+                "p_republican": 0.3995333214424517,
+                "p_third_party": 0.018369316789803646,
+                "p_would_not_vote": 0.21495284638717682
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "oklahoma": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 67,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.11912495602503842,
+                "p_republican": 0.5285611393735793,
+                "p_third_party": 0.02506479898225654,
+                "p_would_not_vote": 0.32724910561912574
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "oregon": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 77,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.7633947244006017,
+                "p_republican": 0.042138097997872964,
+                "p_third_party": 0.018603814986869326,
+                "p_would_not_vote": 0.17586336261465585
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "rhode-island": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 41,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.9097539247218507,
+                "p_republican": 0.03953230962974207,
+                "p_third_party": 0.012389427793711227,
+                "p_would_not_vote": 0.03832433785469611
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "south-carolina": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 79,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.18296515045316356,
+                "p_republican": 0.5272811285638975,
+                "p_third_party": 0.013110143436823459,
+                "p_would_not_vote": 0.27664357754611546
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "south-dakota": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 41,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.08731529830740735,
+                "p_republican": 0.6996983467405014,
+                "p_third_party": 0.020901063091167956,
+                "p_would_not_vote": 0.19208529186092338
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "tennessee": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 80,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.1764002104095028,
+                "p_republican": 0.5476566696054893,
+                "p_third_party": 0.019816316631425704,
+                "p_would_not_vote": 0.2561268033535822
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "texas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 92,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2244755053581657,
+                "p_republican": 0.4852791091543299,
+                "p_third_party": 0.01894174104749699,
+                "p_would_not_vote": 0.27130364444000743
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "virginia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 86,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5880544003877265,
+                "p_republican": 0.20612639293290233,
+                "p_third_party": 0.012670291466592402,
+                "p_would_not_vote": 0.19314891521277883
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "west-virginia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 70,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.12231228417599867,
+                "p_republican": 0.7414340016236396,
+                "p_third_party": 0.027332175191709527,
+                "p_would_not_vote": 0.10892153900865224
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "wyoming": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 25,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.0857147684532876,
+                "p_republican": 0.7988286116934985,
+                "p_third_party": 0.03358001918673048,
+                "p_would_not_vote": 0.08187660066648343
+              },
+              "reason": null,
+              "leader": "p_republican"
+            }
+          },
+          "complete": true,
+          "cost": {
+            "attempts": 2379,
+            "partial": false,
+            "source": "attempt_log",
+            "known_cost": 0.00855518,
+            "unknown_costs": 0,
+            "input_tokens": 427759,
+            "unknown_input_tokens": 0,
+            "output_tokens": 2379,
+            "unknown_output_tokens": 0
+          },
+          "senate": {
+            "baseline": {
+              "election_year": 2026,
+              "as_of": "2026-10-26",
+              "source": "Project owner: fixed-seat counts supplied on 26 October 2026",
+              "chamber_seats": 100,
+              "contested_seats": 35,
+              "fixed_seats": {
+                "democrat": 32,
+                "republican": 31,
+                "independent": 2
+              }
+            },
+            "projected": {
+              "democrat": 15,
+              "republican": 20,
+              "independent": 0
+            },
+            "totals": {
+              "democrat": 47,
+              "republican": 51,
+              "independent": 2,
+              "unallocated": 0
+            }
+          }
+        },
+        "decider": {
+          "run": "oct-27-no-luna",
+          "date": "2026-10-27",
+          "model_id": "perplexity/pplx-decider-v1.2",
+          "model_snapshots": [
+            "perplexity/pplx-decider-v1.2-20261016"
+          ],
+          "started_at": "2026-10-27T13:27:39.583433+00:00",
+          "collected_at": "2026-10-27T13:29:05.730808+00:00",
+          "states": {
+            "alabama": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 72,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2617622540838434,
+                "p_republican": 0.4570147794347259,
+                "p_third_party": 0.05322522072679111,
+                "p_would_not_vote": 0.22799774575463957
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "alaska": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 22,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.25082831388098853,
+                "p_republican": 0.503339567026041,
+                "p_third_party": 0.09308560063772647,
+                "p_would_not_vote": 0.15274651845524398
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "arkansas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 72,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2702545793170143,
+                "p_republican": 0.4344996891518083,
+                "p_third_party": 0.06327361230968159,
+                "p_would_not_vote": 0.23197211922149577
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "colorado": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5633436131245467,
+                "p_republican": 0.1708702507238695,
+                "p_third_party": 0.08605687922795323,
+                "p_would_not_vote": 0.1797292569236306
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "delaware": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 46,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6169698895635486,
+                "p_republican": 0.1553251270779532,
+                "p_third_party": 0.0650426191393127,
+                "p_would_not_vote": 0.16266236421918556
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "florida": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 91,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.4110987267681956,
+                "p_republican": 0.3035726741730485,
+                "p_third_party": 0.06374767441343711,
+                "p_would_not_vote": 0.22158092464531884
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "georgia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 88,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.45866217538179394,
+                "p_republican": 0.2762221634984524,
+                "p_third_party": 0.05204443840159847,
+                "p_would_not_vote": 0.21307122271815515
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "idaho": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 57,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.19103591507785814,
+                "p_republican": 0.5756724364933983,
+                "p_third_party": 0.06668541968676815,
+                "p_would_not_vote": 0.16660622874197548
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "illinois": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 90,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5479691870130899,
+                "p_republican": 0.14065665669565405,
+                "p_third_party": 0.06285932074964631,
+                "p_would_not_vote": 0.24851483554160977
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "iowa": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 65,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3952386657460886,
+                "p_republican": 0.39722377808313725,
+                "p_third_party": 0.07688845336019917,
+                "p_would_not_vote": 0.130649102810575
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "kansas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 64,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3575927778444751,
+                "p_republican": 0.4015603904640785,
+                "p_third_party": 0.07400451088037206,
+                "p_would_not_vote": 0.1668423208110744
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "kentucky": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 69,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2843843696783603,
+                "p_republican": 0.44602220215522864,
+                "p_third_party": 0.05859773218410082,
+                "p_would_not_vote": 0.21099569598231027
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "louisiana": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3080588129765194,
+                "p_republican": 0.44122902100329175,
+                "p_third_party": 0.05583588310199606,
+                "p_would_not_vote": 0.19487628291819273
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "maine": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 54,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5286482901417585,
+                "p_republican": 0.17974669644013072,
+                "p_third_party": 0.10746176282883393,
+                "p_would_not_vote": 0.18414325058927689
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "massachusetts": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 78,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6585133243220427,
+                "p_republican": 0.09891309894467101,
+                "p_third_party": 0.08893867098902372,
+                "p_would_not_vote": 0.1536349057442625
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "michigan": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 90,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5346987979684215,
+                "p_republican": 0.2415900318391928,
+                "p_third_party": 0.06533782252918902,
+                "p_would_not_vote": 0.15837334766319666
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "minnesota": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 76,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5343329830072868,
+                "p_republican": 0.23165595068823325,
+                "p_third_party": 0.07427240828796866,
+                "p_would_not_vote": 0.15973865801651121
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "mississippi": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 65,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.29376489004948014,
+                "p_republican": 0.43034690228461486,
+                "p_third_party": 0.0492943568138677,
+                "p_would_not_vote": 0.22659385085203726
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "montana": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 46,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.31995406719683844,
+                "p_republican": 0.47342415753052014,
+                "p_third_party": 0.09160180948997627,
+                "p_would_not_vote": 0.11501996578266517
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "nebraska": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 53,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.36059837766138264,
+                "p_republican": 0.4084812324097703,
+                "p_third_party": 0.08402506925417175,
+                "p_would_not_vote": 0.14689532067467523
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "new-hampshire": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 48,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.4665946586084425,
+                "p_republican": 0.2620687555163995,
+                "p_third_party": 0.11497492958470037,
+                "p_would_not_vote": 0.1563616562904576
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "new-jersey": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 84,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.6383233851948664,
+                "p_republican": 0.1304320899962996,
+                "p_third_party": 0.06810710521086528,
+                "p_would_not_vote": 0.1631374195979687
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "new-mexico": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 62,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5800630645796331,
+                "p_republican": 0.14522122804316484,
+                "p_third_party": 0.06932975246060262,
+                "p_would_not_vote": 0.20538595491659947
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "north-carolina": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 85,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.40343930840679837,
+                "p_republican": 0.31200016233663314,
+                "p_third_party": 0.056279525900976915,
+                "p_would_not_vote": 0.22828100335559154
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "ohio": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 88,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3743723277293575,
+                "p_republican": 0.354586389034115,
+                "p_third_party": 0.062340963122313645,
+                "p_would_not_vote": 0.20870032011421386
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "oklahoma": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 67,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.22109160779728174,
+                "p_republican": 0.4302014949610985,
+                "p_third_party": 0.06554379708919349,
+                "p_would_not_vote": 0.28316310015242624
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "oregon": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 77,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.627693171764379,
+                "p_republican": 0.11282341161392463,
+                "p_third_party": 0.09550388469845605,
+                "p_would_not_vote": 0.16397953192324036
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "rhode-island": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 41,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.7153328421706538,
+                "p_republican": 0.10911208271732871,
+                "p_third_party": 0.07781192409787721,
+                "p_would_not_vote": 0.09774315101414013
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "south-carolina": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 79,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.26418080554411366,
+                "p_republican": 0.4450599769708191,
+                "p_third_party": 0.0517826421299279,
+                "p_would_not_vote": 0.23897657535513928
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "south-dakota": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 41,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.16750655561486721,
+                "p_republican": 0.5844564471099524,
+                "p_third_party": 0.062432017837811236,
+                "p_would_not_vote": 0.18560497943736917
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "tennessee": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 80,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.26418827379256715,
+                "p_republican": 0.4542237482448817,
+                "p_third_party": 0.055548505513853416,
+                "p_would_not_vote": 0.22603947244869768
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "texas": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 92,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.3625594704261679,
+                "p_republican": 0.3419945313022749,
+                "p_third_party": 0.05382619668258361,
+                "p_would_not_vote": 0.24161980158897356
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "virginia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 86,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.5556700312070789,
+                "p_republican": 0.18865268570700425,
+                "p_third_party": 0.06846120964762158,
+                "p_would_not_vote": 0.1872160734382953
+              },
+              "reason": null,
+              "leader": "p_democrat"
+            },
+            "west-virginia": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 70,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.2004878628480152,
+                "p_republican": 0.5751507881518405,
+                "p_third_party": 0.0651952647298855,
+                "p_would_not_vote": 0.15916608427025877
+              },
+              "reason": null,
+              "leader": "p_republican"
+            },
+            "wyoming": {
+              "draws": 100,
+              "observed": 100,
+              "valid": 100,
+              "unique": 25,
+              "eligible": true,
+              "means": {
+                "p_democrat": 0.20467472097789827,
+                "p_republican": 0.5977196935077806,
+                "p_third_party": 0.07613404650689677,
+                "p_would_not_vote": 0.12147153900742437
+              },
+              "reason": null,
+              "leader": "p_republican"
+            }
+          },
+          "complete": true,
+          "cost": {
+            "attempts": 2379,
+            "partial": false,
+            "source": "attempt_log",
+            "known_cost": 0.00884564,
+            "unknown_costs": 0,
+            "input_tokens": 442282,
+            "unknown_input_tokens": 0,
+            "output_tokens": 2379,
+            "unknown_output_tokens": 0
+          },
+          "senate": {
+            "baseline": {
+              "election_year": 2026,
+              "as_of": "2026-10-26",
+              "source": "Project owner: fixed-seat counts supplied on 26 October 2026",
+              "chamber_seats": 100,
+              "contested_seats": 35,
+              "fixed_seats": {
+                "democrat": 32,
+                "republican": 31,
+                "independent": 2
+              }
+            },
+            "projected": {
+              "democrat": 18,
+              "republican": 17,
+              "independent": 0
+            },
+            "totals": {
+              "democrat": 50,
+              "republican": 48,
+              "independent": 2,
+              "unallocated": 0
+            }
+          }
+        }
+      }
+    }
+  },
+  "latest": {
+    "jev": "2026-10-27",
+    "mercury": "2026-10-27",
+    "decider": "2026-10-27"
+  },
+  "notices": [],
+  "baseline": {
+    "election_year": 2026,
+    "as_of": "2026-10-26",
+    "source": "Project owner: fixed-seat counts supplied on 26 October 2026",
+    "chamber_seats": 100,
+    "contested_seats": 35,
+    "fixed_seats": {
+      "democrat": 32,
+      "republican": 31,
+      "independent": 2
+    }
+  },
+  "seed": 42,
+  "contacts": [
+    "Josh Campbell",
+    "Graham Sayle"
+  ],
+  "validation_prefix": "figures/personas/sample_100",
+  "overview": {
+    "2026-10-26": {
+      "prefix": "figures/2026-10-26/states",
+      "label": "Selected snapshot: 2026-10-26"
+    },
+    "2026-10-27": {
+      "prefix": "figures/2026-10-27/states",
+      "label": "Selected snapshot: 2026-10-27"
+    },
+    "latest": {
+      "prefix": "figures/2026-10-27/states",
+      "label": "Latest eligible result per model; actual dates shown on every row."
+    }
+  }
+}

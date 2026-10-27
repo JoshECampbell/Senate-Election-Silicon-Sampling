@@ -4,3 +4,4 @@ data/raw/
 .venv/
 data/llm_responses/*/responses.jsonl
 .DS_Store
+docs/.quarto/

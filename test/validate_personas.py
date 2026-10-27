@@ -228,7 +228,7 @@ def validate_personas():
         raise ValueError(f"Persona folder does not exist: {persona_dir}")
     states = {name: code for code, name in labels["inputstate"]["codes"].items()
               if code not in labels["inputstate"].get("missing", [])}
-    # The sampler writes extensionless Parquet files. Accept .parquet files too.
+    # Read .parquet files and accept legacy extensionless Parquet files too.
     files = {}
     for path in sorted(persona_dir.iterdir()):
         if not path.is_file() or path.name.startswith(".") or path.suffix not in ("", ".parquet"):

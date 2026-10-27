@@ -1,0 +1,41 @@
+# Website publication settings. These do not query models or change query config.
+timezone: America/Toronto
+contacts:
+  - Josh Campbell
+  - Graham Sayle
+sample: sample_100
+expected_draws: 100
+condition:
+  persona_level: 9
+  persona_format: sentence
+  prompt_style: role_play
+  news: none
+# Keys match results.parquet. Shapes and line styles remain stable when toggled.
+models:
+  jev:
+    label: Jev
+    full_name: TypeSafe Jev 1.13
+    shape: circle
+    dash: ''
+  mercury:
+    label: Mercury
+    full_name: Inception Mercury Decide
+    shape: triangle
+    dash: '7 4'
+  decider:
+    label: Perplexity
+    full_name: Perplexity Decider V1.2
+    shape: square
+    dash: '2 4'
+
+# Fixed-seat counts and provenance supplied by the project owner.
+baseline:
+  election_year: 2026
+  as_of: '2026-10-26'
+  source: 'Project owner: fixed-seat counts supplied on 26 October 2026'
+  chamber_seats: 100
+  contested_seats: 35
+  fixed_seats:
+    democrat: 32
+    republican: 31
+    independent: 2

@@ -1,62 +1,87 @@
-# Senate-Election-Silicon-Sampling
+# Senate Election Silicon Sampling
 
-## CES Common Content 2025 raw data
+Sample CES respondents within each state, query decision models, validate the
+responses, and publish synthetic Senate results with Quarto. These are synthetic
+responses, not observations from a voter poll.
 
-`scripts/download_ces_common_content_2025.py` downloads the released Cumulative
-CES Common Content v12.0 Feather file from Harvard Dataverse, verifies its
-published MD5 checksum, and saves the unmodified 2025 subset as
-`data/raw/ces_common_content_2025_raw.parquet`. Its adjacent JSON metadata
-marks the file as `raw`. Parquet is the project's standard data format.
+## Setup
 
-Install the dependency, then download and test the data:
-
-```sh
-python -m pip install -r requirements.txt
-python scripts/download_ces_common_content_2025.py
-python tests/test_ces_common_content_2025.py
-```
-
-The integrity test requires the raw Parquet file to exist and verifies that it
-has exactly 17,000 unique, non-missing `case_id` respondents, all from 2025.
-
-## Querying the decision models
-
-`src/query_llms.py` gives each persona to two decision models on OpenRouter's
-Decisions API (TypeSafe Jev and OpenAI's `gpt-6-luna-decisions`) and asks one
-four-option question: Democrat, Republican, Third party, Would not vote. Both
-APIs return a probability for every option, and all four are saved. Prompts,
-options, persona fields and model IDs live in `config/query_config.yaml`.
-The held-out outcomes (`CC25_363`, `presvote24post`) are never sent to a model.
-
-```sh
-cp .env.example .env                  # then add your OPENROUTER_API_KEY
-uv run python src/query_llms.py --run-name pilot --dry-run     # print the requests, no API calls
-uv run python src/query_llms.py --run-name pilot --smoke-test  # one live call per model
-uv run python src/query_llms.py --run-name pilot --limit 5     # 5 personas per state
-uv run python src/query_llms.py --run-name grid --persona-level 3 9 11 \
-    --prompt-style role_play prediction population             # full grid
-```
-
-Results go to `data/llm_responses/<run-name>/`: `results.parquet` (one row per
-persona x configuration), `summary.parquet` (mean probabilities by state),
-`run_metadata.json` (config, arguments and git commit for each invocation) and
-`responses.jsonl` (raw requests and responses; gitignored because it gets large).
-Re-running a `--run-name` skips anything already answered.
-
-## Validate the sampled personas
-
-Compare each state's personas with its weighted CES reference respondents:
-
-```sh
+```powershell
 uv sync
-uv run python test/validate_personas.py --run-name test
 ```
 
-The default features are age, race, party identification, sexual orientation,
-and education. Use `--features` to change them. Use `--states` to select states.
-The script saves Parquet tables, PNG plots, and YAML metadata under
-`data/persona_validation/<run-name>/`.
+Copy `.env.example` to `.env` and add `OPENROUTER_API_KEY` before live queries.
+No API key is required to build the website from saved results.
 
-Read the [validation guide](docs/PERSONA_VALIDATION.md) for the method, commands,
-outputs, and interpretation. Change the defaults in
-[persona_validation.yaml](config/persona_validation.yaml).
+## Data and personas
+
+The current data pipeline is:
+
+```powershell
+uv run python src/raw_data_pull.py
+uv run python src/data_cleaning.py
+uv run python src/create_personas.py --run-name sample_100 --samples 100 --seed 42
+uv run python test/validate_personas.py --run-name sample_100
+```
+
+Only run these when you intend to download or regenerate those inputs. The
+website reuses the saved persona sample across dates; do not regenerate it for
+an ordinary daily update. Raw data is in `data/raw/`, selected CES fields in
+`data/cleaned/`, and sampled personas plus their YAML settings in `data/personas/`.
+The download script retrieves the CES 2025 Common Content tab file from Dataverse;
+it does not currently verify a published checksum.
+
+Persona validation compares draw frequencies against the weighted CES state
+reference, retaining repeated draws. It writes tables, plots and metadata under
+`data/persona_validation/`. See [the validation guide](misc/PERSONA_VALIDATION.md)
+and [validation settings](config/persona_validation.yaml).
+
+## Daily model queries
+
+Use the actual Toronto reporting date in the run name. For example:
+
+```powershell
+uv run python src/query_llms.py --run-name 2026-10-28-all-models --personas data/personas/sample_100 --persona-level 9 --persona-format sentence --prompt-style role_play --models jev mercury decider
+```
+
+Add `--dry-run` to inspect requests without calling providers. `--smoke-test`
+sends one live request per selected model. Live requests may incur charges.
+Mercury currently uses the paid model. Model IDs, prompts and response options
+are in [query_config.yaml](config/query_config.yaml).
+
+Each unique state/respondent/configuration is queried once, then expanded back
+into its sampled rows. Four probabilities are retained: Democrat, Republican,
+Third party, and Would not vote. Held-out vote outcomes are not included in prompts.
+
+Each run writes `results.parquet`, `summary.parquet`, `run_metadata.json`, and an
+append-only, gitignored `responses.jsonl` under `data/llm_responses/<run-name>/`.
+Probabilities must be finite, between 0 and 1, and sum to 1 within `1e-6`.
+Unresolved responses receive up to three validation retries. Resuming reuses
+compatible records and preserves the retry budget; changed requests require a
+new run name. Query summaries average valid sampled rows, preserving multiplicity.
+The website applies the stricter requirement of all 100 valid responses per state.
+
+## Website
+
+All website files live in [`docs/`](docs/README.md). After saving a daily run:
+
+```powershell
+quarto render docs
+uv run python docs/_tools/check_website.py
+```
+
+Rendering discovers dated runs and prepares figures offline. Unchanged figures
+are reused. Commit/push `docs/` and configure GitHub Pages to deploy from your
+branch's `/docs` folder. See the [website workflow](docs/README.md) for the local
+Quarto executable path, folder layout and preview command. No daily query schedule
+or custom publishing workflow is currently enabled.
+
+## Offline tests
+
+```powershell
+uv run python -m unittest discover -s test -p 'test_*.py' -v
+uv run python -m unittest discover -s docs/_tools -p 'test_*.py' -v
+```
+
+The tests use synthetic fixtures and mocked provider calls. Website controller
+checks are described in `docs/README.md`.

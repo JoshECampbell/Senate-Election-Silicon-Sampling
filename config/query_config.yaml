@@ -1,6 +1,6 @@
 # Settings for src/query_llms.py.
-# A copy of this file is saved with every run (run_metadata.json), so the exact
-# prompts, options and model IDs behind each result are always recorded.
+# Exact request payloads and model IDs are saved in responses.jsonl.
+# run_metadata.json records CLI arguments and validation counts without copying this config.
 
 election:
   office: "US Senate"
@@ -96,7 +96,7 @@ models:
     state_format: list
   mercury:
     provider: openrouter_decisions
-    model: inception/mercury-decide:free
+    model: inception/mercury-decide
     endpoint: https://openrouter.ai/api/alpha/decisions
     api_key_env: OPENROUTER_API_KEY
     state_format: list

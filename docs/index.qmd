@@ -1,0 +1,156 @@
+---
+title: ""
+pagetitle: "The Synthetic Electorate — 2026 Senate research"
+title-block-banner: false
+---
+
+```{=html}
+<div class="paper">
+<header class="masthead">
+ <div class="edition"><span>Research edition</span><span>2026 U.S. Senate</span></div>
+ <h1 class="publication-title">The Synthetic Electorate</h1>
+ <nav aria-label="Page sections"><a href="#results">Results</a><a href="#introduction">Introduction</a><a href="#methods">Methods</a><a href="#discussion">Discussion</a><a href="#costs">Costs</a></nav>
+</header>
+<main>
+```
+
+::: {#introduction .introduction}
+<p class="eyebrow synthetic-label">Silicon sampling · synthetic results</p>
+
+## Introduction {#introduction-heading}
+
+::: {.intro-copy}
+<p class="placeholder-note">Layout placeholder &middot; introduction &middot; approximately 325 words</p>
+
+Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Nullam quis risus eget urna mollis ornare vel eu leo. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue.
+
+Integer vitae justo eget magna fermentum iaculis eu non diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Quisque rutrum aenean imperdiet, etiam ultricies nisi
+
+vel augue. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu
+
+leo. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh.
+:::
+
+:::
+
+{{< include components/_generated/_snapshot.html >}}
+
+::: {#results .lead-results}
+## Who would control the Senate?
+
+<p class="lead-subtitle">Latest model-implied projection · 100 seats</p>
+
+{{< include components/_generated/_headline.html >}}
+:::
+
+::: {#responses-over-time .article-section}
+## How simulated responses change over time.
+
+{{< include components/_generated/_responses.html >}}
+:::
+
+::: {#across-the-states .article-section}
+## Across the states.
+
+{{< include components/_generated/_states.html >}}
+:::
+
+::: {#methods .article-section}
+## Methods {#methods-heading}
+
+<p class="placeholder-note">Layout placeholder &middot; methods &middot; approximately 1,500 words</p>
+
+::: {.prose-columns}
+Integer vitae justo eget magna fermentum iaculis eu non diam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nullam quis risus eget urna mollis ornare vel eu leo. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Integer vitae justo eget magna fermentum iaculis eu non diam. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis, vestibulum id ligula
+
+porta felis euismod semper. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Nullam quis risus eget urna mollis ornare vel eu leo. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Nullam quis risus eget urna mollis ornare vel eu leo. Aliquam erat volutpat, nam libero tempore cum soluta nobis est
+
+eligendi optio. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Integer vitae justo eget magna fermentum iaculis eu non diam. Integer vitae justo eget magna fermentum iaculis eu non diam. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Integer vitae justo eget magna fermentum iaculis eu non diam. Maecenas faucibus
+
+mollis interdum, curabitur blandit tempus porttitor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Integer vitae justo eget magna fermentum iaculis eu non diam. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem.
+
+Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum
+
+massa justo sit amet risus. Integer vitae justo eget magna fermentum iaculis eu non diam. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Pellentesque habitant morbi tristique
+
+senectus et netus et malesuada fames ac turpis egestas. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Integer vitae justo eget magna fermentum iaculis eu non diam. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam quis risus eget urna mollis ornare vel eu leo. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Nullam quis risus eget urna mollis
+
+ornare vel eu leo. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Integer vitae justo eget magna fermentum iaculis eu non diam. Nullam quis risus eget urna mollis ornare vel eu leo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper.
+
+Nullam quis risus eget urna mollis ornare vel eu leo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo
+
+sit amet risus. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Integer vitae justo eget magna fermentum iaculis eu non diam. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Suspendisse potenti, vivamus sagittis lacus
+
+vel augue laoreet rutrum faucibus dolor auctor. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer vitae justo eget magna fermentum iaculis eu non diam. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Integer vitae
+
+justo eget magna fermentum iaculis eu non diam. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Aliquam erat volutpat,
+
+nam libero tempore cum soluta nobis est eligendi optio. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Integer vitae justo eget magna fermentum iaculis eu non diam. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Integer vitae justo eget magna fermentum iaculis eu non diam. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim
+
+ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum.
+:::
+:::
+
+::: {#persona-validation .article-section}
+## How closely do the personas match CES?
+
+{{< include components/_generated/_validation.html >}}
+:::
+
+::: {#discussion .article-section}
+## Discussion {#discussion-heading}
+
+<p class="placeholder-note">Layout placeholder &middot; discussion &middot; approximately 1,500 words</p>
+
+::: {.prose-columns}
+Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus
+
+sit amet fermentum. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Fusce dapibus tellus ac
+
+cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Integer vitae justo eget magna fermentum iaculis eu non diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam erat volutpat,
+
+nam libero tempore cum soluta nobis est eligendi optio. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Nullam quis risus eget urna mollis ornare vel eu leo. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet
+
+rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Integer vitae justo eget magna fermentum iaculis eu non diam. Integer vitae justo eget magna fermentum iaculis eu non diam. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Integer vitae justo eget magna fermentum iaculis eu non diam. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit
+
+amet nibh. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Nullam quis risus eget urna mollis ornare vel eu leo. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer vitae justo eget magna fermentum iaculis eu non diam. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas faucibus mollis interdum,
+
+curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Pellentesque habitant morbi tristique senectus
+
+et netus et malesuada fames ac turpis egestas. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Integer vitae justo eget magna fermentum iaculis eu non diam. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Integer vitae justo eget magna fermentum iaculis eu non diam. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Sed posuere consectetur est
+
+at lobortis, vestibulum id ligula porta felis euismod semper. Nullam quis risus eget urna mollis ornare vel eu leo. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet
+
+rutrum faucibus dolor auctor. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Integer vitae justo eget magna fermentum iaculis eu non diam. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Praesent commodo cursus magna, vel scelerisque nisl
+
+consectetur et. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Aliquam erat volutpat,
+
+nam libero tempore cum soluta nobis est eligendi optio. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam
+
+quis risus eget urna mollis ornare vel eu leo. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Suspendisse potenti, vivamus sagittis lacus vel
+
+augue laoreet rutrum faucibus dolor auctor. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Integer vitae justo eget magna fermentum iaculis eu non diam. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Ut enim ad.
+:::
+:::
+
+::: {#costs .article-section}
+<p class="eyebrow">03 · Costs</p>
+
+## The cost of a synthetic electorate.
+
+{{< include components/_generated/_costs.html >}}
+:::
+
+```{=html}
+</main>
+```
+
+{{< include components/_generated/_footer.html >}}
+
+```{=html}
+</div>
+```
