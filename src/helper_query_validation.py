@@ -68,6 +68,13 @@ def probability_error(record, columns):
     return None
 
 
+def payload_hash(payload):
+    """Identify an exact request without putting its prompt in a public checkpoint."""
+    import hashlib
+    import json
+    return hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+
+
 def current_records(jobs, records):
     """Match this invocation's jobs to their latest compatible saved attempts.
 
@@ -84,7 +91,9 @@ def current_records(jobs, records):
             continue
         # Compare actual inputs, including all row positions served by the answer.
         # The fallback supports records written before persona_rows was a list.
-        if (record.get("payload") != job["payload"]
+        same_payload = (record['payload'] == job['payload'] if 'payload' in record else
+                        record.get('payload_sha256') == payload_hash(job['payload']))
+        if (not same_payload
                 or record.get("persona_rows", [record.get("persona_row")]) != job["persona_rows"]):
             raise ValueError("Saved requests differ from the current inputs. Use a new --run-name.")
         selected[job["key"]] = record

@@ -1,7 +1,8 @@
 project:
   type: website
   output-dir: .
-  # Fetch the public benchmark, then prepare figures from saved data.
+  # Local renders fetch the benchmark; Actions sets SKIP_FORECAST_FETCH=1 after
+  # its separate polling job, so CI always renders the collected snapshot.
   pre-render:
     - uv run --offline --frozen python ../src/polling_forecast.py --fetch
     - uv run --offline --frozen python ../src/prepare_website.py

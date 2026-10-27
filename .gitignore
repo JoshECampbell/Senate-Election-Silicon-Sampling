@@ -2,6 +2,7 @@ data/raw/
 **/__pycache__/
 .env
 .venv/
-data/llm_responses/*/responses.jsonl
+data/llm_responses/**/responses.jsonl
+.automation/
 .DS_Store
 docs/.quarto/

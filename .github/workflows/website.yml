@@ -1,0 +1,75 @@
+# Rebuild and deploy after daily collection, or when run manually.
+# Always read current main and saved data; never query providers during rendering.
+name: Website
+
+on:
+  workflow_run:
+    workflows: [Daily data]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: website-publication
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      SKIP_FORECAST_FETCH: '1'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: '3.14'
+          version: '0.13.0'
+          enable-cache: true
+      - run: uv sync --frozen
+      - name: Restore saved observations
+        run: uv run --offline --frozen python src/daily_storage.py restore
+      - name: Skip daily publication if every model failed
+        id: gate
+        env:
+          EVENT: ${{ github.event_name }}
+          COLLECTION_RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          if [ "$EVENT" = workflow_run ]; then
+            if [ -f "data/daily_runs/$COLLECTION_RUN_ID.json" ]; then
+              uv run --offline --frozen python src/daily_automation.py gate --run-id "$COLLECTION_RUN_ID"
+            else
+              echo 'Collection did not archive results; keeping the live site.'
+              echo 'publish=false' >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo 'publish=true' >> "$GITHUB_OUTPUT"
+          fi
+      - uses: quarto-dev/quarto-actions/setup@v2
+        if: steps.gate.outputs.publish == 'true'
+        with:
+          version: '1.10.18'
+      - name: Generate plots, update costs and render the website
+        if: steps.gate.outputs.publish == 'true'
+        run: quarto render docs
+      - uses: actions/upload-pages-artifact@v4
+        if: steps.gate.outputs.publish == 'true'
+        with:
+          path: docs
+      - uses: actions/configure-pages@v5
+        if: steps.gate.outputs.publish == 'true'
+      - uses: actions/deploy-pages@v4
+        if: steps.gate.outputs.publish == 'true'
+        id: deployment

@@ -1,0 +1,8 @@
+# Automated equivalent of the command documented in oct_26_run.md.
+# Change study settings here and update docs/site-config.yml together if needed.
+models: [jev, mercury, decider]
+personas: data/personas/sample_100
+persona_level: 9
+persona_format: sentence
+prompt_style: role_play
+workers: 8

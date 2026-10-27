@@ -3,6 +3,7 @@
 - Preserve all persona points, response denominators, model shapes and validation categories in SVGs.
 - Check Toronto reporting dates, missing days, complete-run selection and historical views without backfilling.
 - Verify query usage totals without counting repeated personas as extra requests.
+- Hide incomplete automated models while retaining their saved usage and retry costs.
 - Check figure caching, repaired outputs and pruning limited to superseded generated figures.
 
 Usage: uv run python -m unittest discover -s test -p 'test_site_preparation.py' -v
@@ -323,6 +324,19 @@ class HistoryTests(unittest.TestCase):
             latest=overview_records(h,'state-00','latest')
             self.assertEqual(latest['mercury']['date'],'2026-10-26')
             self.assertTrue(latest['jev']['eligible'])
+            # A daily failed model can have some individually complete states;
+            # hide that whole model-day, but retain its paid-attempt totals.
+            run=root/'data/llm_responses/2026-10-27-models'
+            (run/'run_metadata.json').write_text(json.dumps(
+                {'automation':True,'published_models':['decider']}))
+            usage={'attempts':5,'partial':False,'known_cost':.05,'unknown_costs':0,
+                   'input_tokens':50,'unknown_input_tokens':0,'output_tokens':10,'unknown_output_tokens':0}
+            (run/'usage_summary.json').write_text(json.dumps({'jev':usage}))
+            with patch('site_data.validation_data',return_value=(states,samples,[])):
+                automated=load_history(root)
+            failed=automated['snapshots']['2026-10-27']['models']['jev']
+            self.assertFalse(any(s['eligible'] for s in failed['states'].values()))
+            self.assertEqual(failed['cost']['output_tokens'],10)
 
 
 if __name__ == "__main__":
