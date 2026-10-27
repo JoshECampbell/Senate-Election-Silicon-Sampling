@@ -28,7 +28,7 @@ jobs:
           # Daily completions always use current main, never stale writing from
           # the commit that started the collection. PR builds remain isolated.
           ref: ${{ github.event_name == 'pull_request' && github.ref || 'main' }}
-      - uses: astral-sh/setup-uv@v9
+      - uses: astral-sh/setup-uv@v7
         with:
           python-version: '3.14'
           version: '0.13.0'
@@ -74,7 +74,7 @@ jobs:
           ref: ${{ github.event_name == 'pull_request' && github.ref || 'main' }}
       - id: source
         run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-      - uses: astral-sh/setup-uv@v9
+      - uses: astral-sh/setup-uv@v7
         with:
           python-version: '3.14'
           version: '0.13.0'
@@ -93,7 +93,7 @@ jobs:
         run: quarto render docs
       - name: Check the rendered bundle
         run: uv run --offline --frozen python test/check_website.py
-      - uses: denoland/setup-deno@v2
+      - uses: denoland/setup-deno@v2.0.5
         with:
           deno-version: v2.x
       - name: Test state selectors and model toggles
