@@ -1,8 +1,10 @@
 project:
   type: website
   output-dir: .
-  # Offline preparation stays in Python, outside the Quarto document itself.
-  pre-render: uv run --offline --frozen python _tools/prepare_website.py
+  # Fetch the public benchmark, then prepare figures from saved data.
+  pre-render:
+    - uv run --offline --frozen python _tools/polling_forecast.py --fetch
+    - uv run --offline --frozen python _tools/prepare_website.py
   render:
     - index.qmd
   resources:

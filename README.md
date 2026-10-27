@@ -70,7 +70,8 @@ quarto render docs
 uv run python docs/_tools/check_website.py
 ```
 
-Rendering discovers dated runs and prepares figures offline. Unchanged figures
+Rendering fetches and archives the public Polling Forecast Senate benchmark,
+then discovers dated runs and prepares figures offline. Unchanged figures
 are reused. Commit/push `docs/` and configure GitHub Pages to deploy from your
 branch's `/docs` folder. See the [website workflow](docs/README.md) for the local
 Quarto executable path, folder layout and preview command. No daily query schedule

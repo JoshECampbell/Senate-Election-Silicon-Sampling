@@ -63,7 +63,7 @@ def check_site(site):
             if entry['senate'] and sum(entry['senate']['totals'].values())!=100:
                 raise ValueError(f'{day}/{key}: Senate total differs from 100.')
             for state in entry['states'].values():
-                if state['eligible'] and (state['valid']!=100 or len(state['points'])!=100):
+                if entry.get('kind') != 'external_forecast' and state['eligible'] and (state['valid']!=100 or len(state['points'])!=100):
                     raise ValueError('An incomplete sample was published.')
         for state in snapshot['states']:
             if day==snapshot['date']:
@@ -74,7 +74,7 @@ def check_site(site):
                     # as-of day. Every eligible state/model/day contributes 100 dots.
                     expected=sum(100 for d in snapshot['dates'] if d<=day
                                  for entry in snapshot['snapshots'][d]['models'].values()
-                                 if entry['states'][state]['eligible'])
+                                 if entry.get('kind') != 'external_forecast' and entry['states'][state]['eligible'])
                     count=sum(n.get('class')=='persona-dot' for n in root.iter())
                     if count!=expected:
                         raise ValueError(f'{path}: expected {expected} dots, found {count}.')

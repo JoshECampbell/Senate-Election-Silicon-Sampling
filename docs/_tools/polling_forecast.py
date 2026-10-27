@@ -1,0 +1,119 @@
+"""Collect and prepare the Polling Forecast Senate benchmark.
+
+Workflow
+--------
+1. Quarto calls this script with --fetch before preparing the website.
+2. Download all 35 races in one request and save the original JSON under
+   data/polling_forecast/YYYY-MM-DD.json, using the API's asOf date.
+3. Website preparation reads those saved days for the headline, time series,
+   and state overview. Older dates are never invented or backfilled.
+
+Calculation (an explicit TWO-CANDIDATE assumption)
+------------------------------------------------
+best_bet_margin is left minus Republican, in percentage points. Assuming their
+shares sum to 1: share_left = (100 + best_bet_margin) / 200;
+share_right = 1 - share_left. For example, +6 points means 53% left, 47% right.
+These are IMPLIED shares, not published vote shares or raw polling averages.
+chance_left is a probability of WINNING and is NOT used in this calculation.
+The left candidate may be independent: preserve left_party rather than calling
+every left candidate Democratic. Other parties and non-voting are unmeasured.
+The larger implied share wins one seat; exact ties remain unallocated. Add the
+65 fixed seats from docs/site-config.yml to obtain a 100-seat projection.
+
+The latest successful response for an asOf day replaces that day's saved copy.
+If a fetch fails, rendering uses saved days and prints a notice. Rendering only
+collects when it runs: run daily to accumulate daily history. No API key needed.
+Source: https://www.pollingforecast.com/us/data (CC BY 4.0; credit required).
+"""
+
+from argparse import ArgumentParser
+from collections import Counter
+from datetime import date, datetime, timezone
+import json
+from pathlib import Path
+import sys
+from urllib.request import Request, urlopen
+from urllib.error import URLError
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
+from site_data import CATEGORIES, project_senate, slug
+
+URL = 'https://www.pollingforecast.com/api/us/senate'
+KEY = 'polling_forecast'
+MODEL = {'label': 'Polling Forecast', 'full_name': 'Polling Forecast benchmark',
+         'shape': 'diamond', 'dash': '9 3 2 3', 'kind': 'external_forecast'}
+PARTIES = {'D': 'p_democrat', 'R': 'p_republican', 'I': 'p_third_party'}
+
+
+def implied_shares(margin):
+    """Convert a percentage-point margin to two shares, without using win odds."""
+    if not isinstance(margin, (int, float)) or not -100 <= margin <= 100:
+        raise ValueError('Forecast margin must be between -100 and 100 points.')
+    left = (100 + margin) / 200
+    return left, 1 - left
+
+
+def fetch_forecast(root=ROOT):
+    """Save one dated API response; keep existing files if the request fails."""
+    try:
+        request = Request(URL, headers={'User-Agent': 'Senate-Election-Silicon-Sampling/1.0'})
+        with urlopen(request, timeout=20) as response:
+            data = json.load(response)
+        day = date.fromisoformat(data['asOf']).isoformat()
+        if data['dataset'] != 'senate' or len(data['rows']) != 35:
+            raise ValueError('Expected the 35 Senate races.')
+        for row in data['rows']:
+            implied_shares(row['best_bet_margin'])
+            PARTIES[row['left_party']]
+        folder = root / 'data/polling_forecast'
+        folder.mkdir(parents=True, exist_ok=True)
+        # Retain original source fields and a separate retrieval timestamp.
+        saved = {'source_url': URL, 'retrieved_at': datetime.now(timezone.utc).isoformat(),
+                 'forecast': data}
+        (folder / f'{day}.json').write_text(json.dumps(saved, indent=2), encoding='utf-8')
+        print(f'Saved Polling Forecast: {day}, 35 races.')
+    except (URLError, OSError, ValueError, KeyError) as error:
+        print(f'Polling Forecast fetch unavailable; using saved history if present: {error}')
+
+
+def add_forecasts(history, root=ROOT):
+    """Adapt archived forecasts to the site's chart records, without persona draws."""
+    history['models'][KEY] = dict(MODEL)
+    history['latest'][KEY] = None
+    for path in sorted((root / 'data/polling_forecast').glob('????-??-??.json')):
+        saved = json.loads(path.read_text(encoding='utf-8'))
+        data = saved['forecast']
+        day = date.fromisoformat(data['asOf']).isoformat()
+        states = {}
+        for row in data['rows']:
+            # Source names identify the state, including Florida/Ohio specials.
+            state = slug(row['name'].split(' Senate')[0])
+            left, right = implied_shares(row['best_bet_margin'])
+            left_column = PARTIES[row['left_party']]
+            means = {column: None for column, _, _ in CATEGORIES}
+            means.update({left_column: left, 'p_republican': right})
+            states[state] = {'eligible': True, 'means': means, 'points': [],
+                             'leader': left_column if left > right else
+                                       'p_republican' if right > left else 'unallocated',
+                             'margin_pp': row['best_bet_margin'], 'race_key': row['key'],
+                             'left_party': row['left_party']}
+        if set(states) != set(history['states']):
+            raise ValueError(f'{path}: forecast races do not match the 35 study states.')
+        entry = {'run': 'Polling Forecast API', 'date': day, 'kind': 'external_forecast',
+                 'model_id': URL, 'model_snapshots': [], 'collected_at': saved['retrieved_at'],
+                 'complete': True, 'states': states, 'attribution': data['attribution'],
+                 'licence': data['licence'], 'source_url': URL,
+                 'senate': project_senate(dict(Counter(s['leader'] for s in states.values())),
+                                          history['baseline'])}
+        history['snapshots'].setdefault(day, {'models': {}})['models'][KEY] = entry
+        history['latest'][KEY] = day
+    history['dates'] = sorted(history['snapshots'])
+    history['date'] = history['dates'][-1]
+
+
+if __name__ == '__main__':
+    parser = ArgumentParser(description=__doc__)
+    parser.add_argument('--fetch', action='store_true', help='Download and save the current forecast.')
+    if parser.parse_args().fetch:
+        fetch_forecast()

@@ -3,7 +3,36 @@
 Everything specific to the website lives here. Both the editable Quarto source
 and the rendered page are in this folder; GitHub Pages serves `docs/index.html`.
 The build reads saved analysis data elsewhere in the repository. It never queries
-models or changes those inputs.
+LLMs or changes those inputs. Rendering also fetches the public Polling Forecast
+Senate benchmark before preparing the figures.
+
+## Polling Forecast benchmark
+
+`_tools/polling_forecast.py` explains the workflow and calculation at the top.
+Each render makes one public API request and archives the response in
+`data/polling_forecast/YYYY-MM-DD.json` at the repository root, using `asOf`.
+The most recent successful retrieval replaces that day's copy. A failed fetch
+prints a notice and leaves saved data intact. With no saved forecast, the
+benchmark is unavailable and the synthetic results still render.
+
+We assume two candidates: `left = (100 + best_bet_margin) / 200` and
+`right = 1 - left`. A +6-point margin implies 53% left, 47% Republican.
+These are **implied two-candidate forecast shares**, not measured polling shares
+or win probabilities. Independent left candidates retain their party category.
+Other parties and non-voting are unmeasured, not zero observations.
+
+The same saved daily figures feed the 100-seat headline, response time series
+(diamond markers), and 35-state grid. The larger implied share wins the seat;
+exact ties stay unallocated. The configured 65-seat baseline remains in use.
+Historic dates never borrow a forecast from another day. Daily collection requires
+a render or explicit fetch each day; there is no background schedule or verified
+historical state API. Forecast data is credited to Polling Forecast, CC BY 4.0.
+
+Fetch without rendering:
+
+```powershell
+uv run --offline --frozen python docs/_tools/polling_forecast.py --fetch
+```
 
 ## The workflow
 
@@ -20,8 +49,8 @@ If Quarto is not on PATH on this computer, replace the render command with:
 & "$env:LOCALAPPDATA\Programs\Quarto\bin\quarto.exe" render docs
 ```
 
-Rendering automatically runs the offline preparation script first, through
-Quarto's project `pre-render` hook. It uses the existing uv environment with
+Rendering automatically fetches the public forecast and then runs the offline
+preparation script through Quarto's project `pre-render` hooks. They use the existing uv environment with
 `--offline --frozen`; install project dependencies with `uv sync` on a new machine
 before building. Rendering never sends model requests.
 
@@ -41,7 +70,7 @@ its most recent complete day, labelled with that actual date.
    saved results and summaries, and writes dated `data/` and `figures/` plus the
    current page's `components/_generated/`.
 2. Quarto reads `index.qmd` and those prepared components to write `index.html`
-   here. It does not generate research figures or make API calls.
+   here. The document itself does not generate research figures or make API calls.
 3. The optional checker verifies the rendered assets and 100-seat totals.
 4. Commit/push the refreshed `docs/` folder. In GitHub **Settings > Pages**, select
    **Deploy from a branch**, your branch, and **/docs**. There is no custom publishing

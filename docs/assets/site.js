@@ -6,7 +6,7 @@
   let requestNumber = 0;
   const byId = id => document.getElementById(id);
   const columns = ["p_democrat", "p_republican", "p_third_party", "p_would_not_vote"];
-  const fmt = value => `${(value * 100).toFixed(1)}%`;
+  const fmt = value => value == null ? "Not measured" : `${(value * 100).toFixed(1)}%`;
   const esc = value => String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
   function responseSummary() {
@@ -40,7 +40,8 @@
     for (const day of history.dates) {
       for (const key of selected) {
         const values = history.snapshots[day].models[key]?.states[state];
-        coverage.push(`${day} ${history.models[key].label}: ${values?.eligible ? "100/100 valid" : "unavailable"}`);
+        const basis = history.models[key].kind === "external_forecast" ? "implied two-candidate forecast" : "100/100 valid";
+        coverage.push(`${day} ${history.models[key].label}: ${values?.eligible ? basis : "unavailable"}`);
       }
     }
     byId("response-quality").textContent = `${history.states[state].name} · ${coverage.join("; ")}`;
