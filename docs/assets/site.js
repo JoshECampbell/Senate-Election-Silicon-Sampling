@@ -1,0 +1,114 @@
+/* Offline selectors only: all estimates, dated charts and coverage are prepared
+   by Python. This controller never queries a provider or calculates an average. */
+(() => {
+  "use strict";
+  let history;
+  let requestNumber = 0;
+  const byId = id => document.getElementById(id);
+  const columns = ["p_democrat", "p_republican", "p_third_party", "p_would_not_vote"];
+  const fmt = value => `${(value * 100).toFixed(1)}%`;
+  const esc = value => String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+  function responseSummary() {
+    const state = byId("response-state").value;
+    const rows = [];
+    for (const day of history.dates) {
+      for (const [key, model] of Object.entries(history.models)) {
+        const value = history.snapshots[day].models[key]?.states[state];
+        const cells = value?.eligible
+          ? columns.map(c => `<td data-category="${c}">${fmt(value.means[c])}</td>`).join("")
+          : `<td colspan="4">Unavailable: ${esc(value?.reason || "Not collected")}</td>`;
+        rows.push(`<tr data-model="${esc(key)}"><td>${day}</td><th scope="row">${esc(model.label)}</th>${cells}</tr>`);
+      }
+    }
+    byId("response-means").innerHTML = rows.join("");
+  }
+
+  function applyModelSelection() {
+    const selected = new Set([...document.querySelectorAll("[data-model-toggle]:checked")].map(el => el.dataset.modelToggle));
+    // Model checkboxes affect only this section, never the headline or state grid.
+    for (const container of [byId("response-chart"), byId("response-means")]) {
+      container.querySelectorAll("[data-model]").forEach(group => {
+        group.style.display = selected.has(group.dataset.model) ? "" : "none";
+      });
+    }
+    byId("response-chart").hidden = selected.size === 0;
+    byId("model-empty").hidden = selected.size !== 0;
+    document.querySelector(".accessible-summary").hidden = selected.size === 0;
+    const state = byId("response-state").value;
+    const coverage = [];
+    for (const day of history.dates) {
+      for (const key of selected) {
+        const values = history.snapshots[day].models[key]?.states[state];
+        coverage.push(`${day} ${history.models[key].label}: ${values?.eligible ? "100/100 valid" : "unavailable"}`);
+      }
+    }
+    byId("response-quality").textContent = `${history.states[state].name} · ${coverage.join("; ")}`;
+  }
+
+  async function changeResponseState() {
+    const number = ++requestNumber;
+    const key = byId("response-state").value;
+    const state = history.states[key];
+    try {
+      const figures = await Promise.all(columns.map(async column => {
+        const response = await fetch(`figures/${history.date}/responses/${key}-${column}.svg`);
+        if (!response.ok) throw new Error("Figure unavailable");
+        return `<div class="response-panel">${await response.text()}</div>`;
+      }));
+      if (number !== requestNumber) return; // A newer selection wins a slow fetch.
+      byId("response-chart").innerHTML = figures.join("");
+      responseSummary();
+      applyModelSelection();
+      byId("odds-status").textContent = `Polymarket data for ${state.name} is not connected.`;
+      byId("chart-announcement").textContent = `Response figures updated to ${state.name}.`;
+    } catch (error) {
+      if (number !== requestNumber) return;
+      byId("response-chart").innerHTML = "";
+      byId("response-means").innerHTML = "";
+      byId("chart-announcement").textContent = `Could not load ${state.name}: ${error.message}`;
+      byId("response-quality").textContent = `Figure unavailable for ${state.name}.`;
+    }
+  }
+
+  function changeValidationState() {
+    const key = byId("validation-state").value;
+    const state = history.states[key];
+    document.querySelectorAll("[data-feature]").forEach(img => {
+      img.src = `${history.validation_prefix}/${key}-${img.dataset.feature}.svg`;
+      img.alt = `${state.name}: ${img.dataset.feature} persona distribution versus weighted CES reference`;
+    });
+    document.querySelectorAll("[data-metric]").forEach(label => {
+      const metric = state.validation[label.dataset.metric];
+      label.textContent = `TV ${(metric.tv * 100).toFixed(1)}% · Largest gap ${metric.max_gap_pp.toFixed(1)} pp`;
+    });
+  }
+
+  function changeOverviewDate() {
+    const selection = byId("overview-date").value;
+    const view = history.overview[selection];
+    document.querySelectorAll("[data-state]").forEach(img => {
+      img.src = `${view.prefix}/${img.dataset.state}.svg`;
+      img.alt = `${history.states[img.dataset.state].name}: ${view.label}; all study models`;
+    });
+    byId("overview-asof").textContent = view.label;
+  }
+
+  async function initialize() {
+    try {
+      const response = await fetch("data/history.json");
+      if (!response.ok) throw new Error("Prepared history unavailable");
+      history = await response.json();
+      byId("response-state").addEventListener("change", changeResponseState);
+      byId("validation-state").addEventListener("change", changeValidationState);
+      byId("overview-date").addEventListener("change", changeOverviewDate);
+      document.querySelectorAll("[data-model-toggle]").forEach(input => input.addEventListener("change", applyModelSelection));
+      responseSummary();
+      applyModelSelection();
+    } catch (error) {
+      byId("chart-announcement").textContent = error.message;
+      byId("response-quality").textContent = "Interactive data unavailable. Serve the site over HTTP and check that the offline build completed.";
+    }
+  }
+  initialize();
+})();

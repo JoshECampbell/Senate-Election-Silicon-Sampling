@@ -96,7 +96,7 @@ models:
     state_format: list
   mercury:
     provider: openrouter_decisions
-    model: inception/mercury-decide:free
+    model: inception/mercury-decide
     endpoint: https://openrouter.ai/api/alpha/decisions
     api_key_env: OPENROUTER_API_KEY
     state_format: list

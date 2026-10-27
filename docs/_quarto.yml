@@ -1,0 +1,33 @@
+project:
+  type: website
+  output-dir: .
+  # Offline preparation stays in Python, outside the Quarto document itself.
+  pre-render: uv run --offline --frozen python _tools/prepare_website.py
+  render:
+    - index.qmd
+  resources:
+    - assets/**
+    - data/**
+    - figures/**
+    - .nojekyll
+    - "!_tools/**"
+    - "!design/**"
+
+website:
+  title: "The Synthetic Electorate"
+
+format:
+  html:
+    theme: none
+    css: styles.css
+    toc: false
+    anchor-sections: false
+    page-layout: custom
+    title-block-style: none
+    include-after-body: components/_scripts.html
+    html-math-method: plain
+
+execute:
+  enabled: false
+
+lang: en
