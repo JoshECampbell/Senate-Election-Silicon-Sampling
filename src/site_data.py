@@ -31,8 +31,12 @@ CATEGORIES = [
     ("p_third_party", "Third party / independent", "#777777"),
     ("p_would_not_vote", "Would not vote", "#C7C7C3"),
 ]
-FEATURE_NAMES = {"age": "Age", "race": "Race", "pid7": "Party identification",
-                 "sexuality": "Sexual orientation", "educ": "Education"}
+FEATURE_NAMES = {"race": "Race / ethnicity", "gender4": "Gender",
+                 "inputstate": "State of residence", "educ": "Education",
+                 "religpew": "Religious affiliation", "marstat": "Marital status",
+                 "sexuality": "Sexual orientation", "votereg": "Voter registration",
+                 "faminc_new": "Family income", "pid7": "Party identification",
+                 "ideo5": "Political ideology", "age": "Age"}
 SEAT_CATEGORIES = [
     ("democrat", "Democratic seats", "p_democrat", "#326A9D"),
     ("republican", "Republican seats", "p_republican", "#BD4942"),
@@ -126,7 +130,9 @@ def validation_data(root, sample_name):
     metrics = pl.read_parquet(folder / f'{sample_name}_summary.parquet')
     labels = yaml.safe_load((root / 'config/ces_codes/ces25_value_labels.yaml').read_text(encoding='utf-8'))['variables']
     existing = set(distributions['feature'].unique())
-    order = [f for f in FEATURE_NAMES if f in existing] + sorted(existing-set(FEATURE_NAMES))
+    order = yaml.safe_load((root / 'docs/site-config.yml').read_text(encoding='utf-8'))['validation_features']
+    if not order or len(order) != len(set(order)) or not set(order).issubset(existing):
+        raise ValueError('Website validation features must be unique and present in the saved analysis.')
     features = [{'key': f, 'name': FEATURE_NAMES.get(f, labels.get(f, {}).get('description', f))} for f in order]
     states = {}
     samples = {}
@@ -144,6 +150,27 @@ def validation_data(root, sample_name):
         states[slug(name)] = {'name': name, 'validation': values}
     if len(states) != 35:
         raise ValueError('Expected 35 source state samples.')
+    # Compare the existing cohorts, using the same state and feature order as
+    # the plots. Reject partial or stale validation rather than filling blanks.
+    for size in (25, 50, 100):
+        cohort = f'sample_{size}'
+        base = root / 'data/persona_validation' / cohort
+        summary = pl.read_parquet(base / f'{cohort}_summary.parquet')
+        metadata = yaml.safe_load((base / f'{cohort}_validation.yaml').read_text(encoding='utf-8'))
+        if not set(order).issubset(set(summary['feature'])):
+            raise ValueError(f'{cohort}: missing website validation features.')
+        summary = summary.filter(pl.col('feature').is_in(order))
+        if set(summary['state']) != set(samples) or summary.height != len(states) * len(order):
+            raise ValueError(f'{cohort}: incomplete state/feature comparison.')
+        for info in states.values():
+            name = info['name']
+            if metadata['personas']['states'][name]['persona_draws'] != size:
+                raise ValueError(f'{name}/{cohort}: unexpected cohort size.')
+            rows = summary.filter(pl.col('state') == name)
+            if rows['feature'].n_unique() != len(order):
+                raise ValueError(f'{name}/{cohort}: duplicate or missing features.')
+            info.setdefault('validation_cohorts', {})[str(size)] = {
+                row['feature']: row['total_variation_distance'] for row in rows.to_dicts()}
     return states, samples, features
 
 

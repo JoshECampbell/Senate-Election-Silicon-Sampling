@@ -43,6 +43,25 @@ def legend(validation=False):
     return '<div class="legend">'+"".join(f'<span><i style="background:{colour}"></i>{escape(label)}</span>' for label,colour in entries)+'</div>'
 
 
+def validation_comparison_table(state, features):
+    """Show all cohort distances on the 0-1 scale, in the plot's feature order."""
+    rows = []
+    for feature in features:
+        cells = ''.join(f'<td>{state["validation_cohorts"][str(size)][feature["key"]]:.3f}</td>'
+                        for size in (25, 50, 100))
+        rows.append(f'<tr><th scope="row">{escape(feature["name"])}</th>{cells}</tr>')
+    return ('<table class="cost-table validation-comparison">'
+            f'<caption id="validation-comparison-caption">{escape(state["name"])}: TVD by cohort size</caption>'
+            '<thead><tr><th scope="col">Persona characteristic</th>'
+            '<th scope="col">25 Cohort</th><th scope="col">50 Cohort</th>'
+            '<th scope="col">100 Cohort</th></tr></thead>'
+            f'<tbody id="validation-comparison-body">{"".join(rows)}</tbody></table>'
+            '<p class="figure-caption">TVD (total variation distance) ranges from 0 to 1; '
+            'lower values indicate closer agreement with the weighted state CES reference. '
+            'Each cohort contains the stated number of draws per state, with replacement. '
+            'These comparisons describe one saved cohort at each size, not repeated sampling experiments.</p>')
+
+
 def overview_records(history, state, selection):
     """Historical means exactly that day. Latest uses each complete model's day."""
     values = {}
@@ -254,7 +273,8 @@ def prepare(root=ROOT, output=None):
     for f in history['features']:
         metric = history['states']['alabama']['validation'][f['key']]
         features.append(f'<article class="validation-card"><h3>{escape(f["name"])}</h3><img data-feature="{f["key"]}" src="{history['validation_prefix']}/alabama-{f["key"]}.svg" alt="Alabama: {escape(f["name"])} persona shares versus weighted CES reference" loading="lazy"><p data-metric="{f["key"]}">TV {100*metric["tv"]:.1f}% &middot; Largest gap {metric["max_gap_pp"]:.1f} pp</p></article>')
-    write(generated/'_validation.html',f'<div class="section-toolbar"><label for="validation-state">State <select id="validation-state">{options(history["states"],"alabama")}</select></label>{legend(True)}</div><div class="validation-grid">{"".join(features)}</div><p class="figure-caption">Draw frequencies versus the weighted state CES reference. TV is total variation distance; pp means percentage points.</p>')
+    comparison = validation_comparison_table(history['states']['alabama'], history['features'])
+    write(generated/'_validation.html',f'<div class="section-toolbar"><label for="validation-state">State <select id="validation-state">{options(history["states"],"alabama")}</select></label>{legend(True)}</div><p class="source-note">Plots show the 100-draw cohort for the six characteristics displayed below.</p><div class="validation-grid">{"".join(features)}</div><p class="figure-caption">Draw frequencies versus the weighted state CES reference. TV is total variation distance, displayed as a percentage in the plots; pp means percentage points. The table below reports TVD on its 0–1 scale.</p>{comparison}')
     costs=[]
     all_entries=[]
     def usage_cells(cost):

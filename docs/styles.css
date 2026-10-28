@@ -325,6 +325,13 @@ input[type=checkbox] {
 .cost-table thead th {
   border-block:1px solid var(--ink);
   font-weight:600}
+.validation-comparison {
+  display:table;
+  margin-top:28px}
+.validation-comparison caption {
+  text-align:left;
+  font-weight:600;
+  padding:0 0 12px}
 .accessible-summary {
   width:100%;
   max-width:500px;
