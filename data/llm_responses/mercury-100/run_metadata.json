@@ -1,0 +1,32 @@
+{
+  "invocations": [
+    {
+      "started_at": "2026-10-26T18:21:18.162887+00:00",
+      "args": {
+        "run_name": "mercury-100",
+        "personas": "data/personas/sample_100",
+        "config": "config\\query_config.yaml",
+        "models": [
+          "mercury"
+        ],
+        "persona_level": [
+          9
+        ],
+        "persona_format": [
+          "sentence"
+        ],
+        "prompt_style": [
+          "role_play"
+        ],
+        "news_file": null,
+        "states": null,
+        "limit": null,
+        "workers": 8,
+        "dry_run": false,
+        "smoke_test": false
+      },
+      "python": "3.14.7",
+      "n_requests": 2379
+    }
+  ]
+}
