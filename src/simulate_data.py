@@ -51,6 +51,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from create_personas import SENATE_STATES_2026
 from data_cleaning import CES_SCHEMA
+from forecast import seat_totals, simulate_states
 from helper_query_validation import probability_error
 
 DEFAULT_OUTPUT_DIR = ROOT / "data/simulated"
@@ -389,13 +390,13 @@ def simulate_responses(rng, personas, run_dates=RUN_DATES, models=MODELS):
 # 4. Forecast
 # ---------------------------------------------------------------------------
 def forecast_draws(rng, responses, fixed_seats, draws=1000, national_sd=NATIONAL_SD,
-                   state_sd=STATE_SD):
+                   state_sd=STATE_SD, corrections=None):
     """Turn per-persona probabilities into draws of state results and seats.
 
-    Only valid rows are used, so a refusal or malformed answer can never put an
-    NA into a share. Shares are Democratic shares of the two-party vote:
-    sum(P(Democrat)) / sum(P(Democrat) + P(Republican)) over the resampled
-    personas, so P(Would not vote) acts as a turnout weight.
+    Uses the same simulation as the real forecast (forecast.simulate_states),
+    plus a random run day per draw. Only valid rows are used, so a refusal or
+    malformed answer can never put an NA into a share. corrections optionally
+    maps a model key to its back-cast intercept, slope and state SD.
     """
     valid = responses.filter(pl.col("probability_valid"))
     states = sorted(responses["state"].unique())
@@ -403,21 +404,18 @@ def forecast_draws(rng, responses, fixed_seats, draws=1000, national_sd=NATIONAL
     for model in sorted(responses["model_key"].unique()):
         model_rows = valid.filter(pl.col("model_key") == model)
         runs = sorted(model_rows["run_date"].unique())
-        boot = np.empty((len(runs), draws, len(states)))
+        by_run = np.empty((len(runs), draws, len(states)))
         for r, run in enumerate(runs):
-            for s, state in enumerate(states):
+            personas = {}
+            for state in states:
                 rows = model_rows.filter((pl.col("run_date") == run) & (pl.col("state") == state))
                 if rows.height == 0:
                     raise ValueError(f"{model} has no valid answers for {state} on {run}.")
-                dem = rows["p_democrat"].to_numpy()
-                rep = rows["p_republican"].to_numpy()
-                pick = rng.integers(0, rows.height, size=(draws, rows.height))
-                boot[r, :, s] = dem[pick].sum(axis=1) / (dem[pick] + rep[pick]).sum(axis=1)
-        share = np.clip(boot[rng.integers(0, len(runs), draws), np.arange(draws)], 1e-6, 1 - 1e-6)
-        logit = np.log(share / (1 - share))
-        logit += rng.normal(0, national_sd, (draws, 1)) + rng.normal(0, state_sd, (draws, len(states)))
-        share = logistic(logit)
-        dem_wins = (share > 0.5).sum(axis=1)
+                personas[state] = (rows["p_democrat"].to_numpy(), rows["p_republican"].to_numpy())
+            _, by_run[r] = simulate_states(rng, personas, draws, (corrections or {}).get(model),
+                                           national_sd, state_sd)
+        share = by_run[rng.integers(0, len(runs), draws), np.arange(draws)]
+        seats = seat_totals(share, fixed_seats)
 
         state_rows.append(pl.DataFrame({
             "model_key": model,
@@ -426,13 +424,7 @@ def forecast_draws(rng, responses, fixed_seats, draws=1000, national_sd=NATIONAL
             "dem_two_party_share": share.ravel(),
             "winner": np.where(share.ravel() > 0.5, "Democrat", "Republican"),
         }))
-        seat_rows.append(pl.DataFrame({
-            "model_key": model,
-            "draw": np.arange(draws),
-            "democratic_seats": fixed_seats["democrat"] + dem_wins,
-            "republican_seats": fixed_seats["republican"] + len(states) - dem_wins,
-            "independent_seats": np.full(draws, fixed_seats["independent"]),
-        }))
+        seat_rows.append(pl.DataFrame({"model_key": model, "draw": np.arange(draws), **seats}))
     return pl.concat(state_rows), pl.concat(seat_rows)
 
 

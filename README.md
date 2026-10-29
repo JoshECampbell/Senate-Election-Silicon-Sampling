@@ -131,6 +131,29 @@ uv run python src/query_llms.py --run-name backcast-2024 --config config/backcas
 uv run python src/validate_models.py
 ```
 
+## Corrected forecast
+
+`src/forecast.py` turns each published model/day into a forecast with
+uncertainty. For each state it takes the raw two-party share,
+sum P(Democrat) / sum(P(Democrat) + P(Republican)) over the 100 personas, maps
+it through the model's 2024 back-cast correction (intercept + slope x logit
+share, from `data/model_validation/backcast_summary.parquet`), and simulates
+10,000 elections. Each simulation resamples the personas, adds a state error
+equal to the back-cast residual SD and a national error shared by all states
+(SD 0.10 on the logit scale, an assumption), and adds the 65 seats not up in
+2026. No model is queried. Each model/day has a fixed seed, so new days never
+change earlier forecasts. `src/simulate_data.py` uses the same simulation.
+
+```powershell
+uv run python src/forecast.py
+```
+
+Outputs go to `data/forecast/`: `state_forecasts.parquet` (corrected share,
+90% interval and Democratic win chance per day, model and state),
+`seat_summary.parquet` and `seat_draws.parquet`. The website build calls the
+same code, so every published day, including future daily runs, shows the
+corrected forecast beside the raw projection.
+
 ## Data checks and offline tests
 
 The real-data checks require the saved raw and cleaned CES files. They verify
