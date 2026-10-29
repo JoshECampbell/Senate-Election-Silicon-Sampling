@@ -1,0 +1,105 @@
+# 2024 back-cast settings for src/query_llms.py (pass with --config).
+# Same models, personas and prompt styles as config/query_config.yaml, but the
+# question asks about the 2024 presidential vote, whose results are known.
+# Option names are unchanged so the results keep the p_democrat, ... columns.
+# Exact request payloads and model IDs are saved in responses.jsonl.
+# run_metadata.json records CLI arguments and validation counts without copying this config.
+
+election:
+  office: "US presidential"
+  year: 2024
+
+# The single choice question every model answers. Option names become the
+# probability columns in the results (p_democrat, p_republican, ...).
+options:
+  Democrat: "Voted for Kamala Harris, the Democratic candidate"
+  Republican: "Voted for Donald Trump, the Republican candidate"
+  Third party: "Voted for an independent or third-party candidate"
+  Would not vote: "Did not vote in this election"
+
+# Which CES columns go into each persona (same sets as Murray & Alexander).
+# Never add CC25_363 or presvote24post here: they are the held-out outcomes.
+persona_levels:
+  3: [race, gender4, inputstate]
+  9: [race, gender4, inputstate, educ, religpew, marstat, sexuality, votereg, faminc_new]
+  11: [race, gender4, inputstate, educ, religpew, marstat, sexuality, votereg, faminc_new, pid7, ideo5]
+
+# How each CES column is named in the "list" persona format. (The "sentence"
+# format's wording lives in src/persona_text.py.)
+display_names:
+  race: "race/ethnicity"
+  gender4: "gender"
+  inputstate: "state of residence"
+  educ: "education"
+  religpew: "religion"
+  marstat: "marital status"
+  sexuality: "sexual orientation"
+  votereg: "registered to vote"
+  faminc_new: "annual family income"
+  pid7: "party identification"
+  ideo5: "political ideology"
+
+# Prompt styles adapted from the paper. Decision models take a context (the
+# persona) plus a question, so each style is a context template and a question
+# template. The context has one version per persona format (--persona-format):
+#   list:     {persona} = "race/ethnicity: White; gender: Woman; ..."
+#   sentence: {persona} = "a White woman living in Alabama who ..."
+# Placeholders: {persona}, {state}, {office}, {year}.
+prompt_styles:
+  role_play:
+    context:
+      list: "You are a person with the following characteristics: {persona}."
+      sentence: "You are {persona}."
+    question: "In the {year} {office} election in {state}, how did you vote?"
+  prediction:
+    context:
+      list: "Consider a person with the following characteristics: {persona}."
+      sentence: "Consider {persona}."
+    question: "In the {year} {office} election in {state}, how did such a person vote?"
+  population:
+    context:
+      list: "Consider people with the following characteristics: {persona}."
+      sentence: "Consider the people who match this description: {persona}."
+    question: "In the {year} {office} election in {state}, which option did people like this most likely choose?"
+
+# Optional news diet, prepended to the context when --news-file is given.
+news_template: "Here is a summary of today's news: {news}"
+
+# Decision models. Pin exact versions (not "latest" aliases) so runs are reproducible.
+models:
+  jev:
+    provider: openrouter_decisions
+    model: typesafe/jev-1.13          # typesafe/jev-1.14 is the newer release
+    endpoint: https://openrouter.ai/api/alpha/decisions
+    api_key_env: OPENROUTER_API_KEY
+    # The Jev docs show `state` both as a list of strings and as an object.
+    # If the smoke test returns a 400, switch this to "dict".
+    state_format: list
+  luna:
+    # OpenAI's decision model, served through OpenRouter's Decisions API
+    # (same request format as Jev, so the same OpenRouter key works).
+    provider: openrouter_decisions
+    model: openai/gpt-6-luna-decisions-20261006   # dated snapshot; alias: openai/gpt-6-luna-decisions
+    endpoint: https://openrouter.ai/api/alpha/decisions
+    api_key_env: OPENROUTER_API_KEY
+    state_format: list
+
+  # Other decision models on OpenRouter's Decisions API (same request format).
+  decider:
+    provider: openrouter_decisions
+    model: perplexity/pplx-decider-v1.2        # 27B; pplx-decider-flash-v1.2 is the 4B version
+    endpoint: https://openrouter.ai/api/alpha/decisions
+    api_key_env: OPENROUTER_API_KEY
+    state_format: list
+  d1:
+    provider: openrouter_decisions
+    model: liquid/d1-ultra
+    endpoint: https://openrouter.ai/api/alpha/decisions
+    api_key_env: OPENROUTER_API_KEY
+    state_format: list
+  mercury:
+    provider: openrouter_decisions
+    model: inception/mercury-decide
+    endpoint: https://openrouter.ai/api/alpha/decisions
+    api_key_env: OPENROUTER_API_KEY
+    state_format: list
