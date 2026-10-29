@@ -104,12 +104,17 @@ The real-data checks require the saved raw and cleaned CES files. They verify
 unique IDs, positive finite weights, adult birth years and exact preservation
 of selected raw values. Missing files fail rather than being silently skipped.
 
-The separate simulated-data tests apply the same schema/range checks to a saved
-128-row artificial cleaned-CES fixture. It has no real respondents and is not a
-research dataset. Regenerate it reproducibly with:
+`src/simulate_data.py` simulates the whole study before the real data: a
+17,000-row CES-like frame with linked variables, 100 weighted personas per
+Senate state, three models' answers on three run days (with refusals, errors
+and malformed vectors injected), and 1,000 forecast draws of every state and
+the seat count. Outputs are in `data/simulated/` (see its README). The
+simulated-data tests apply the real-data schema/range checks to the frame
+(`test_simulated_ces_data.py`) and check relationships between variables, the
+response rules and the forecast (`test_simulated_pipeline.py`). Regenerate with:
 
 ```powershell
-uv run python src/simulate_cleaned_ces.py
+uv run python src/simulate_data.py
 ```
 
 Run all Python tests, or just one data test script:
@@ -117,7 +122,7 @@ Run all Python tests, or just one data test script:
 ```powershell
 uv run python -m unittest discover -s test -p 'test_*.py' -v
 uv run python -m unittest discover -s test -p 'test_ces_data.py' -v
-uv run python -m unittest discover -s test -p 'test_simulated_ces_data.py' -v
+uv run python -m unittest discover -s test -p 'test_simulated_*.py' -v
 ```
 
 Query tests use synthetic fixtures and mocked providers; no tests send live LLM

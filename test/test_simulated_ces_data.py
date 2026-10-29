@@ -1,11 +1,12 @@
-"""Tests run against the small saved artificial cleaned-CES dataset.
+"""Tests run against the saved simulated cleaned-CES frame.
 
 - Require the same 17 columns and storage types as the real cleaned CES file.
 - Check allowed response codes, adult birth years, unique IDs and finite positive weights.
 - Prove the shared checks reject an invalid response code and a changed storage type.
 
 Usage: uv run python -m unittest discover -s test -p 'test_simulated_ces_data.py' -v
-Generate the fixture first with: uv run python src/simulate_cleaned_ces.py
+Generate the data first with: uv run python src/simulate_data.py
+Relationships between variables are tested in test_simulated_pipeline.py.
 """
 
 from pathlib import Path
