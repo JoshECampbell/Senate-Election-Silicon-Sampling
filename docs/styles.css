@@ -236,16 +236,6 @@ input[type=checkbox] {
 .response-chart {
   max-width:1060px;
   margin:0 auto}
-.odds-panel {
-  border-top:1px solid var(--rule);
-  padding:20px 0 0;
-  margin-top:18px}
-.odds-panel h3 {
-  font-size:22px}
-.odds-panel p {
-  font:14px/1.5 var(--sans);
-  color:var(--muted);
-  margin:8px 0}
 .legend {
   display:flex;
   align-items:center;
@@ -325,6 +315,13 @@ input[type=checkbox] {
 .cost-table thead th {
   border-block:1px solid var(--ink);
   font-weight:600}
+.validation-comparison {
+  display:table;
+  margin-top:28px}
+.validation-comparison caption {
+  text-align:left;
+  font-weight:600;
+  padding:0 0 12px}
 .accessible-summary {
   width:100%;
   max-width:500px;

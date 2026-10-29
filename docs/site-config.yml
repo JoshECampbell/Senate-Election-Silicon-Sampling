@@ -4,6 +4,7 @@ contacts:
   - Josh Campbell
   - Graham Sayle
 sample: sample_100
+validation_features: [race, gender4, educ, marstat, votereg, pid7]
 expected_draws: 100
 condition:
   persona_level: 9

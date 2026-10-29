@@ -43,6 +43,25 @@ def legend(validation=False):
     return '<div class="legend">'+"".join(f'<span><i style="background:{colour}"></i>{escape(label)}</span>' for label,colour in entries)+'</div>'
 
 
+def validation_comparison_table(state, features):
+    """Show all cohort distances on the 0-1 scale, in the plot's feature order."""
+    rows = []
+    for feature in features:
+        cells = ''.join(f'<td>{state["validation_cohorts"][str(size)][feature["key"]]:.3f}</td>'
+                        for size in (25, 50, 100))
+        rows.append(f'<tr><th scope="row">{escape(feature["name"])}</th>{cells}</tr>')
+    return ('<table class="cost-table validation-comparison">'
+            f'<caption id="validation-comparison-caption">{escape(state["name"])}: TVD by cohort size</caption>'
+            '<thead><tr><th scope="col">Persona characteristic</th>'
+            '<th scope="col">25 Cohort</th><th scope="col">50 Cohort</th>'
+            '<th scope="col">100 Cohort</th></tr></thead>'
+            f'<tbody id="validation-comparison-body">{"".join(rows)}</tbody></table>'
+            '<p class="figure-caption">TVD (total variation distance) ranges from 0 to 1; '
+            'lower values indicate closer agreement with the weighted state CES reference. '
+            'Each cohort contains the stated number of draws per state, with replacement. '
+            'These comparisons describe one saved cohort at each size, not repeated sampling experiments.</p>')
+
+
 def overview_records(history, state, selection):
     """Historical means exactly that day. Latest uses each complete model's day."""
     values = {}
@@ -245,7 +264,6 @@ def prepare(root=ROOT, output=None):
 <p class="figure-caption">Dots show variation among sampled personas, not a confidence interval. Lines show average model responses across all 100 sampled draws, including repeated respondents. Shapes identify models; horizontal jitter exposes overlap and is not a collection time.</p>
 <table class="accessible-summary"><caption>Selected state's synthetic means and implied forecast shares</caption><thead><tr><th>Date</th><th>Model</th><th scope="col" data-category="p_democrat">Democrat</th><th scope="col" data-category="p_republican">Republican</th><th scope="col" data-category="p_third_party">Third party</th><th scope="col" data-category="p_would_not_vote">Would not vote</th></tr></thead><tbody id="response-means"></tbody></table>
 <details><summary>Daily coverage and source runs</summary><table class="cost-table"><thead><tr><th>Date</th><th>Model</th><th>Complete states</th><th>Source run</th></tr></thead><tbody>{''.join(coverage)}</tbody></table><p class="source-note">Incomplete state samples are unavailable. No older snapshot is substituted into a historical date. The headline and Latest overview may use older complete model results, labelled with their actual dates.</p></details>
-<div class="odds-panel"><h3>Polymarket: chance of winning</h3><p id="odds-status">Polymarket data is not connected.</p><p class="figure-caption">Market-implied winning odds, not response shares.</p></div>
 <p id="chart-announcement" class="sr-only" aria-live="polite"></p>''')
     cards = ''.join(f'<article class="state-card"><h3>{escape(info["name"])}</h3><img data-state="{key}" src="{latest_prefix}/{key}.svg" alt="{escape(info["name"])}: latest synthetic response shares for all study models" loading="lazy"></article>' for key,info in history['states'].items())
     dates = ''.join(f'<option value="{day}">{day}</option>' for day in reversed(history['dates']))
@@ -254,7 +272,8 @@ def prepare(root=ROOT, output=None):
     for f in history['features']:
         metric = history['states']['alabama']['validation'][f['key']]
         features.append(f'<article class="validation-card"><h3>{escape(f["name"])}</h3><img data-feature="{f["key"]}" src="{history['validation_prefix']}/alabama-{f["key"]}.svg" alt="Alabama: {escape(f["name"])} persona shares versus weighted CES reference" loading="lazy"><p data-metric="{f["key"]}">TV {100*metric["tv"]:.1f}% &middot; Largest gap {metric["max_gap_pp"]:.1f} pp</p></article>')
-    write(generated/'_validation.html',f'<div class="section-toolbar"><label for="validation-state">State <select id="validation-state">{options(history["states"],"alabama")}</select></label>{legend(True)}</div><div class="validation-grid">{"".join(features)}</div><p class="figure-caption">Draw frequencies versus the weighted state CES reference. TV is total variation distance; pp means percentage points.</p>')
+    comparison = validation_comparison_table(history['states']['alabama'], history['features'])
+    write(generated/'_validation.html',f'<div class="section-toolbar"><label for="validation-state">State <select id="validation-state">{options(history["states"],"alabama")}</select></label>{legend(True)}</div><p class="source-note">Plots show the 100-draw cohort for the six characteristics displayed below.</p><div class="validation-grid">{"".join(features)}</div><p class="figure-caption">Draw frequencies versus the weighted state CES reference. TV is total variation distance, displayed as a percentage in the plots; pp means percentage points. The table below reports TVD on its 0–1 scale.</p>{comparison}')
     costs=[]
     all_entries=[]
     def usage_cells(cost):

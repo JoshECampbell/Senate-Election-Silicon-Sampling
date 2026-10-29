@@ -14,6 +14,9 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
 
+import polars as pl
+import yaml
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -58,6 +61,25 @@ def check_site(site):
     snapshot = json.loads((site / "data/history.json").read_text(encoding="utf-8"))
     if page.state_cards != 35 or page.validation_cards != len(snapshot["features"]):
         raise ValueError("State/validation chart coverage does not match the prepared data.")
+    expected_features = yaml.safe_load((ROOT/'docs/site-config.yml').read_text(encoding='utf-8'))['validation_features']
+    if [f['key'] for f in snapshot['features']] != expected_features:
+        raise ValueError('Validation must cover the configured website characteristics.')
+    if not {'validation-comparison-caption', 'validation-comparison-body'}.issubset(page.ids):
+        raise ValueError('The cohort comparison table is missing.')
+    # Reconcile every published state/cohort cell with the saved analysis, not
+    # only the initial Alabama view. Distances must use the 0-1 scale.
+    for size in (25, 50, 100):
+        cohort = f'sample_{size}'
+        summary = pl.read_parquet(ROOT/f'data/persona_validation/{cohort}/{cohort}_summary.parquet')
+        for info in snapshot['states'].values():
+            published = info['validation_cohorts'][str(size)]
+            rows = summary.filter((pl.col('state') == info['name']) & pl.col('feature').is_in(expected_features))
+            if rows.height != len(expected_features) or set(published) != set(expected_features):
+                raise ValueError('Incomplete cohort comparison.')
+            for row in rows.to_dicts():
+                value = published[row['feature']]
+                if not 0 <= value <= 1 or value != row['total_variation_distance']:
+                    raise ValueError('Published TVD differs from the saved analysis.')
     for day in snapshot['dates']:
         daily_path=site/'data'/day/'snapshot.json'
         daily=json.loads(daily_path.read_text(encoding='utf-8'))

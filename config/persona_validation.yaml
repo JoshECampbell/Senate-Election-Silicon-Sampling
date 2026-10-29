@@ -1,5 +1,6 @@
 # Settings for src/validate_personas.py. CLI options can override these values.
-features: [age, race, pid7, sexuality, educ]
+# Exactly the characteristics in query_config.yaml's 11-characteristic persona.
+features: [race, gender4, inputstate, educ, religpew, marstat, sexuality, votereg, faminc_new, pid7, ideo5]
 
 # Estimate age in the CES survey year, not the year when this script runs.
 age_reference_year: 2025

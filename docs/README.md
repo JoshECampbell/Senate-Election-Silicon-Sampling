@@ -192,13 +192,16 @@ Run all Python tests from the repository root, including the website calculation
 uv run python -m unittest discover -s test -p 'test_*.py' -v
 ```
 
-An optional offline controller test uses Quarto's bundled Deno on this computer:
-
-```powershell
-& "$env:LOCALAPPDATA\Programs\Quarto\bin\tools\x86_64\deno.exe" run --no-config --allow-read=docs test/test_site_controller.js
-```
-
 These checks do not replace reviewing the page in a browser.
+
+The website displays six validation characteristics: race/ethnicity, gender,
+education, marital status, voter registration, and party identification.
+These are selected by `validation_features` in `site-config.yml`; the underlying
+validation still covers all 11 persona characteristics.
+The distribution plots use `sample_100`; the table immediately below compares
+`sample_25`, `sample_50`, and `sample_100` on TVD (0-1 scale). The validation state
+selector updates both. Refresh all three validation runs before rebuilding;
+see `misc/PERSONA_VALIDATION.md`. Missing or mismatched cohorts stop preparation.
 
 The footer shows the contacts from `site-config.yml` and the latest saved model
 collection timestamp in America/Toronto, rather than the website render time.

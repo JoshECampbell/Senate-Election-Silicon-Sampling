@@ -52,7 +52,6 @@
       byId("response-chart").innerHTML = figures.join("");
       responseSummary();
       applyModelSelection();
-      byId("odds-status").textContent = `Polymarket data for ${state.name} is not connected.`;
       byId("chart-announcement").textContent = `Response figures updated to ${state.name}.`;
     } catch (error) {
       if (number !== requestNumber) return;
@@ -65,6 +64,13 @@
   function changeValidationState() {
     const key = byId("validation-state").value;
     const state = history.states[key];
+    // The table follows the same state selector as the distribution plots.
+    byId("validation-comparison-caption").textContent = `${state.name}: TVD by cohort size`;
+    byId("validation-comparison-body").innerHTML = history.features.map(feature => {
+      const cells = [25, 50, 100].map(size =>
+        `<td>${state.validation_cohorts[size][feature.key].toFixed(3)}</td>`).join("");
+      return `<tr><th scope="row">${esc(feature.name)}</th>${cells}</tr>`;
+    }).join("");
     document.querySelectorAll("[data-feature]").forEach(img => {
       img.src = `${history.validation_prefix}/${key}-${img.dataset.feature}.svg`;
       img.alt = `${state.name}: ${img.dataset.feature} persona distribution versus weighted CES reference`;
