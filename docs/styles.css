@@ -318,6 +318,24 @@ input[type=checkbox] {
 .validation-comparison {
   display:table;
   margin-top:28px}
+.corrected-forecast {
+  margin:22px auto 0;
+  padding-top:18px;
+  border-top:1px dashed var(--rule)}
+.corrected-forecast .projection-outcome {
+  margin:4px 0 6px}
+.corrected-seats {
+  font:15px/1.5 var(--sans);
+  margin:0 0 10px}
+.forecast-table {
+  display:table}
+.forecast-table th span,.forecast-table td span {
+  display:block;
+  font-size:12px;
+  font-weight:normal;
+  color:var(--muted)}
+.forecast-table td b {
+  font-size:15px}
 .validation-comparison caption {
   text-align:left;
   font-weight:600;

@@ -18,8 +18,85 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from site_data import CATEGORIES, SEAT_CATEGORIES, load_history, headline_outcome, cumulative_usage
-from site_figures import senate_figure, response_figure, state_figure, validation_figure
+from site_figures import senate_figure, response_figure, state_figure, validation_figure, seat_distribution_figure
 from polling_forecast import add_forecasts
+from forecast import add_corrected_forecasts
+
+
+def percent(value, digits=0):
+    return f'{100*value:.{digits}f}%'
+
+
+def chance(value):
+    """A simulation share; never round a rare outcome down to 0% or up to 100%."""
+    if 0 < value < 0.01:
+        return '&lt;1%'
+    if 0.99 < value < 1:
+        return '&gt;99%'
+    return percent(value)
+
+
+def corrected_headline(key, model, day, forecast):
+    """Corrected forecast block for one model's headline card."""
+    seats = forecast['seats']
+    rep, dem = seats['republican_majority'], seats['democratic_majority']
+    if rep >= dem:
+        outcome, colour = f'Republican majority in {chance(rep)} of simulations', '#BD4942'
+    else:
+        outcome, colour = f'Democratic majority in {chance(dem)} of simulations', '#326A9D'
+    return (f'<div class="corrected-forecast"><p class="eyebrow">Corrected forecast</p>'
+            f'<p class="projection-outcome" style="color:{colour}">{outcome}</p>'
+            f'<p class="corrected-seats">Democrats: median <b>{seats["median"]}</b> seats '
+            f'(90% range {seats["low"]}–{seats["high"]}) &middot; Democratic majority in {chance(dem)} '
+            f'&middot; no outright majority in {chance(seats["no_majority"])}</p>'
+            f'<img class="wide-figure" src="figures/{day}/forecast/{key}.svg" alt="{escape(model["label"])}: '
+            f'Democratic seats across {seats["draws"]:,} simulated elections, median {seats["median"]}, '
+            f'90% range {seats["low"]} to {seats["high"]}"></div>')
+
+
+def forecast_table(history):
+    """Latest corrected state forecasts per model, beside the polling benchmark."""
+    synthetic = [(k, m) for k, m in history['models'].items() if m.get('kind') != 'external_forecast']
+    latest = {k: history['latest'][k] for k, _ in synthetic}
+    forecasts = {k: history['snapshots'][d]['models'][k]['forecast'] for k, d in latest.items()
+                 if d and history['snapshots'][d]['models'][k].get('forecast')}
+    polls_day = history['latest'].get('polling_forecast')
+    polls = history['snapshots'][polls_day]['models']['polling_forecast']['states'] if polls_day else {}
+    if not forecasts:
+        return '<p class="empty-state">No corrected forecast is available.</p>'
+    order = sorted(history['states'], key=lambda s: sum(f['states'][s]['corrected_share'] for f in forecasts.values()))
+    head = ''.join(f'<th scope="col">{escape(m["label"])}<span>{latest[k]}</span></th>' for k, m in synthetic if k in forecasts)
+    rows = []
+    for state in order:
+        cells = []
+        for key, _ in synthetic:
+            if key not in forecasts:
+                continue
+            row = forecasts[key]['states'][state]
+            colour = '#326A9D' if row['dem_win_chance'] >= 0.5 else '#BD4942'
+            cells.append(f'<td><b style="color:{colour}">{percent(row["corrected_share"], 1)}</b>'
+                         f'<span>{percent(row["low"])}–{percent(row["high"])}</span>'
+                         f'<span>D wins {chance(row["dem_win_chance"])}</span></td>')
+        poll = polls.get(state)
+        if poll:
+            column = 'p_third_party' if poll.get('left_party') == 'I' else 'p_democrat'
+            label = ' (I)' if poll.get('left_party') == 'I' else ''
+            cells.append(f'<td>{percent(poll["means"][column], 1)}{label}</td>')
+        else:
+            cells.append('<td>Unavailable</td>')
+        rows.append(f'<tr><th scope="row">{escape(history["states"][state]["name"])}</th>{"".join(cells)}</tr>')
+    settings = history['forecast_settings']
+    return (f'<table class="cost-table forecast-table"><caption>Corrected Democratic share of the two-party vote, '
+            f'by state and model</caption><thead><tr><th scope="col">State</th>{head}'
+            f'<th scope="col">Polling Forecast<span>{polls_day or "Unavailable"}</span></th></tr></thead>'
+            f'<tbody>{"".join(rows)}</tbody></table>'
+            f'<p class="figure-caption">Each model cell shows the corrected share, its 90% range and the share of '
+            f'{settings["draws"]:,} simulated elections that Democrats win. States run from the most Republican to the '
+            f'most Democratic average corrected share. Corrections map each model\'s share through the intercept and '
+            f'slope fitted on its 2024 presidential back-cast; simulations add persona resampling, a state error equal to '
+            f'the back-cast residual and an assumed national error (SD {settings["national_sd"]:.2f} on the logit scale). '
+            f'Polling Forecast shows its implied two-candidate share for the leading non-Republican candidate; '
+            f'(I) marks an independent. Synthetic results, not measured voter intentions.</p>')
 
 
 def write(path, content):
@@ -193,6 +270,7 @@ def response_inputs(history, state, day):
 def prepare(root=ROOT, output=None):
     history = load_history(root)
     add_forecasts(history, root)
+    add_corrected_forecasts(history, root)
     site = output or root/'docs'
     generated = site/'components/_generated'
     latest = history['date']
@@ -212,6 +290,8 @@ def prepare(root=ROOT, output=None):
         for key,entry in history['snapshots'][day]['models'].items():
             if entry['senate']:
                 cache.render(figures/f'senate/{key}.svg',senate_figure,entry['senate'])
+            if entry.get('forecast'):
+                cache.render(figures/f'forecast/{key}.svg',seat_distribution_figure,entry['forecast']['seats'],models[key]['label'])
         daily = public_history({**history,'date':day,'dates':[day],'snapshots':{day:history['snapshots'][day]}},points=True)
         daily['latest'] = {key: day if history['snapshots'][day]['models'].get(key,{}).get('complete') else None for key in models}
         write_json(site/'data'/day/'snapshot.json',daily)
@@ -244,10 +324,13 @@ def prepare(root=ROOT, output=None):
         counts = ''.join(f'<span><b style="color:{categories[k][3]}">{totals[k]}</b>{escape(categories[k][1])}</span>' for k in ('democrat','independent','republican'))
         if totals['unallocated']:
             counts += f'<span><b>{totals["unallocated"]}</b>Unallocated seats</span>'
-        headlines.append(f'<article class="headline-result"><h3>{escape(full_name)}</h3>{model_details}<p class="projection-outcome" style="color:{outcome_colour}">{escape(outcome)}</p><div class="seat-counts">{counts}</div><img class="wide-figure" src="figures/{day}/senate/{key}.svg" alt="{escape(model["label"])}: {totals["democrat"]} Democratic, {totals["republican"]} Republican, {totals["independent"]} independent/other seats"></article>')
+        raw_label = '' if model.get('kind') == 'external_forecast' else '<p class="eyebrow">Raw projection (uncorrected)</p>'
+        corrected = corrected_headline(key, model, day, entry['forecast']) if entry.get('forecast') else ''
+        headlines.append(f'<article class="headline-result"><h3>{escape(full_name)}</h3>{model_details}{raw_label}<p class="projection-outcome" style="color:{outcome_colour}">{escape(outcome)}</p><div class="seat-counts">{counts}</div><img class="wide-figure" src="figures/{day}/senate/{key}.svg" alt="{escape(model["label"])}: {totals["democrat"]} Democratic, {totals["republican"]} Republican, {totals["independent"]} independent/other seats">{corrected}</article>')
     fixed=history['baseline']['fixed_seats']
     baseline_note=f"{fixed['democrat']} Democratic, {fixed['republican']} Republican and {fixed['independent']} independent seats"
-    write(generated/'_headline.html',''.join(headlines)+f'<p class="data-note">Each model is projected independently. An outright party majority requires 51 seats. Independent/other seats remain unassigned to either party. The fixed baseline is {baseline_note}. Synthetic models allocate 35 contests using the largest average voting-category probability, excluding "Would Not Vote". Polling Forecast allocates each contest to its implied two-candidate leader. Synthetic results, not measured voter intentions.</p>')
+    write(generated/'_headline.html',''.join(headlines)+f'<p class="data-note">Each model is projected independently. An outright party majority requires 51 seats. Independent/other seats remain unassigned to either party. The fixed baseline is {baseline_note}. The raw projection allocates 35 contests using the largest average voting-category probability, excluding "Would Not Vote". The corrected forecast first maps each model\'s state shares through the correction fitted on its 2024 presidential back-cast, then simulates {history["forecast_settings"]["draws"]:,} elections; the chart shows how often each Democratic seat total occurs (blue: Democratic majority, red: Republican majority, grey: neither). Polling Forecast allocates each contest to its implied two-candidate leader. Synthetic results, not measured voter intentions.</p>')
+    write(generated/'_forecast.html',forecast_table(history))
     symbols = {'circle':'&#9679;','triangle':'&#9650;','square':'&#9632;', 'diamond':'&#9670;'}
     toggles = ''.join(f'<label><input type="checkbox" data-model-toggle="{key}" checked><span aria-hidden="true">{symbols[model["shape"]]}</span>{escape(model["label"])}</label>' for key,model in models.items())
     panels = ''.join('<div class="response-panel">'+(site/'figures'/latest/f'responses/georgia-{column}.svg').read_text(encoding='utf-8')+'</div>' for column,_,_ in CATEGORIES)

@@ -161,6 +161,35 @@ def senate_figure(senate):
     return svg(900,70,title,''.join(body))
 
 
+def seat_distribution_figure(seats, label):
+    """Share of simulated elections by Democratic seat count, coloured by control.
+
+    Independents stay unassigned, so a Republican majority needs 51 Republican
+    seats, i.e. at most 49 - independents Democratic seats.
+    """
+    counts = {int(k): v for k, v in seats['histogram'].items()}
+    draws = sum(counts.values())
+    low, high = min(counts) - 1, max(counts) + 1
+    left, right, top, bottom = 40, 880, 14, 118
+    step = (right-left)/(high-low+1)
+    peak = max(counts.values())/draws
+    rep_max = 100 - 51 - seats['independent_seats']
+    body = [line(left, bottom, right, bottom, INK)]
+    for seat in range(low, high+1):
+        share = counts.get(seat, 0)/draws
+        colour = '#326A9D' if seat >= 51 else '#BD4942' if seat <= rep_max else '#777777'
+        x = left+(seat-low)*step
+        height = share/peak*(bottom-top) if peak else 0
+        body.append(rect(x+1, bottom-height, step-2, height, colour,
+                         f'{seat} Democratic seats: {100*share:.1f}% of {draws:,} simulated elections'))
+        if seat % 5 == 0:
+            body.append(text(x+step/2, bottom+18, seat, size=13, fill=MUTED, anchor='middle'))
+    body.append(text(left, bottom+34, 'Democratic seats', size=12, fill=MUTED))
+    title = (f'{label}: corrected forecast, Democratic seats across {draws:,} simulated elections; '
+             f'median {seats["median"]}, 90% range {seats["low"]}–{seats["high"]}.')
+    return svg(900, 160, title, ''.join(body))
+
+
 def validation_figure(state, feature, data):
     """Preserve every saved category, including absent and missing-response groups."""
     categories = data["categories"]
