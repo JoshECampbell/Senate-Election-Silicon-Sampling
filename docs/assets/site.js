@@ -52,7 +52,6 @@
       byId("response-chart").innerHTML = figures.join("");
       responseSummary();
       applyModelSelection();
-      byId("odds-status").textContent = `Polymarket data for ${state.name} is not connected.`;
       byId("chart-announcement").textContent = `Response figures updated to ${state.name}.`;
     } catch (error) {
       if (number !== requestNumber) return;
