@@ -97,6 +97,40 @@ as the Pages source, and merge this implementation into `main`. The first
 scheduled/manual collection creates the storage branch. Details, failure rules,
 reruns and manual controls are in [DAILY_AUTOMATION.md](misc/DAILY_AUTOMATION.md).
 
+## Model validation
+
+`src/validate_models.py` scores saved model answers against each persona's own
+CES answers, which are never sent to a model: 2026 House intention (`CC25_363`)
+and 2024 presidential vote (`presvote24post`). For every dated run and model it
+writes individual accuracy against a most-common-answer baseline, log loss and
+Brier score; predicted against actual option shares; a calibration table; each
+state's two-party share against the personas and the weighted CES; and the
+spread of each state across run days. Outputs go to `data/model_validation/`.
+Daily runs live on the `daily-data` branch, so restore them first:
+
+```powershell
+uv run python src/daily_storage.py restore
+uv run python src/validate_models.py
+```
+
+`config/backcast_2024.yaml` asks the same models how each persona voted for
+president in 2024, so the answers can be compared with known state results.
+`src/election_results_pull.py` downloads those results from the MIT Election
+Data and Science Lab's "U.S. President 1976–2024" (Harvard Dataverse,
+doi:10.7910/DVN/42MVDX, V10.1, CC0), checks the published MD5, and saves the
+original CSV and a 2024 state table in `data/election_results/`. When
+`data/llm_responses/backcast-2024/` exists, `validate_models.py` also writes
+each model's state errors and a logit intercept and slope that map back-cast
+shares to official ones (`backcast_summary.parquet`), for the forecast to use.
+
+```powershell
+uv run python src/election_results_pull.py
+uv run python src/query_llms.py --run-name backcast-2024 --config config/backcast_2024.yaml `
+    --personas data/personas/sample_100 --persona-level 9 --persona-format sentence `
+    --prompt-style role_play --models jev mercury decider
+uv run python src/validate_models.py
+```
+
 ## Data checks and offline tests
 
 The real-data checks require the saved raw and cleaned CES files. They verify

@@ -1,0 +1,9 @@
+backcast_run: backcast-2024
+ces_benchmark: data/cleaned/cleaned_CES_data.parquet
+results_2024: data/election_results/president_2024_by_state.parquet
+rows: 42000
+runs:
+- oct-26-all-models
+- oct-27-no-luna
+- oct-28-no-luna
+- oct-29-no-luna
