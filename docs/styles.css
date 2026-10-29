@@ -329,6 +329,28 @@ input[type=checkbox] {
   margin:0 0 10px}
 .forecast-table {
   display:table}
+.validation-figures {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px;
+  margin:12px 0 4px}
+.validation-figures.single {
+  max-width:420px}
+.validation-figures figure {
+  margin:0}
+.validation-figures figcaption {
+  font:600 14px/1.4 var(--sans);
+  margin:0 0 4px}
+.validation-figures img {
+  width:100%;
+  height:auto;
+  display:block}
+#model-validation h3 {
+  font-size:20px;
+  margin:26px 0 4px}
+.model-check-table {
+  display:table;
+  margin-top:20px}
 .forecast-table th span,.forecast-table td span {
   display:block;
   font-size:12px;
