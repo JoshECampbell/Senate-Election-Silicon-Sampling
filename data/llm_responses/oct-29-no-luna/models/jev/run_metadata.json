@@ -30,11 +30,42 @@
       "n_requests": 2379,
       "finished_at": "2026-10-29T17:33:28.775879+00:00",
       "validation_retry_requests": 24
+    },
+    {
+      "started_at": "2026-10-29T18:45:30.401971+00:00",
+      "args": {
+        "run_name": "jev",
+        "output_root": "/home/runner/work/Senate-Election-Silicon-Sampling/Senate-Election-Silicon-Sampling/data/llm_responses/oct-29-no-luna/models",
+        "personas": "data/personas/sample_100",
+        "config": "config/query_config.yaml",
+        "models": [
+          "jev"
+        ],
+        "persona_level": [
+          9
+        ],
+        "persona_format": [
+          "sentence"
+        ],
+        "prompt_style": [
+          "role_play"
+        ],
+        "news_file": null,
+        "states": null,
+        "limit": null,
+        "workers": 8,
+        "dry_run": false,
+        "smoke_test": false
+      },
+      "python": "3.14.4",
+      "n_requests": 0,
+      "finished_at": "2026-10-29T18:45:30.495450+00:00",
+      "validation_retry_requests": 0
     }
   ],
   "validation": {
-    "retry_rounds": 3,
-    "retry_requests": 24,
+    "retry_rounds": 0,
+    "retry_requests": 0,
     "max_validation_retries": 3,
     "probability_tolerance": 1e-06,
     "stopped_after_initial_errors": false,
