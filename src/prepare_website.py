@@ -18,7 +18,10 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from site_data import CATEGORIES, SEAT_CATEGORIES, load_history, headline_outcome, cumulative_usage
-from site_figures import senate_figure, response_figure, state_figure, validation_figure, seat_distribution_figure
+import polars as pl
+
+from site_figures import (senate_figure, response_figure, state_figure, validation_figure, seat_distribution_figure,
+                          backcast_figure, error_figure, calibration_figure)
 from polling_forecast import add_forecasts
 from forecast import add_corrected_forecasts
 
@@ -52,6 +55,85 @@ def corrected_headline(key, model, day, forecast):
             f'<img class="wide-figure" src="figures/{day}/forecast/{key}.svg" alt="{escape(model["label"])}: '
             f'Democratic seats across {seats["draws"]:,} simulated elections, median {seats["median"]}, '
             f'90% range {seats["low"]} to {seats["high"]}"></div>')
+
+
+def model_validation_section(root, site, cache, models):
+    """Back-cast scatter, error change, calibration and a summary table.
+
+    Reads the saved outputs of src/validate_models.py; nothing is refitted here.
+    """
+    folder = root/'data/model_validation'
+    paths = {name: folder/f'{name}.parquet' for name in ('backcast_states', 'backcast_summary', 'calibration')}
+    if not all(p.exists() for p in paths.values()):
+        return '<p class="empty-state">Run src/validate_models.py to add the model checks.</p>'
+    states, summary, calibration = (pl.read_parquet(p) for p in paths.values())
+    synthetic = {k: m for k, m in models.items() if m.get('kind') != 'external_forecast'
+                 and k in summary['model_key'].to_list()}
+    scatter, errors, rows = [], [], []
+    for key, model in synthetic.items():
+        fit = summary.filter(pl.col('model_key') == key).row(0, named=True)
+        records = states.filter(pl.col('model_key') == key).to_dicts()
+        cache.render(site/f'figures/validation/backcast-{key}.svg', backcast_figure, model['label'], records,
+                     fit['calibration_intercept'], fit['calibration_slope'])
+        cache.render(site/f'figures/validation/errors-{key}.svg', error_figure, model['label'], records)
+        scatter.append(f'<figure><figcaption>{escape(model["label"])}</figcaption><img src="figures/validation/backcast-{key}.svg" '
+                       f'alt="{escape(model["label"])}: 2024 back-cast share against the official result, slope {fit["calibration_slope"]:.2f}" loading="lazy"></figure>')
+        errors.append(f'<figure><figcaption>{escape(model["label"])}</figcaption><img src="figures/validation/errors-{key}.svg" '
+                      f'alt="{escape(model["label"])}: state errors before and after correction" loading="lazy"></figure>')
+        states_n = fit['states']
+        rows.append(f'<tr><th scope="row">{escape(model["label"])}</th><td>{fit["correlation"]:.2f}</td>'
+                    f'<td>{fit["calibration_slope"]:.2f}</td><td>{100*fit["mean_abs_error"]:.1f}</td>'
+                    f'<td>{100*fit["held_out_mean_abs_error"]:.1f}</td><td>{100*fit["held_out_max_abs_error"]:.1f}</td>'
+                    f'<td>{round(fit["winner_agreement"]*states_n)} &rarr; {round(fit["held_out_winner_agreement"]*states_n)} of {states_n}</td></tr>')
+    cache.render(site/'figures/validation/calibration.svg', calibration_figure,
+                 calibration.to_dicts(), {k: m for k, m in synthetic.items()})
+    symbols = {'circle': '&#9679;', 'triangle': '&#9650;', 'square': '&#9632;', 'diamond': '&#9670;'}
+    key_text = ' &middot; '.join(f'{symbols[m["shape"]]} {escape(m["label"])}' for m in synthetic.values())
+    return (f'<h3>2024 back-cast against official results</h3><div class="validation-figures">{"".join(scatter)}</div>'
+            '<p class="figure-caption">Each dot is one of the 35 states with a 2026 Senate race: the Harris share of the '
+            'two-party vote that the model gave its 100 personas when asked about the 2024 presidential election, '
+            'against the official result. Dots on the dashed diagonal would be exactly right. The flatter pattern '
+            'shows each model spreading states too far from 50-50; the solid curve is the fitted correction.</p>'
+            f'<h3>State errors before and after correction</h3><div class="validation-figures">{"".join(errors)}</div>'
+            '<p class="figure-caption">Hollow circles show each state\'s raw back-cast error; filled circles show the '
+            'error after a correction fitted on the other 34 states, so no state informs its own correction. Errors '
+            'beyond ±40 points are drawn at the edge.</p>'
+            '<table class="cost-table model-check-table"><caption>2024 back-cast summary by model</caption><thead><tr>'
+            '<th scope="col">Model</th><th scope="col">Correlation with result</th><th scope="col">Fitted slope</th>'
+            '<th scope="col">Average error, raw (points)</th><th scope="col">Average error, corrected (points)</th>'
+            '<th scope="col">Largest corrected error (points)</th><th scope="col">Winners right, raw &rarr; corrected</th>'
+            f'</tr></thead><tbody>{"".join(rows)}</tbody></table>'
+            '<p class="figure-caption">Corrected errors and winners use the leave-one-state-out fit. A slope of 1 would '
+            'mean no stretch; 0.24 means real differences between states are about a quarter of the model\'s.</p>'
+            f'<h3>Calibration against 2026 House intention</h3><div class="validation-figures single">'
+            f'<figure><img src="figures/validation/calibration.svg" alt="Calibration of predicted chance of a Democratic '
+            f'vote against stated 2026 House intention, by model" loading="lazy"></figure></div>'
+            f'<p class="figure-caption">{key_text}. Daily runs pooled; persona rows whose CES respondent intends to vote '
+            'Democratic or Republican, grouped into tenths of the model\'s two-party chance of a Democratic vote. Points '
+            'below the diagonal at the right and above it at the left show overconfidence: the models push people '
+            'further towards their group\'s usual vote than the respondents themselves report.</p>')
+
+
+def backcast_costs(root, models):
+    """One-off 2024 back-cast cost per model, from the saved per-call costs."""
+    path = root/'data/llm_responses/backcast-2024/results.parquet'
+    if not path.exists():
+        return ''
+    calls = pl.read_parquet(path).unique(['model_key', 'state', 'caseid'])
+    by_model = calls.group_by('model_key').agg(pl.len().alias('calls'), pl.col('cost_usd').sum(),
+                                               pl.col('input_tokens').sum())
+    rows = []
+    for row in by_model.sort('model_key').to_dicts():
+        label = models.get(row['model_key'], {}).get('label', row['model_key'])
+        rows.append(f'<tr><th scope="row">{escape(label)}</th><td>{row["calls"]:,}</td>'
+                    f'<td>{row["input_tokens"]:,}</td><td>${row["cost_usd"]:.5f}</td></tr>')
+    total = by_model.select(pl.col('calls').sum(), pl.col('input_tokens').sum(), pl.col('cost_usd').sum()).row(0)
+    return ('<table class="cost-table"><caption>One-off 2024 back-cast (run once, 29 October 2026)</caption><thead><tr>'
+            '<th>Model</th><th>Requests</th><th>Input tokens</th><th>Reported API cost (USD)</th></tr></thead>'
+            f'<tbody>{"".join(rows)}</tbody><tfoot><tr><th scope="row">Total</th><td>{total[0]:,}</td>'
+            f'<td>{total[1]:,}</td><td>${total[2]:.5f}</td></tr></tfoot></table>'
+            '<p class="source-note">Costs from the per-request amounts saved with each answer; one request per distinct '
+            'respondent and model.</p>')
 
 
 def forecast_table(history):
@@ -380,7 +462,8 @@ def prepare(root=ROOT, output=None):
         all_entries.extend(entries)
         costs.append(f'<tr><th scope="row">{escape(model["label"])}</th>{usage_cells(cumulative_usage(entries))}</tr>')
     total=usage_cells(cumulative_usage(all_entries)) if all_entries else '<td colspan="4">Unavailable</td>'
-    write(generated/'_costs.html',f'<table class="cost-table"><caption>Running totals: {history["dates"][0]} through {latest}</caption><thead><tr><th>Model</th><th>Recorded attempts</th><th>Input tokens</th><th>Output tokens</th><th>Reported API cost (USD)</th></tr></thead><tbody>{"".join(costs)}</tbody><tfoot><tr><th scope="row">Total</th>{total}</tr></tfoot></table><p class="source-note">Cumulative usage for the selected source run per model/day across the displayed dates.</p>')
+    write(generated/'_costs.html',f'<table class="cost-table"><caption>Running totals: {history["dates"][0]} through {latest}</caption><thead><tr><th>Model</th><th>Recorded attempts</th><th>Input tokens</th><th>Output tokens</th><th>Reported API cost (USD)</th></tr></thead><tbody>{"".join(costs)}</tbody><tfoot><tr><th scope="row">Total</th>{total}</tr></tfoot></table><p class="source-note">Cumulative usage for the selected source run per model/day across the displayed dates.</p>{backcast_costs(root,models)}')
+    write(generated/'_model_validation.html',model_validation_section(root,site,cache,models))
     last_run=max(datetime.fromisoformat(entry['collected_at'])
                  for snapshot in history['snapshots'].values()
                  for entry in snapshot['models'].values()

@@ -12,6 +12,7 @@ website config and stay fixed when models are hidden in the browser.
 
 from html import escape
 from datetime import date
+import math
 import textwrap
 
 from site_data import CATEGORIES, SEAT_CATEGORIES
@@ -188,6 +189,97 @@ def seat_distribution_figure(seats, label):
     title = (f'{label}: corrected forecast, Democratic seats across {draws:,} simulated elections; '
              f'median {seats["median"]}, 90% range {seats["low"]}–{seats["high"]}.')
     return svg(900, 160, title, ''.join(body))
+
+
+def share_axes(left, right, top, bottom, x_label, y_label):
+    """Square 0-100% axes with quarter gridlines, shared by the validation plots."""
+    body = []
+    for share in (0, .25, .5, .75, 1):
+        x = left+share*(right-left)
+        y = bottom-share*(bottom-top)
+        body.extend([line(left, y, right, y), line(x, top, x, bottom),
+                     text(left-6, y+4, f'{share*100:.0f}%', size=12, fill=MUTED, anchor='end'),
+                     text(x, bottom+16, f'{share*100:.0f}%', size=12, fill=MUTED, anchor='middle')])
+    body.append(f'<line x1="{left}" y1="{bottom}" x2="{right}" y2="{top}" stroke="{MUTED}" '
+                'stroke-width="1.5" stroke-dasharray="5 4"/>')
+    body.extend([text((left+right)/2, bottom+34, x_label, size=12, fill=MUTED, anchor='middle'),
+                 f'<text x="14" y="{(top+bottom)/2}" font-size="12" fill="{MUTED}" text-anchor="middle" '
+                 f'transform="rotate(-90 14 {(top+bottom)/2})">{escape(y_label)}</text>'])
+    return body
+
+
+def backcast_figure(label, rows, intercept, slope):
+    """One model's 2024 back-cast: each state's model share against the result.
+
+    The dashed diagonal is where a perfect model would sit; the solid curve is
+    the fitted correction, intercept + slope * logit(share), drawn back on the
+    share scale.
+    """
+    left, right, top, bottom = 52, 332, 12, 292
+    scale = right-left
+    body = share_axes(left, right, top, bottom, "Model's Harris share", 'Actual Harris share')
+    curve = []
+    for i in range(1, 100):
+        x = i/100
+        y = 1/(1+math.exp(-(intercept+slope*math.log(x/(1-x)))))
+        curve.append(f'{left+x*scale:.2f},{bottom-y*scale:.2f}')
+    body.append(f'<polyline points="{" ".join(curve)}" fill="none" stroke="{INK}" stroke-width="2"/>')
+    for row in rows:
+        x, y = left+row['predicted_two_party']*scale, bottom-row['actual_two_party']*scale
+        title = (f'{row["state"]}: model {100*row["predicted_two_party"]:.1f}%, actual '
+                 f'{100*row["actual_two_party"]:.1f}%, corrected {100*row["corrected_two_party"]:.1f}%')
+        body.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="4" fill="#326A9D" fill-opacity=".75"><title>{escape(title)}</title></circle>')
+    title = (f'{label}: 2024 back-cast Harris share against the official result in {len(rows)} states, '
+             f'with the fitted correction (slope {slope:.2f}).')
+    return svg(345, 335, title, ''.join(body))
+
+
+def error_figure(label, rows):
+    """Each state's error before correction and after the held-out correction."""
+    rows = sorted(rows, key=lambda r: r['actual_two_party'])
+    left, right, top = 112, 330, 26
+    step = 14
+    bottom = top+step*len(rows)
+    limit = 40
+    def xpos(points):
+        return left+(max(-limit, min(limit, points))+limit)/(2*limit)*(right-left)
+    body = [text(left-104, 14, 'Most Republican state first', size=11, fill=MUTED)]
+    for points in (-40, -20, 0, 20, 40):
+        x = xpos(points)
+        body.extend([line(x, top-6, x, bottom, INK if points == 0 else RULE),
+                     text(x, bottom+16, f'{points:+d}' if points else '0', size=12, fill=MUTED, anchor='middle')])
+    for index, row in enumerate(rows):
+        y = top+index*step+step/2
+        raw, held = 100*row['error'], 100*row['held_out_error']
+        body.extend([text(left-8, y+4, row['state'], size=11, anchor='end'),
+                     line(xpos(raw), y, xpos(held), y, RULE, 2),
+                     f'<circle cx="{xpos(raw):.2f}" cy="{y:.2f}" r="4" fill="{PAPER}" stroke="{MUTED}" stroke-width="1.5">'
+                     f'<title>{escape(row["state"])}: raw error {raw:+.1f} points</title></circle>',
+                     f'<circle cx="{xpos(held):.2f}" cy="{y:.2f}" r="4" fill="{INK}">'
+                     f'<title>{escape(row["state"])}: corrected error {held:+.1f} points (state left out of the fit)</title></circle>'])
+    body.append(text((left+right)/2, bottom+34, 'Error in Harris share (points)', size=12, fill=MUTED, anchor='middle'))
+    return svg(345, bottom+44, f'{label}: each state\'s 2024 error before correction and after a correction fitted without that state.',
+               ''.join(body))
+
+
+def calibration_figure(rows, models):
+    """Predicted against actual P(Democrat | two-party), one series per model."""
+    left, right, top, bottom = 52, 332, 12, 292
+    scale = right-left
+    body = share_axes(left, right, top, bottom, 'Predicted chance of Democrat', 'Share who intend Democrat')
+    for key, model in models.items():
+        points = sorted((r for r in rows if r['model_key'] == key), key=lambda r: r['predicted'])
+        if not points:
+            continue
+        coords = [(left+r['predicted']*scale, bottom-r['actual']*scale) for r in points]
+        body.append(f'<polyline points="{" ".join(f"{x:.2f},{y:.2f}" for x, y in coords)}" fill="none" '
+                    f'stroke="{INK}" stroke-width="1.5" stroke-dasharray="{model["dash"]}"/>')
+        for (x, y), r in zip(coords, points):
+            title = (f'{model["label"]}: predicted {100*r["predicted"]:.0f}%, actual {100*r["actual"]:.0f}% '
+                     f'({r["n"]:,} persona rows)')
+            body.append(marker(model['shape'], x, y, 4.5, INK, 'calibration-dot', title))
+    return svg(345, 335, 'Calibration: predicted chance of a Democratic vote against the share of personas who intend '
+               'to vote Democratic, by model.', ''.join(body))
 
 
 def validation_figure(state, feature, data):

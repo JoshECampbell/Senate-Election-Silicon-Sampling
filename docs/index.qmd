@@ -103,6 +103,12 @@ ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
 {{< include components/_generated/_validation.html >}}
 :::
 
+::: {#model-validation .article-section}
+## How well do the models recover 2024?
+
+{{< include components/_generated/_model_validation.html >}}
+:::
+
 ::: {#discussion .article-section}
 ## Discussion {#discussion-heading}
 
