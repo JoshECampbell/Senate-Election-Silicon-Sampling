@@ -30,6 +30,37 @@
       "n_requests": 2379,
       "finished_at": "2026-10-30T12:23:03.627928+00:00",
       "validation_retry_requests": 0
+    },
+    {
+      "started_at": "2026-10-30T18:22:05.286507+00:00",
+      "args": {
+        "run_name": "decider",
+        "output_root": "/home/runner/work/Senate-Election-Silicon-Sampling/Senate-Election-Silicon-Sampling/data/llm_responses/oct-30-no-luna/models",
+        "personas": "data/personas/sample_100",
+        "config": "config/query_config.yaml",
+        "models": [
+          "decider"
+        ],
+        "persona_level": [
+          9
+        ],
+        "persona_format": [
+          "sentence"
+        ],
+        "prompt_style": [
+          "role_play"
+        ],
+        "news_file": null,
+        "states": null,
+        "limit": null,
+        "workers": 8,
+        "dry_run": false,
+        "smoke_test": false
+      },
+      "python": "3.14.4",
+      "n_requests": 0,
+      "finished_at": "2026-10-30T18:22:05.351511+00:00",
+      "validation_retry_requests": 0
     }
   ],
   "validation": {
