@@ -177,6 +177,12 @@ p {
 .headline-result .data-note {
   margin:0 auto;
   max-width:95ch}
+.lead-results > .data-note {
+  margin:10px auto 18px;
+  text-align:center}
+.headline-result .bootstrap-title {
+  font:600 19px/1.4 var(--sans);
+  margin:0 0 8px}
 .source-note {
   margin:10px 0 18px}
 .figure-caption {
@@ -319,9 +325,12 @@ input[type=checkbox] {
   display:table;
   margin-top:28px}
 .bootstrap-forecast {
-  margin:22px auto 0;
-  padding-top:18px;
-  border-top:1px dashed var(--rule)}
+  max-width:700px;
+  margin:12px auto 0;
+  padding-top:0;
+  border-top:0}
+.bootstrap-forecast .wide-figure {
+  max-width:700px}
 .bootstrap-forecast .projection-outcome {
   margin:4px 0 6px}
 .bootstrap-seats {
@@ -564,6 +573,25 @@ footer a {
   gap:18px 26px}
 .response-panel {
   min-width:0}
+.bootstrap-seat-estimates {
+  display:grid;
+  gap:5px;
+  font:13px/1.5 var(--sans);
+  margin:10px 0 14px}
+.matched-evaluation-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:28px}
+.matched-evaluation-grid section {
+  min-width:0}
+.matched-evaluation-grid figure {
+  margin:16px 0}
+.matched-evaluation-grid figcaption {
+  font:600 16px/1.4 var(--sans);
+  margin-bottom:12px}
+@media(max-width:767px) {
+  .matched-evaluation-grid {grid-template-columns:1fr}
+}
 #title-block-header {
   display:none}
 .publication-title {

@@ -99,59 +99,52 @@ reruns and manual controls are in [DAILY_AUTOMATION.md](misc/DAILY_AUTOMATION.md
 
 ## Model validation
 
-`src/validate_models.py` scores saved model answers against each persona's own
-CES answers, which are never sent to a model: 2026 House intention (`CC25_363`)
-and 2024 presidential vote (`presvote24post`). For every dated run and model it
-writes individual accuracy against a most-common-answer baseline, log loss and
-Brier score; predicted against actual option shares; a calibration table; each
-state's two-party share against the personas and the weighted CES; and the
-spread of each state across run days. Outputs go to `data/model_validation/`.
-Daily runs live on the `daily-data` branch, so restore them first:
+`src/validate_electoral_responses.py` compares separate matched-question model
+requests with the sampled respondents' recorded CES answers. The House request
+includes Democratic, Republican, non-voting and Not sure options. The presidential
+request groups Harris, Trump, third-party voting and non-voting as in the manuscript.
+Both use the original sample_100 cohorts and nine-characteristic sentence role-play.
+Ordinary daily Senate responses are not treated as answers to the House question.
 
 ```powershell
-uv run python src/daily_storage.py restore
-uv run python src/validate_models.py
+# Score saved matched responses, with no provider calls.
+uv run python src/validate_electoral_responses.py
+# Explicitly collect/resume paid evaluation requests and then score them.
+uv run python src/validate_electoral_responses.py --collect
 ```
 
-`config/backcast_2024.yaml` asks the same models how each persona voted for
-president in 2024, so the answers can be compared with known state results.
-`src/election_results_pull.py` downloads those results from the MIT Election
-Data and Science Lab's "U.S. President 1976–2024" (Harvard Dataverse,
-doi:10.7910/DVN/42MVDX, V10.1, CC0), checks the published MD5, and saves the
-original CSV and a 2024 state table in `data/election_results/`. When
-`data/llm_responses/backcast-2024/` exists, `validate_models.py` also writes
-each model's state errors and a summary (`backcast_summary.parquet`).
-
-```powershell
-uv run python src/election_results_pull.py
-uv run python src/query_llms.py --run-name backcast-2024 --config config/backcast_2024.yaml `
-    --personas data/personas/sample_100 --persona-level 9 --persona-format sentence `
-    --prompt-style role_play --models jev mercury decider
-uv run python src/validate_models.py
-```
+Outputs in `data/model_validation/` include matched state/category percentages,
+signed percentage-point differences, eligible-draw counts and a provenance manifest.
+The existing matching 2024 run is reused after checking configuration and draw IDs.
+The website displays these comparisons by state; no correction is fitted or applied.
+The earlier `validate_models.py` remains available for legacy diagnostic outputs,
+but those two-party/official-result charts are no longer the website evaluation.
 
 ## Forecast and bootstrap ranges
 
-`src/forecast.py` adds a range to each published model/day. A state's share is
-sum P(Democrat) / sum(P(Democrat) + P(Republican)) over its 100 personas. The
-script resamples those personas with replacement 10,000 times, gives each state
-to the party with the larger share in each resample, and adds the 65 seats not
-up in 2026. No model is queried. Each model/day has a fixed seed, so new days
-never change earlier forecasts. `src/simulate_data.py` uses the same bootstrap.
+The website uses `src/bootstrap_responses.py` to resample all four response
+probabilities together 10,000 times, selecting 100 original draw positions per
+state with replacement and equal probability. Original draw multiplicities carry
+survey weighting, so weights are not applied again. The original cohort mean is
+preserved; its bootstrap standard error is the SD of the 10,000 replicate means,
+not that SD divided by sqrt(10000). The time-series table adds this error in pp;
+the jitter plot itself is unchanged.
 
-The ranges reflect persona sampling only. They do not include model error or a
-national swing, so they understate the real uncertainty. The 2024 back-cast also
-shows the models spreading states too far from 50-50, so the shares are synthetic
-outputs and not vote-share estimates.
+Each replicate applies the classic seat rule to the four-category averages:
+the largest Democratic, Republican or third-party mean wins, non-voting cannot
+win, and exact ties are unallocated. Adding the 65 fixed seats yields the full
+Senate. The headline retains the original projection and adds Democratic and
+Republican stacked-dot distributions (50 display dots total, summarising 10,000 replicates) and original seat counts plus/minus
+bootstrap SE. All seat categories are retained in downloadable replicate totals.
+No national/state noise or historical correction is added.
 
-```powershell
-uv run python src/forecast.py
-```
-
-Outputs go to `data/forecast/`: `state_forecasts.parquet` (share, 90% interval
-and how often Democrats lead, per day, model and state), `seat_summary.parquet`
-and `seat_draws.parquet`. The website build calls the same code, so every
-published day, including future daily runs, shows the ranges.
+These are cohort-resampling summaries conditional on saved model responses, not
+actual election-winning probabilities or comprehensive population uncertainty.
+Stable model/day/state seeds preserve earlier replicates when new days are added.
+Website builds write response summaries, Senate summaries and Senate draws under
+`docs/data/`. See [the detailed method](misc/MATCHED_VALIDATION_AND_BOOTSTRAP.md).
+The older `src/forecast.py` is a separate two-party diagnostic and is no longer
+used by the website.
 
 ## Data checks and offline tests
 

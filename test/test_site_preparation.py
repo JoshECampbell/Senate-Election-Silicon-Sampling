@@ -34,9 +34,9 @@ class PreparedFigureTests(unittest.TestCase):
     def test_seat_lead_does_not_imply_an_outright_majority(self):
         for d,r,i,label in (
             (50,48,2,'Democrats lead; no outright majority'),
-            (45,53,2,'Republican majority'),
-            (47,51,2,'Republican majority'),
-            (51,47,2,'Democratic majority'),
+            (45,53,2,'Republican Majority'),
+            (47,51,2,'Republican Majority'),
+            (51,47,2,'Democratic Majority'),
             (48,50,2,'Republicans lead; no outright majority'),
             (49,49,2,'Parties tied; no outright majority')):
             totals={'democrat':d,'republican':r,'independent':i,'unallocated':0}

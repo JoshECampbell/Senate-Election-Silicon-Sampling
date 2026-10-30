@@ -16,7 +16,7 @@ project:
     - "!design/**"
 
 website:
-  title: "The Synthetic Electorate"
+  title: "The Synthetic Senate"
 
 format:
   html:
