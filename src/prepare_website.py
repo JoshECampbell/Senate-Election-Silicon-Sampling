@@ -23,7 +23,7 @@ import polars as pl
 from site_figures import (senate_figure, response_figure, state_figure, validation_figure, seat_distribution_figure,
                           backcast_figure, error_figure, calibration_figure)
 from polling_forecast import add_forecasts
-from forecast import add_corrected_forecasts
+from forecast import add_bootstrap_forecasts
 
 
 def percent(value, digits=0):
@@ -39,26 +39,26 @@ def chance(value):
     return percent(value)
 
 
-def corrected_headline(key, model, day, forecast):
-    """Corrected forecast block for one model's headline card."""
+def forecast_headline(key, model, day, forecast):
+    """Bootstrap forecast block for one model's headline card."""
     seats = forecast['seats']
     rep, dem = seats['republican_majority'], seats['democratic_majority']
     if rep >= dem:
-        outcome, colour = f'Republican majority in {chance(rep)} of simulations', '#BD4942'
+        outcome, colour = f'Republican majority in {chance(rep)} of resamples', '#BD4942'
     else:
-        outcome, colour = f'Democratic majority in {chance(dem)} of simulations', '#326A9D'
-    return (f'<div class="corrected-forecast"><p class="eyebrow">Corrected forecast</p>'
+        outcome, colour = f'Democratic majority in {chance(dem)} of resamples', '#326A9D'
+    return (f'<div class="bootstrap-forecast"><p class="eyebrow">Bootstrap range</p>'
             f'<p class="projection-outcome" style="color:{colour}">{outcome}</p>'
-            f'<p class="corrected-seats">Democrats: median <b>{seats["median"]}</b> seats '
+            f'<p class="bootstrap-seats">Democrats: median <b>{seats["median"]}</b> seats '
             f'(90% range {seats["low"]}–{seats["high"]}) &middot; Democratic majority in {chance(dem)} '
             f'&middot; no outright majority in {chance(seats["no_majority"])}</p>'
             f'<img class="wide-figure" src="figures/{day}/forecast/{key}.svg" alt="{escape(model["label"])}: '
-            f'Democratic seats across {seats["draws"]:,} simulated elections, median {seats["median"]}, '
+            f'Democratic seats across {seats["draws"]:,} bootstrap resamples, median {seats["median"]}, '
             f'90% range {seats["low"]} to {seats["high"]}"></div>')
 
 
 def model_validation_section(root, site, cache, models):
-    """Back-cast scatter, error change, calibration and a summary table.
+    """Back-cast scatter, state errors, calibration and a summary table.
 
     Reads the saved outputs of src/validate_models.py; nothing is refitted here.
     """
@@ -73,18 +73,17 @@ def model_validation_section(root, site, cache, models):
     for key, model in synthetic.items():
         fit = summary.filter(pl.col('model_key') == key).row(0, named=True)
         records = states.filter(pl.col('model_key') == key).to_dicts()
-        cache.render(site/f'figures/validation/backcast-{key}.svg', backcast_figure, model['label'], records,
-                     fit['calibration_intercept'], fit['calibration_slope'])
+        cache.render(site/f'figures/validation/backcast-{key}.svg', backcast_figure, model['label'], records)
         cache.render(site/f'figures/validation/errors-{key}.svg', error_figure, model['label'], records)
         scatter.append(f'<figure><figcaption>{escape(model["label"])}</figcaption><img src="figures/validation/backcast-{key}.svg" '
-                       f'alt="{escape(model["label"])}: 2024 back-cast share against the official result, slope {fit["calibration_slope"]:.2f}" loading="lazy"></figure>')
+                       f'alt="{escape(model["label"])}: 2024 back-cast share against the official result" loading="lazy"></figure>')
         errors.append(f'<figure><figcaption>{escape(model["label"])}</figcaption><img src="figures/validation/errors-{key}.svg" '
-                      f'alt="{escape(model["label"])}: state errors before and after correction" loading="lazy"></figure>')
+                      f'alt="{escape(model["label"])}: state errors in the 2024 back-cast" loading="lazy"></figure>')
         states_n = fit['states']
         rows.append(f'<tr><th scope="row">{escape(model["label"])}</th><td>{fit["correlation"]:.2f}</td>'
-                    f'<td>{fit["calibration_slope"]:.2f}</td><td>{100*fit["mean_abs_error"]:.1f}</td>'
-                    f'<td>{100*fit["held_out_mean_abs_error"]:.1f}</td><td>{100*fit["held_out_max_abs_error"]:.1f}</td>'
-                    f'<td>{round(fit["winner_agreement"]*states_n)} &rarr; {round(fit["held_out_winner_agreement"]*states_n)} of {states_n}</td></tr>')
+                    f'<td>{100*fit["mean_error"]:+.1f}</td><td>{100*fit["mean_abs_error"]:.1f}</td>'
+                    f'<td>{100*fit["max_abs_error"]:.1f}</td>'
+                    f'<td>{round(fit["winner_agreement"]*states_n)} of {states_n}</td></tr>')
     cache.render(site/'figures/validation/calibration.svg', calibration_figure,
                  calibration.to_dicts(), {k: m for k, m in synthetic.items()})
     symbols = {'circle': '&#9679;', 'triangle': '&#9650;', 'square': '&#9632;', 'diamond': '&#9670;'}
@@ -93,18 +92,19 @@ def model_validation_section(root, site, cache, models):
             '<p class="figure-caption">Each dot is one of the 35 states with a 2026 Senate race: the Harris share of the '
             'two-party vote that the model gave its 100 personas when asked about the 2024 presidential election, '
             'against the official result. Dots on the dashed diagonal would be exactly right. The flatter pattern '
-            'shows each model spreading states too far from 50-50; the solid curve is the fitted correction.</p>'
-            f'<h3>State errors before and after correction</h3><div class="validation-figures">{"".join(errors)}</div>'
-            '<p class="figure-caption">Hollow circles show each state\'s raw back-cast error; filled circles show the '
-            'error after a correction fitted on the other 34 states, so no state informs its own correction. Errors '
-            'beyond ±40 points are drawn at the edge.</p>'
+            'shows each model spreading states too far from 50-50.</p>'
+            f'<h3>State errors in the back-cast</h3><div class="validation-figures">{"".join(errors)}</div>'
+            '<p class="figure-caption">Each dot is the model\'s share minus the official result, with states running '
+            'from the most Republican to the most Democratic result. Errors are negative in Republican states and '
+            'positive in Democratic ones because the models push states away from 50-50. Errors beyond ±40 points '
+            'are drawn at the edge.</p>'
             '<table class="cost-table model-check-table"><caption>2024 back-cast summary by model</caption><thead><tr>'
-            '<th scope="col">Model</th><th scope="col">Correlation with result</th><th scope="col">Fitted slope</th>'
-            '<th scope="col">Average error, raw (points)</th><th scope="col">Average error, corrected (points)</th>'
-            '<th scope="col">Largest corrected error (points)</th><th scope="col">Winners right, raw &rarr; corrected</th>'
+            '<th scope="col">Model</th><th scope="col">Correlation with result</th>'
+            '<th scope="col">Average signed error (points)</th><th scope="col">Average absolute error (points)</th>'
+            '<th scope="col">Largest error (points)</th><th scope="col">Winners right</th>'
             f'</tr></thead><tbody>{"".join(rows)}</tbody></table>'
-            '<p class="figure-caption">Corrected errors and winners use the leave-one-state-out fit. A slope of 1 would '
-            'mean no stretch; 0.24 means real differences between states are about a quarter of the model\'s.</p>'
+            '<p class="figure-caption">Errors are in the Harris share of the two-party vote. A small signed error '
+            'alongside a large absolute error means overshoots in Republican and Democratic states cancel out.</p>'
             f'<h3>Calibration against 2026 House intention</h3><div class="validation-figures single">'
             f'<figure><img src="figures/validation/calibration.svg" alt="Calibration of predicted chance of a Democratic '
             f'vote against stated 2026 House intention, by model" loading="lazy"></figure></div>'
@@ -137,7 +137,7 @@ def backcast_costs(root, models):
 
 
 def forecast_table(history):
-    """Latest corrected state forecasts per model, beside the polling benchmark."""
+    """Latest state shares and bootstrap ranges per model, beside the polling benchmark."""
     synthetic = [(k, m) for k, m in history['models'].items() if m.get('kind') != 'external_forecast']
     latest = {k: history['latest'][k] for k, _ in synthetic}
     forecasts = {k: history['snapshots'][d]['models'][k]['forecast'] for k, d in latest.items()
@@ -145,8 +145,8 @@ def forecast_table(history):
     polls_day = history['latest'].get('polling_forecast')
     polls = history['snapshots'][polls_day]['models']['polling_forecast']['states'] if polls_day else {}
     if not forecasts:
-        return '<p class="empty-state">No corrected forecast is available.</p>'
-    order = sorted(history['states'], key=lambda s: sum(f['states'][s]['corrected_share'] for f in forecasts.values()))
+        return '<p class="empty-state">No forecast is available.</p>'
+    order = sorted(history['states'], key=lambda s: sum(f['states'][s]['share'] for f in forecasts.values()))
     head = ''.join(f'<th scope="col">{escape(m["label"])}<span>{latest[k]}</span></th>' for k, m in synthetic if k in forecasts)
     rows = []
     for state in order:
@@ -156,9 +156,9 @@ def forecast_table(history):
                 continue
             row = forecasts[key]['states'][state]
             colour = '#326A9D' if row['dem_win_chance'] >= 0.5 else '#BD4942'
-            cells.append(f'<td><b style="color:{colour}">{percent(row["corrected_share"], 1)}</b>'
+            cells.append(f'<td><b style="color:{colour}">{percent(row["share"], 1)}</b>'
                          f'<span>{percent(row["low"])}–{percent(row["high"])}</span>'
-                         f'<span>D wins {chance(row["dem_win_chance"])}</span></td>')
+                         f'<span>D ahead {chance(row["dem_win_chance"])}</span></td>')
         poll = polls.get(state)
         if poll:
             column = 'p_third_party' if poll.get('left_party') == 'I' else 'p_democrat'
@@ -168,17 +168,18 @@ def forecast_table(history):
             cells.append('<td>Unavailable</td>')
         rows.append(f'<tr><th scope="row">{escape(history["states"][state]["name"])}</th>{"".join(cells)}</tr>')
     settings = history['forecast_settings']
-    return (f'<table class="cost-table forecast-table"><caption>Corrected Democratic share of the two-party vote, '
+    return (f'<table class="cost-table forecast-table"><caption>Democratic share of the two-party vote, '
             f'by state and model</caption><thead><tr><th scope="col">State</th>{head}'
             f'<th scope="col">Polling Forecast<span>{polls_day or "Unavailable"}</span></th></tr></thead>'
             f'<tbody>{"".join(rows)}</tbody></table>'
-            f'<p class="figure-caption">Each model cell shows the corrected share, its 90% range and the share of '
-            f'{settings["draws"]:,} simulated elections that Democrats win. States run from the most Republican to the '
-            f'most Democratic average corrected share. Corrections map each model\'s share through the intercept and '
-            f'slope fitted on its 2024 presidential back-cast; simulations add persona resampling, a state error equal to '
-            f'the back-cast residual and an assumed national error (SD {settings["national_sd"]:.2f} on the logit scale). '
-            f'Polling Forecast shows its implied two-candidate share for the leading non-Republican candidate; '
-            f'(I) marks an independent. Synthetic results, not measured voter intentions.</p>')
+            f'<p class="figure-caption">Each model cell shows the share of the two-party vote from the 100 personas, '
+            f'its 90% range and how often Democrats lead across {settings["draws"]:,} bootstrap resamples of those '
+            f'personas. States run from the lowest to the highest average share. The ranges reflect persona sampling '
+            f'only, not model error or a national swing, so they understate the real uncertainty, and the 2024 back-cast '
+            f'shows these shares run too far from 50-50. In Idaho, Nebraska and South Dakota the main challenger is an '
+            f'independent, but the models were asked about a Democrat. Polling Forecast shows its implied two-candidate '
+            f'share for the leading non-Republican candidate; (I) marks an independent. Synthetic results, not measured '
+            f'voter intentions.</p>')
 
 
 def write(path, content):
@@ -352,7 +353,7 @@ def response_inputs(history, state, day):
 def prepare(root=ROOT, output=None):
     history = load_history(root)
     add_forecasts(history, root)
-    add_corrected_forecasts(history, root)
+    add_bootstrap_forecasts(history)
     site = output or root/'docs'
     generated = site/'components/_generated'
     latest = history['date']
@@ -406,12 +407,12 @@ def prepare(root=ROOT, output=None):
         counts = ''.join(f'<span><b style="color:{categories[k][3]}">{totals[k]}</b>{escape(categories[k][1])}</span>' for k in ('democrat','independent','republican'))
         if totals['unallocated']:
             counts += f'<span><b>{totals["unallocated"]}</b>Unallocated seats</span>'
-        raw_label = '' if model.get('kind') == 'external_forecast' else '<p class="eyebrow">Raw projection (uncorrected)</p>'
-        corrected = corrected_headline(key, model, day, entry['forecast']) if entry.get('forecast') else ''
-        headlines.append(f'<article class="headline-result"><h3>{escape(full_name)}</h3>{model_details}{raw_label}<p class="projection-outcome" style="color:{outcome_colour}">{escape(outcome)}</p><div class="seat-counts">{counts}</div><img class="wide-figure" src="figures/{day}/senate/{key}.svg" alt="{escape(model["label"])}: {totals["democrat"]} Democratic, {totals["republican"]} Republican, {totals["independent"]} independent/other seats">{corrected}</article>')
+        raw_label = '' if model.get('kind') == 'external_forecast' else '<p class="eyebrow">Projection</p>'
+        bootstrap = forecast_headline(key, model, day, entry['forecast']) if entry.get('forecast') else ''
+        headlines.append(f'<article class="headline-result"><h3>{escape(full_name)}</h3>{model_details}{raw_label}<p class="projection-outcome" style="color:{outcome_colour}">{escape(outcome)}</p><div class="seat-counts">{counts}</div><img class="wide-figure" src="figures/{day}/senate/{key}.svg" alt="{escape(model["label"])}: {totals["democrat"]} Democratic, {totals["republican"]} Republican, {totals["independent"]} independent/other seats">{bootstrap}</article>')
     fixed=history['baseline']['fixed_seats']
     baseline_note=f"{fixed['democrat']} Democratic, {fixed['republican']} Republican and {fixed['independent']} independent seats"
-    write(generated/'_headline.html',''.join(headlines)+f'<p class="data-note">Each model is projected independently. An outright party majority requires 51 seats. Independent/other seats remain unassigned to either party. The fixed baseline is {baseline_note}. The raw projection allocates 35 contests using the largest average voting-category probability, excluding "Would Not Vote". The corrected forecast first maps each model\'s state shares through the correction fitted on its 2024 presidential back-cast, then simulates {history["forecast_settings"]["draws"]:,} elections; the chart shows how often each Democratic seat total occurs (blue: Democratic majority, red: Republican majority, grey: neither). Polling Forecast allocates each contest to its implied two-candidate leader. Synthetic results, not measured voter intentions.</p>')
+    write(generated/'_headline.html',''.join(headlines)+f'<p class="data-note">Each model is projected independently. An outright party majority requires 51 seats. Independent/other seats remain unassigned to either party. The fixed baseline is {baseline_note}. The projection allocates 35 contests using the largest average voting-category probability, excluding "Would Not Vote". The bootstrap range resamples each state\'s 100 personas {history["forecast_settings"]["draws"]:,} times and gives each state to the party with the larger two-party share; the chart shows how often each Democratic seat total occurs (blue: Democratic majority, red: Republican majority, grey: neither). It reflects persona sampling only, not model error or a national swing. Polling Forecast allocates each contest to its implied two-candidate leader. Synthetic results, not measured voter intentions.</p>')
     write(generated/'_forecast.html',forecast_table(history))
     symbols = {'circle':'&#9679;','triangle':'&#9650;','square':'&#9632;', 'diamond':'&#9670;'}
     toggles = ''.join(f'<label><input type="checkbox" data-model-toggle="{key}" checked><span aria-hidden="true">{symbols[model["shape"]]}</span>{escape(model["label"])}</label>' for key,model in models.items())

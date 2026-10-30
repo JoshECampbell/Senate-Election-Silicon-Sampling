@@ -12,7 +12,6 @@ website config and stay fixed when models are hidden in the browser.
 
 from html import escape
 from datetime import date
-import math
 import textwrap
 
 from site_data import CATEGORIES, SEAT_CATEGORIES
@@ -163,7 +162,7 @@ def senate_figure(senate):
 
 
 def seat_distribution_figure(seats, label):
-    """Share of simulated elections by Democratic seat count, coloured by control.
+    """Share of bootstrap resamples by Democratic seat count, coloured by control.
 
     Independents stay unassigned, so a Republican majority needs 51 Republican
     seats, i.e. at most 49 - independents Democratic seats.
@@ -182,11 +181,11 @@ def seat_distribution_figure(seats, label):
         x = left+(seat-low)*step
         height = share/peak*(bottom-top) if peak else 0
         body.append(rect(x+1, bottom-height, step-2, height, colour,
-                         f'{seat} Democratic seats: {100*share:.1f}% of {draws:,} simulated elections'))
+                         f'{seat} Democratic seats: {100*share:.1f}% of {draws:,} bootstrap resamples'))
         if seat % 5 == 0:
             body.append(text(x+step/2, bottom+18, seat, size=13, fill=MUTED, anchor='middle'))
     body.append(text(left, bottom+34, 'Democratic seats', size=12, fill=MUTED))
-    title = (f'{label}: corrected forecast, Democratic seats across {draws:,} simulated elections; '
+    title = (f'{label}: Democratic seats across {draws:,} bootstrap resamples of the personas; '
              f'median {seats["median"]}, 90% range {seats["low"]}–{seats["high"]}.')
     return svg(900, 160, title, ''.join(body))
 
@@ -208,34 +207,25 @@ def share_axes(left, right, top, bottom, x_label, y_label):
     return body
 
 
-def backcast_figure(label, rows, intercept, slope):
+def backcast_figure(label, rows):
     """One model's 2024 back-cast: each state's model share against the result.
 
-    The dashed diagonal is where a perfect model would sit; the solid curve is
-    the fitted correction, intercept + slope * logit(share), drawn back on the
-    share scale.
+    The dashed diagonal is where a perfect model would sit.
     """
     left, right, top, bottom = 52, 332, 12, 292
     scale = right-left
     body = share_axes(left, right, top, bottom, "Model's Harris share", 'Actual Harris share')
-    curve = []
-    for i in range(1, 100):
-        x = i/100
-        y = 1/(1+math.exp(-(intercept+slope*math.log(x/(1-x)))))
-        curve.append(f'{left+x*scale:.2f},{bottom-y*scale:.2f}')
-    body.append(f'<polyline points="{" ".join(curve)}" fill="none" stroke="{INK}" stroke-width="2"/>')
     for row in rows:
         x, y = left+row['predicted_two_party']*scale, bottom-row['actual_two_party']*scale
         title = (f'{row["state"]}: model {100*row["predicted_two_party"]:.1f}%, actual '
-                 f'{100*row["actual_two_party"]:.1f}%, corrected {100*row["corrected_two_party"]:.1f}%')
+                 f'{100*row["actual_two_party"]:.1f}%')
         body.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="4" fill="#326A9D" fill-opacity=".75"><title>{escape(title)}</title></circle>')
-    title = (f'{label}: 2024 back-cast Harris share against the official result in {len(rows)} states, '
-             f'with the fitted correction (slope {slope:.2f}).')
+    title = f'{label}: 2024 back-cast Harris share against the official result in {len(rows)} states.'
     return svg(345, 335, title, ''.join(body))
 
 
 def error_figure(label, rows):
-    """Each state's error before correction and after the held-out correction."""
+    """Each state's back-cast error, with states ordered by the official result."""
     rows = sorted(rows, key=lambda r: r['actual_two_party'])
     left, right, top = 112, 330, 26
     step = 14
@@ -250,16 +240,13 @@ def error_figure(label, rows):
                      text(x, bottom+16, f'{points:+d}' if points else '0', size=12, fill=MUTED, anchor='middle')])
     for index, row in enumerate(rows):
         y = top+index*step+step/2
-        raw, held = 100*row['error'], 100*row['held_out_error']
+        error = 100*row['error']
         body.extend([text(left-8, y+4, row['state'], size=11, anchor='end'),
-                     line(xpos(raw), y, xpos(held), y, RULE, 2),
-                     f'<circle cx="{xpos(raw):.2f}" cy="{y:.2f}" r="4" fill="{PAPER}" stroke="{MUTED}" stroke-width="1.5">'
-                     f'<title>{escape(row["state"])}: raw error {raw:+.1f} points</title></circle>',
-                     f'<circle cx="{xpos(held):.2f}" cy="{y:.2f}" r="4" fill="{INK}">'
-                     f'<title>{escape(row["state"])}: corrected error {held:+.1f} points (state left out of the fit)</title></circle>'])
+                     line(xpos(0), y, xpos(error), y, RULE, 2),
+                     f'<circle cx="{xpos(error):.2f}" cy="{y:.2f}" r="4" fill="{INK}">'
+                     f'<title>{escape(row["state"])}: error {error:+.1f} points</title></circle>'])
     body.append(text((left+right)/2, bottom+34, 'Error in Harris share (points)', size=12, fill=MUTED, anchor='middle'))
-    return svg(345, bottom+44, f'{label}: each state\'s 2024 error before correction and after a correction fitted without that state.',
-               ''.join(body))
+    return svg(345, bottom+44, f"{label}: each state's 2024 back-cast error against the official result.", ''.join(body))
 
 
 def calibration_figure(rows, models):

@@ -120,8 +120,7 @@ Data and Science Lab's "U.S. President 1976–2024" (Harvard Dataverse,
 doi:10.7910/DVN/42MVDX, V10.1, CC0), checks the published MD5, and saves the
 original CSV and a 2024 state table in `data/election_results/`. When
 `data/llm_responses/backcast-2024/` exists, `validate_models.py` also writes
-each model's state errors and a logit intercept and slope that map back-cast
-shares to official ones (`backcast_summary.parquet`), for the forecast to use.
+each model's state errors and a summary (`backcast_summary.parquet`).
 
 ```powershell
 uv run python src/election_results_pull.py
@@ -131,28 +130,28 @@ uv run python src/query_llms.py --run-name backcast-2024 --config config/backcas
 uv run python src/validate_models.py
 ```
 
-## Corrected forecast
+## Forecast and bootstrap ranges
 
-`src/forecast.py` turns each published model/day into a forecast with
-uncertainty. For each state it takes the raw two-party share,
-sum P(Democrat) / sum(P(Democrat) + P(Republican)) over the 100 personas, maps
-it through the model's 2024 back-cast correction (intercept + slope x logit
-share, from `data/model_validation/backcast_summary.parquet`), and simulates
-10,000 elections. Each simulation resamples the personas, adds a state error
-equal to the back-cast residual SD and a national error shared by all states
-(SD 0.10 on the logit scale, an assumption), and adds the 65 seats not up in
-2026. No model is queried. Each model/day has a fixed seed, so new days never
-change earlier forecasts. `src/simulate_data.py` uses the same simulation.
+`src/forecast.py` adds a range to each published model/day. A state's share is
+sum P(Democrat) / sum(P(Democrat) + P(Republican)) over its 100 personas. The
+script resamples those personas with replacement 10,000 times, gives each state
+to the party with the larger share in each resample, and adds the 65 seats not
+up in 2026. No model is queried. Each model/day has a fixed seed, so new days
+never change earlier forecasts. `src/simulate_data.py` uses the same bootstrap.
+
+The ranges reflect persona sampling only. They do not include model error or a
+national swing, so they understate the real uncertainty. The 2024 back-cast also
+shows the models spreading states too far from 50-50, so the shares are synthetic
+outputs and not vote-share estimates.
 
 ```powershell
 uv run python src/forecast.py
 ```
 
-Outputs go to `data/forecast/`: `state_forecasts.parquet` (corrected share,
-90% interval and Democratic win chance per day, model and state),
-`seat_summary.parquet` and `seat_draws.parquet`. The website build calls the
-same code, so every published day, including future daily runs, shows the
-corrected forecast beside the raw projection.
+Outputs go to `data/forecast/`: `state_forecasts.parquet` (share, 90% interval
+and how often Democrats lead, per day, model and state), `seat_summary.parquet`
+and `seat_draws.parquet`. The website build calls the same code, so every
+published day, including future daily runs, shows the ranges.
 
 ## Data checks and offline tests
 

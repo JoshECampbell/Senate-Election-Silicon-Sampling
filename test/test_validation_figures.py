@@ -1,8 +1,8 @@
 """Tests of the website's model-validation figures and section.
 
-- The back-cast scatter draws one dot per state and the correction curve.
-- The error chart draws a raw and a corrected mark per state and keeps errors
-  beyond +/-40 points inside the plot.
+- The back-cast scatter draws one dot per state.
+- The error chart draws one mark per state and keeps errors beyond +/-40 points
+  inside the plot.
 - The calibration chart draws one marker per saved point and skips models
   without points.
 - The section builder reports missing validation outputs instead of failing,
@@ -33,22 +33,20 @@ MODELS = {"jev": {"label": "Jev", "shape": "circle", "dash": ""},
 
 def state_rows(n=5):
     return [{"state": f"State {i}", "predicted_two_party": 0.1 + 0.15 * i, "actual_two_party": 0.35 + 0.05 * i,
-             "corrected_two_party": 0.36 + 0.05 * i, "error": 0.1 * i - 0.2, "held_out_error": 0.01 * i}
+             "error": 0.1 * i - 0.2}
             for i in range(n)]
 
 
 class FigureTests(unittest.TestCase):
-    def test_backcast_has_a_dot_per_state_and_a_curve(self):
-        svg = backcast_figure("Jev", state_rows(), -0.2, 0.24)
+    def test_backcast_has_a_dot_per_state(self):
+        svg = backcast_figure("Jev", state_rows())
         self.assertEqual(svg.count("<circle"), 5)
-        self.assertEqual(svg.count("<polyline"), 1)
-        self.assertIn("slope 0.24", svg)
 
-    def test_errors_have_two_marks_per_state_and_stay_in_bounds(self):
+    def test_errors_have_one_mark_per_state_and_stay_in_bounds(self):
         rows = state_rows(3)
         rows[0]["error"] = 0.9  # 90 points: must be drawn at the +40 edge
         svg = error_figure("Jev", rows)
-        self.assertEqual(svg.count("<circle"), 6)
+        self.assertEqual(svg.count("<circle"), 3)
         xs = [float(x) for x in re.findall(r'<circle cx="([\d.]+)"', svg)]
         self.assertTrue(all(112 <= x <= 330 for x in xs))
 

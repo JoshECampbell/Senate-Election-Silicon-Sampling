@@ -249,8 +249,7 @@ class ForecastFunctionTests(unittest.TestCase):
     def test_invalid_answers_are_excluded(self):
         rows = [self.row("A", 0.6, 0.4)] * 10 + [self.row("A", None, None, valid=False)] * 5
         rows += [self.row("B", 0.3, 0.7)] * 10
-        states, seats = forecast_draws(np.random.default_rng(1), self.responses(rows), self.FIXED,
-                                       draws=50, national_sd=0, state_sd=0)
+        states, seats = forecast_draws(np.random.default_rng(1), self.responses(rows), self.FIXED, draws=50)
         self.assertEqual(states["dem_two_party_share"].null_count(), 0)
         a = states.filter(state="A")["dem_two_party_share"]
         self.assertTrue(((a - 0.6).abs() < 1e-9).all())
@@ -259,8 +258,7 @@ class ForecastFunctionTests(unittest.TestCase):
     def test_nonvoting_acts_as_turnout_weight(self):
         # Person 1: likely voter for D. Person 2: probably stays home, leans R.
         rows = [self.row("A", 0.8, 0.2), self.row("A", 0.05, 0.15)]
-        states, _ = forecast_draws(np.random.default_rng(2), self.responses(rows * 50), self.FIXED,
-                                   draws=1, national_sd=0, state_sd=0)
+        states, _ = forecast_draws(np.random.default_rng(2), self.responses(rows * 50), self.FIXED, draws=1)
         share = states["dem_two_party_share"].item()
         # With equal weight per person the share would be (0.8 + 0.25) / 2 = 0.525.
         self.assertTrue(math.isclose(share, 0.85 / 1.2, abs_tol=0.05))

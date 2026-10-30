@@ -1,34 +1,30 @@
-"""Turn each day's synthetic answers into a corrected Senate forecast with uncertainty.
+"""Turn each day's synthetic answers into a Senate forecast with bootstrap ranges.
 
-The raw state share from a run is sum P(Democrat) / sum(P(Democrat) + P(Republican))
-over the state's 100 sampled personas, so P(Would not vote) acts as a turnout
-weight. The 2024 back-cast (src/validate_models.py) showed each model ranks
-states well but spreads them too far from 50-50, so each model's share is
-mapped through its fitted correction on the logit scale:
-
-    corrected = intercept + slope * logit(raw share)
+A state's share is sum P(Democrat) / sum(P(Democrat) + P(Republican)) over its 100
+sampled personas, so P(Would not vote) acts as a turnout weight.
 
 Workflow, per model and reporting day
 -------------------------------------
-1. Resample the 100 personas in every state with replacement (persona sampling).
-2. Compute each state's raw share and apply the model's correction.
-3. Add a national error shared by every state and an independent state error,
-   both on the logit scale. The state SD is the model's back-cast residual SD.
-   The national SD (NATIONAL_SD) is an assumption: one election cannot
-   measure how far the whole country might swing.
-4. Each draw gives every state's Democratic two-party share and a winner;
-   adding the 65 seats not up in 2026 gives a 100-seat Senate.
+1. Resample the 100 personas in every state with replacement.
+2. Recompute each state's Democratic two-party share and its winner.
+3. Add the 65 seats not up in 2026 to get a 100-seat Senate.
+4. Repeat DRAWS times, then summarise the shares and seat totals.
 
-The same draws are repeated DRAWS times. Nothing here queries a model: the
-simulation reuses the saved answers. Each model/day has its own seed, so adding
-a new day never changes earlier forecasts.
+The bootstrap measures one source of uncertainty: having only 100 personas per
+state. It does not measure model error, a national swing or anything else about
+the election. The 2024 back-cast (src/validate_models.py) shows the models
+spread states too far from 50-50, so these shares are synthetic outputs, not
+vote-share estimates, and the ranges are narrower than the real uncertainty.
+
+Nothing here queries a model: the bootstrap reuses the saved answers. Each
+model/day has its own seed, so adding a new day never changes earlier forecasts.
 
 Outputs (data/forecast/): state_forecasts.parquet (one row per day x model x
 state), seat_draws.parquet (one row per day x model x draw) and
 seat_summary.parquet (one row per day x model).
 
 Usage (repository root): uv run python src/forecast.py
-The website build (src/prepare_website.py) calls add_corrected_forecasts()
+The website build (src/prepare_website.py) calls add_bootstrap_forecasts()
 directly, so every published day, including future daily runs, gets a forecast.
 """
 
@@ -44,29 +40,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT))  # site_data imports src.helper_query_validation
 
-DEFAULT_CORRECTIONS = ROOT / "data/model_validation/backcast_summary.parquet"
 DEFAULT_OUTPUT_DIR = ROOT / "data/forecast"
 DRAWS = 10_000
-NATIONAL_SD = 0.10  # about 2.5 points near 50-50; an assumption, see the docstring
 BASE_SEED = 2026
 INTERVAL = (0.05, 0.95)  # 90 per cent intervals
 MAJORITY = 51
-
-
-def logistic(x):
-    return 1 / (1 + np.exp(-x))
-
-
-def logit(p):
-    p = np.clip(p, 1e-6, 1 - 1e-6)
-    return np.log(p / (1 - p))
-
-
-def load_corrections(path=DEFAULT_CORRECTIONS):
-    """Each model's intercept, slope and state SD from the 2024 back-cast."""
-    rows = pl.read_parquet(path).select("model_key", "calibration_intercept", "calibration_slope",
-                                        "calibration_residual_sd")
-    return {row[0]: {"intercept": row[1], "slope": row[2], "state_sd": row[3]} for row in rows.rows()}
 
 
 def seed_for(*parts):
@@ -74,18 +52,13 @@ def seed_for(*parts):
     return np.random.default_rng([BASE_SEED, *(zlib.crc32(str(p).encode()) for p in parts)])
 
 
-def simulate_states(rng, personas, draws=DRAWS, correction=None, national_sd=NATIONAL_SD, state_sd=None):
-    """Draws of each state's Democratic two-party share.
+def bootstrap_states(rng, personas, draws=DRAWS):
+    """Draws of each state's Democratic two-party share from resampled personas.
 
     personas maps state -> (P(Democrat) array, P(Republican) array), one entry per
-    sampled persona row. Without a correction the raw share is used and
-    state_sd must be given. Returns (sorted states, draws x states array).
+    sampled persona row. Returns (sorted states, draws x states array).
     """
     states = sorted(personas)
-    if correction is not None:
-        state_sd = correction["state_sd"]
-    if state_sd is None:
-        raise ValueError("Give a correction or a state SD.")
     shares = np.empty((draws, len(states)))
     for s, state in enumerate(states):
         dem, rep = (np.asarray(a, dtype=float) for a in personas[state])
@@ -96,11 +69,7 @@ def simulate_states(rng, personas, draws=DRAWS, correction=None, national_sd=NAT
         if (total <= 0).any():
             raise ValueError(f"{state}: no two-party probability to share.")
         shares[:, s] = dem[pick].sum(axis=1) / total
-    z = logit(shares)
-    if correction is not None:
-        z = correction["intercept"] + correction["slope"] * z
-    z += rng.normal(0, national_sd, (draws, 1)) + rng.normal(0, state_sd, (draws, len(states)))
-    return states, logistic(z)
+    return states, shares
 
 
 def seat_totals(shares, fixed_seats):
@@ -111,16 +80,13 @@ def seat_totals(shares, fixed_seats):
             "independent_seats": np.full(shares.shape[0], fixed_seats["independent"])}
 
 
-def summarise(states, shares, seats, personas, correction=None):
+def summarise(states, shares, seats, personas):
     """State shares, intervals and win chances; seat median, interval and control."""
     low, high = INTERVAL
     state_rows = {}
     for s, state in enumerate(states):
         dem, rep = (np.asarray(a, dtype=float) for a in personas[state])
-        raw = dem.sum() / (dem + rep).sum()
-        point = (logistic(correction["intercept"] + correction["slope"] * logit(raw))
-                 if correction is not None else raw)
-        state_rows[state] = {"raw_share": float(raw), "corrected_share": float(point),
+        state_rows[state] = {"share": float(dem.sum() / (dem + rep).sum()),
                              "median": float(np.median(shares[:, s])),
                              "low": float(np.quantile(shares[:, s], low)),
                              "high": float(np.quantile(shares[:, s], high)),
@@ -138,45 +104,41 @@ def summarise(states, shares, seats, personas, correction=None):
     return state_rows, seat_summary
 
 
-def forecast_entry(entry, key, day, correction, fixed_seats, draws=DRAWS, national_sd=NATIONAL_SD):
-    """Corrected forecast for one website snapshot entry (one model, one day)."""
+def forecast_entry(entry, key, day, fixed_seats, draws=DRAWS):
+    """Bootstrap forecast for one website snapshot entry (one model, one day)."""
     personas = {state: ([p["p_democrat"] for p in values["points"]],
                         [p["p_republican"] for p in values["points"]])
                 for state, values in entry["states"].items()}
-    rng = seed_for(day, key)
-    states, shares = simulate_states(rng, personas, draws, correction, national_sd)
+    states, shares = bootstrap_states(seed_for(day, key), personas, draws)
     seats = seat_totals(shares, fixed_seats)
-    state_rows, seat_summary = summarise(states, shares, seats, personas, correction)
-    return {"states": state_rows, "seats": seat_summary, "national_sd": national_sd,
-            "state_sd": correction["state_sd"], "intercept": correction["intercept"],
-            "slope": correction["slope"]}, seats
+    state_rows, seat_summary = summarise(states, shares, seats, personas)
+    return {"states": state_rows, "seats": seat_summary}, seats
 
 
-def add_corrected_forecasts(history, root=ROOT, draws=DRAWS, keep_draws=False):
+def add_bootstrap_forecasts(history, draws=DRAWS, keep_draws=False):
     """Attach entry['forecast'] to every complete synthetic model/day in history.
 
-    External benchmarks and models without a back-cast correction are skipped
-    (their 'forecast' is None). With keep_draws, seat draws are kept under
+    External benchmarks and incomplete days are skipped (their 'forecast' is
+    None). With keep_draws, seat draws are kept under
     history['seat_draws'][(day, key)] for saving as Parquet.
     """
-    corrections = load_corrections(root / "data/model_validation/backcast_summary.parquet")
     fixed = history["baseline"]["fixed_seats"]
-    history["forecast_settings"] = {"draws": draws, "national_sd": NATIONAL_SD, "interval": list(INTERVAL)}
+    history["forecast_settings"] = {"draws": draws, "interval": list(INTERVAL)}
     if keep_draws:
         history["seat_draws"] = {}
     for day, snapshot in history["snapshots"].items():
         for key, entry in snapshot["models"].items():
             entry["forecast"] = None
-            if entry.get("kind") == "external_forecast" or not entry.get("complete") or key not in corrections:
+            if entry.get("kind") == "external_forecast" or not entry.get("complete"):
                 continue
-            entry["forecast"], seats = forecast_entry(entry, key, day, corrections[key], fixed, draws)
+            entry["forecast"], seats = forecast_entry(entry, key, day, fixed, draws)
             if keep_draws:
                 history["seat_draws"][(day, key)] = seats
     return history
 
 
 def forecast_tables(history):
-    """Parquet-ready tables from a history with corrected forecasts."""
+    """Parquet-ready tables from a history with bootstrap forecasts."""
     state_rows, seat_rows, draw_frames = [], [], []
     for day, snapshot in sorted(history["snapshots"].items()):
         for key, entry in snapshot["models"].items():
@@ -188,9 +150,7 @@ def forecast_tables(history):
                                    **values})
             seats = forecast["seats"]
             seat_rows.append({"date": day, "model_key": key, "run": entry["run"],
-                              **{k: v for k, v in seats.items() if k != "histogram"},
-                              "national_sd": forecast["national_sd"], "state_sd": forecast["state_sd"],
-                              "intercept": forecast["intercept"], "slope": forecast["slope"]})
+                              **{k: v for k, v in seats.items() if k != "histogram"}})
             draws = history.get("seat_draws", {}).get((day, key))
             if draws is not None:
                 draw_frames.append(pl.DataFrame({"date": day, "model_key": key,
@@ -208,7 +168,7 @@ def main():
     args = parser.parse_args()
 
     from site_data import load_history  # same run discovery and checks as the website
-    history = add_corrected_forecasts(load_history(ROOT), ROOT, args.draws, keep_draws=True)
+    history = add_bootstrap_forecasts(load_history(ROOT), args.draws, keep_draws=True)
     states, seats, draws = forecast_tables(history)
     out = args.output_dir
     out.mkdir(parents=True, exist_ok=True)
