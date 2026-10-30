@@ -235,6 +235,7 @@ def parse_response(model_cfg: dict, body: dict, options: list[str]) -> dict:
         "model_snapshot": body.get("model"),
         "cost_usd": usage.get("cost"),
         "input_tokens": usage.get("input_tokens"),
+        "output_tokens": usage.get("output_tokens", usage.get("completion_tokens")),
         "refused": ans.get("type") == "refusal",
         "choice": ans.get("choice"),
         "confidence": ans.get("confidence"),
@@ -430,7 +431,7 @@ def write_results(out_dir: Path, cfg: dict, jobs: list[dict]) -> list[dict]:
     keep = ["model_key", "model", "model_snapshot", "persona_level", "prompt_style",
             "persona_format", "news", "state", "persona_rows", "caseid", "commonweight",
             "CC25_363", "presvote24post", "status", "choice", "confidence", *p_cols,
-            "cost_usd", "input_tokens", "requested_at", "persona_text",
+            "cost_usd", "input_tokens", "output_tokens", "requested_at", "persona_text",
             "probability_valid", "validation_retry", "error"]
     rows = []
     for job in jobs:

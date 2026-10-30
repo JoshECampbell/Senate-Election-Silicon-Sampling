@@ -1,0 +1,75 @@
+# Matched CES evaluation request. Question wording follows the manuscript;
+# House wording is reconstructed, not verified as a verbatim CES quotation.
+election:
+  office: US presidential
+  year: 2024
+options:
+  Democrat: Voted for Kamala Harris, the Democratic candidate
+  Republican: Voted for Donald Trump, the Republican candidate
+  Third party: Voted for an independent or third-party candidate
+  Would not vote: Did not vote in this election
+persona_levels:
+  3:
+  - race
+  - gender4
+  - inputstate
+  9:
+  - race
+  - gender4
+  - inputstate
+  - educ
+  - religpew
+  - marstat
+  - sexuality
+  - votereg
+  - faminc_new
+  11:
+  - race
+  - gender4
+  - inputstate
+  - educ
+  - religpew
+  - marstat
+  - sexuality
+  - votereg
+  - faminc_new
+  - pid7
+  - ideo5
+display_names:
+  race: race/ethnicity
+  gender4: gender
+  inputstate: state of residence
+  educ: education
+  religpew: religion
+  marstat: marital status
+  sexuality: sexual orientation
+  votereg: registered to vote
+  faminc_new: annual family income
+  pid7: party identification
+  ideo5: political ideology
+prompt_styles:
+  role_play:
+    context:
+      list: 'You are a person with the following characteristics: {persona}.'
+      sentence: You are {persona}.
+    question: In the 2024 US presidential election in {state}, how did you vote?
+news_template: 'Here is a summary of today''s news: {news}'
+models:
+  jev:
+    provider: openrouter_decisions
+    model: typesafe/jev-1.13
+    endpoint: https://openrouter.ai/api/alpha/decisions
+    api_key_env: OPENROUTER_API_KEY
+    state_format: list
+  mercury:
+    provider: openrouter_decisions
+    model: inception/mercury-decide
+    endpoint: https://openrouter.ai/api/alpha/decisions
+    api_key_env: OPENROUTER_API_KEY
+    state_format: list
+  decider:
+    provider: openrouter_decisions
+    model: perplexity/pplx-decider-v1.2
+    endpoint: https://openrouter.ai/api/alpha/decisions
+    api_key_env: OPENROUTER_API_KEY
+    state_format: list
