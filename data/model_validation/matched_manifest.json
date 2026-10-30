@@ -1,0 +1,30 @@
+{
+  "house": {
+    "status": "available",
+    "run": "validation-house-2026",
+    "config": "config\\validation_house_2026.yaml",
+    "config_sha256": "534cfb96cd3266c975728869470754008f61caa14d0b52c9db94a1762f2dd17a",
+    "results_sha256": "bef1dc24d689b1f18baf2778bfcdd93aa91083ff86a5201b541224f1620f297e",
+    "question": "Do you intend to vote in the 2026 election, and if so, which party\u2019s candidate for the U.S. House of Representatives are you likely to support?",
+    "options": {
+      "Would not vote": "Do not intend to vote in the 2026 election",
+      "Democrat": "Likely to vote for the Democratic US House candidate",
+      "Republican": "Likely to vote for the Republican US House candidate",
+      "Not sure": "Not sure"
+    }
+  },
+  "president": {
+    "status": "available",
+    "run": "backcast-2024",
+    "config": "config\\validation_president_2024.yaml",
+    "config_sha256": "3784eb4304132834eb691379aa4ecb328dc2e525e647e85e02285e65d857b98c",
+    "results_sha256": "746539e7c243733b9c0056453e6e0581ee1bcb89714e4989dc713a7a7334f2e6",
+    "question": "In the 2024 US presidential election in {state}, how did you vote?",
+    "options": {
+      "Democrat": "Voted for Kamala Harris, the Democratic candidate",
+      "Republican": "Voted for Donald Trump, the Republican candidate",
+      "Third party": "Voted for an independent or third-party candidate",
+      "Would not vote": "Did not vote in this election"
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "election": {
+    "office": "US House",
+    "year": 2026
+  },
+  "options": {
+    "Would not vote": "Do not intend to vote in the 2026 election",
+    "Democrat": "Likely to vote for the Democratic US House candidate",
+    "Republican": "Likely to vote for the Republican US House candidate",
+    "Not sure": "Not sure"
+  },
+  "persona_levels": {
+    "3": [
+      "race",
+      "gender4",
+      "inputstate"
+    ],
+    "9": [
+      "race",
+      "gender4",
+      "inputstate",
+      "educ",
+      "religpew",
+      "marstat",
+      "sexuality",
+      "votereg",
+      "faminc_new"
+    ],
+    "11": [
+      "race",
+      "gender4",
+      "inputstate",
+      "educ",
+      "religpew",
+      "marstat",
+      "sexuality",
+      "votereg",
+      "faminc_new",
+      "pid7",
+      "ideo5"
+    ]
+  },
+  "display_names": {
+    "race": "race/ethnicity",
+    "gender4": "gender",
+    "inputstate": "state of residence",
+    "educ": "education",
+    "religpew": "religion",
+    "marstat": "marital status",
+    "sexuality": "sexual orientation",
+    "votereg": "registered to vote",
+    "faminc_new": "annual family income",
+    "pid7": "party identification",
+    "ideo5": "political ideology"
+  },
+  "prompt_styles": {
+    "role_play": {
+      "context": {
+        "list": "You are a person with the following characteristics: {persona}.",
+        "sentence": "You are {persona}."
+      },
+      "question": "Do you intend to vote in the 2026 election, and if so, which party\u2019s candidate for the U.S. House of Representatives are you likely to support?"
+    }
+  },
+  "news_template": "Here is a summary of today's news: {news}",
+  "models": {
+    "jev": {
+      "provider": "openrouter_decisions",
+      "model": "typesafe/jev-1.13",
+      "endpoint": "https://openrouter.ai/api/alpha/decisions",
+      "api_key_env": "OPENROUTER_API_KEY",
+      "state_format": "list"
+    },
+    "mercury": {
+      "provider": "openrouter_decisions",
+      "model": "inception/mercury-decide",
+      "endpoint": "https://openrouter.ai/api/alpha/decisions",
+      "api_key_env": "OPENROUTER_API_KEY",
+      "state_format": "list"
+    },
+    "decider": {
+      "provider": "openrouter_decisions",
+      "model": "perplexity/pplx-decider-v1.2",
+      "endpoint": "https://openrouter.ai/api/alpha/decisions",
+      "api_key_env": "OPENROUTER_API_KEY",
+      "state_format": "list"
+    }
+  }
+}
