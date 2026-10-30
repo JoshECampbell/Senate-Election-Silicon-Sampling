@@ -17,12 +17,10 @@ Workflow
    9-characteristic persona (no party ID or ideology), so it predicts from
    demographics plus its own lean. Refusals, API errors and malformed vectors are
    injected on purpose and marked invalid by the project's real validation check.
-4. Forecast: for each model, combine (a) resampling the 100 personas, (b) picking
-   one of the run days, (c) a national error shared by every state and (d) an
-   independent state error. Each draw gives every state's Democratic share of the
-   two-party vote and a winner; adding the 65 seats not up in 2026 gives a seat
-   count. The error sizes are assumptions here; the real forecast should replace
-   them with errors estimated from a 2024 back-cast.
+4. Forecast: for each model, resample the 100 personas and pick one of the run
+   days. Each draw gives every state's Democratic share of the two-party vote
+   and a winner; adding the 65 seats not up in 2026 gives a seat count. This is
+   the same bootstrap as the real forecast in forecast.py.
 
 Outputs (data/simulated/)
 -------------------------
@@ -51,7 +49,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from create_personas import SENATE_STATES_2026
 from data_cleaning import CES_SCHEMA
-from forecast import seat_totals, simulate_states
+from forecast import bootstrap_states, seat_totals
 from helper_query_validation import probability_error
 
 DEFAULT_OUTPUT_DIR = ROOT / "data/simulated"
@@ -127,9 +125,6 @@ MODELS = {
 ERROR_RATE = 0.005       # API errors per call, on top of each model's refusal rate
 MALFORMED_RATE = 0.005   # "ok" responses whose probabilities fail validation
 
-# Forecast error on the logit scale. 0.10 is roughly 2.5 points near a 50-50 race.
-NATIONAL_SD = 0.10
-STATE_SD = 0.12
 
 
 def categorical(rng, probs):
@@ -389,14 +384,12 @@ def simulate_responses(rng, personas, run_dates=RUN_DATES, models=MODELS):
 # ---------------------------------------------------------------------------
 # 4. Forecast
 # ---------------------------------------------------------------------------
-def forecast_draws(rng, responses, fixed_seats, draws=1000, national_sd=NATIONAL_SD,
-                   state_sd=STATE_SD, corrections=None):
+def forecast_draws(rng, responses, fixed_seats, draws=1000):
     """Turn per-persona probabilities into draws of state results and seats.
 
-    Uses the same simulation as the real forecast (forecast.simulate_states),
+    Uses the same bootstrap as the real forecast (forecast.bootstrap_states),
     plus a random run day per draw. Only valid rows are used, so a refusal or
-    malformed answer can never put an NA into a share. corrections optionally
-    maps a model key to its back-cast intercept, slope and state SD.
+    malformed answer can never put an NA into a share.
     """
     valid = responses.filter(pl.col("probability_valid"))
     states = sorted(responses["state"].unique())
@@ -412,8 +405,7 @@ def forecast_draws(rng, responses, fixed_seats, draws=1000, national_sd=NATIONAL
                 if rows.height == 0:
                     raise ValueError(f"{model} has no valid answers for {state} on {run}.")
                 personas[state] = (rows["p_democrat"].to_numpy(), rows["p_republican"].to_numpy())
-            _, by_run[r] = simulate_states(rng, personas, draws, (corrections or {}).get(model),
-                                           national_sd, state_sd)
+            _, by_run[r] = bootstrap_states(rng, personas, draws)
         share = by_run[rng.integers(0, len(runs), draws), np.arange(draws)]
         seats = seat_totals(share, fixed_seats)
 

@@ -48,8 +48,8 @@ leo. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesua
 {{< include components/_generated/_responses.html >}}
 :::
 
-::: {#corrected-forecast .article-section}
-## Corrected forecasts by state.
+::: {#state-forecasts .article-section}
+## State forecasts with bootstrap ranges.
 
 {{< include components/_generated/_forecast.html >}}
 :::

@@ -28,12 +28,8 @@ Workflow
    asked how each persona voted in 2024. Individual answers are scored against
    presvote24post, and each state's two-party share is compared with the
    official result (data/election_results/, from election_results_pull.py).
-   The summary gives each model's average error (bias), the spread of state
-   errors on the logit scale, and a fitted intercept and slope mapping
-   back-cast shares to official ones. The forecast uses that mapping to
-   correct 2026 shares and its residual SD as state-level uncertainty. A
-   leave-one-state-out check refits the mapping without each state in turn and
-   reports the error on the state left out, to show it is not overfitting.
+   The summary gives each model's average error, largest error, correlation
+   with the result and how many state winners it gets right.
 
 Persona rows are weighted draws, so every row counts once; a respondent drawn
 three times counts three times. Do not apply commonweight again.
@@ -214,10 +210,6 @@ def run_stability(states):
             .sort("model_key", "state"))
 
 
-def logit(p):
-    return (p / (1 - p)).log()
-
-
 def backcast_states(backcast, actual):
     """Each state's back-cast two-party share against the official 2024 result."""
     predicted = (backcast.filter(pl.col("probability_valid"))
@@ -229,85 +221,21 @@ def backcast_states(backcast, actual):
     missing = table.filter(pl.col("actual_two_party").is_null())["state"].unique().to_list()
     if missing:
         raise ValueError(f"No official 2024 result for: {missing}")
-    return (table.with_columns(
-        (pl.col("predicted_two_party") - pl.col("actual_two_party")).alias("error"),
-        (logit(pl.col("predicted_two_party")) - logit(pl.col("actual_two_party"))).alias("logit_error"))
-        .sort("model_key", "state"))
-
-
-def logit_calibration(states):
-    """Per model, regress the official logit share on the back-cast logit share.
-
-    A slope below 1 means the model spreads states too far apart, which a single
-    shift cannot fix. The forecast maps a 2026 share x to intercept + slope *
-    logit(x); residual_sd is the state error left after that mapping (two
-    fitted parameters, so the variance divides by states - 2).
-    """
-    rows = []
-    for (model,), group in states.group_by("model_key"):
-        x = np.log(group["predicted_two_party"] / (1 - group["predicted_two_party"])).to_numpy()
-        y = np.log(group["actual_two_party"] / (1 - group["actual_two_party"])).to_numpy()
-        slope, intercept = np.polyfit(x, y, 1)
-        residuals = y - (intercept + slope * x)
-        residual_sd = float(np.sqrt((residuals ** 2).sum() / (len(x) - 2))) if len(x) > 2 else None
-        rows.append({"model_key": model, "calibration_intercept": float(intercept),
-                     "calibration_slope": float(slope), "calibration_residual_sd": residual_sd})
-    return pl.DataFrame(rows, schema={"model_key": pl.String, "calibration_intercept": pl.Float64,
-                                      "calibration_slope": pl.Float64, "calibration_residual_sd": pl.Float64})
-
-
-def with_corrections(states):
-    """Add each state's corrected share, fitted with and without that state.
-
-    corrected_two_party uses the fit on all states. held_out_two_party refits
-    the intercept and slope on every other state, so the state being corrected
-    never informs its own correction (leave-one-out). If held-out errors are
-    close to in-sample ones, two parameters are not overfitting the states.
-    """
-    frames = []
-    for (model,), group in states.group_by("model_key"):
-        x = np.log(group["predicted_two_party"] / (1 - group["predicted_two_party"])).to_numpy()
-        y = np.log(group["actual_two_party"] / (1 - group["actual_two_party"])).to_numpy()
-        slope, intercept = np.polyfit(x, y, 1)
-        held_out = np.full(len(x), np.nan)
-        if len(x) >= 4:  # each held-out fit needs at least three states
-            for i in range(len(x)):
-                keep = np.arange(len(x)) != i
-                s, c = np.polyfit(x[keep], y[keep], 1)
-                held_out[i] = c + s * x[i]
-        frames.append(group.with_columns(
-            pl.Series("corrected_two_party", 1 / (1 + np.exp(-(intercept + slope * x)))),
-            pl.Series("held_out_two_party", 1 / (1 + np.exp(-held_out)), nan_to_null=True)))
-    return (pl.concat(frames)
-            .with_columns((pl.col("held_out_two_party") - pl.col("actual_two_party")).alias("held_out_error"))
+    return (table.with_columns((pl.col("predicted_two_party") - pl.col("actual_two_party")).alias("error"))
             .sort("model_key", "state"))
 
 
 def backcast_summary(states):
-    """Per model: bias and spread of state errors, in points and on the logit scale.
-
-    logit_bias is the average shift between the back-cast and official shares,
-    and logit_state_sd the state-to-state error left after that shift alone.
-    The calibration_* columns come from logit_calibration() and the held_out_*
-    columns from with_corrections() (leave-one-state-out).
-    """
-    held_out = (with_corrections(states).group_by("model_key")
-                .agg(pl.col("held_out_error").abs().mean().alias("held_out_mean_abs_error"),
-                     pl.col("held_out_error").abs().max().alias("held_out_max_abs_error"),
-                     ((pl.col("held_out_two_party") > 0.5) == (pl.col("actual_two_party") > 0.5))
-                     .mean().alias("held_out_winner_agreement")))
+    """Per model: how well the back-cast ranks states and how far off it is."""
     return (states.group_by("model_key")
             .agg(pl.len().alias("states"),
                  pl.col("error").mean().alias("mean_error"),
                  pl.col("error").abs().mean().alias("mean_abs_error"),
+                 pl.col("error").abs().max().alias("max_abs_error"),
                  (pl.col("error") ** 2).mean().sqrt().alias("rmse"),
                  pl.corr("predicted_two_party", "actual_two_party").alias("correlation"),
                  ((pl.col("predicted_two_party") > 0.5) == (pl.col("actual_two_party") > 0.5))
-                 .mean().alias("winner_agreement"),
-                 pl.col("logit_error").mean().alias("logit_bias"),
-                 pl.col("logit_error").std().alias("logit_state_sd"))
-            .join(logit_calibration(states), on="model_key")
-            .join(held_out, on="model_key")
+                 .mean().alias("winner_agreement"))
             .sort("model_key"))
 
 
@@ -340,7 +268,7 @@ def main():
         (score_individuals(backcast).filter(pl.col("benchmark") == "2024 presidential vote")
          .write_parquet(out / "backcast_individual.parquet"))
         back_states = backcast_states(backcast, pl.read_parquet(args.results_2024))
-        with_corrections(back_states).write_parquet(out / "backcast_states.parquet")
+        back_states.write_parquet(out / "backcast_states.parquet")
         summary = backcast_summary(back_states)
         summary.write_parquet(out / "backcast_summary.parquet")
 

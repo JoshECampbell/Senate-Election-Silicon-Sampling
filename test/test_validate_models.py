@@ -10,9 +10,8 @@ plus checks on the saved validation outputs when they exist.
 - Calibration bins hold every two-party row once.
 - State shares use sum P(D) / sum(P(D) + P(R)), and run stability reports the
   spread across runs.
-- Back-cast: state errors against official results in points and on the logit
-  scale, the per-model bias and spread, the fitted correction, the
-  leave-one-state-out check, and an error for unmatched states.
+- Back-cast: state errors against official results, the per-model summary, and
+  an error for unmatched states.
 - Saved outputs: one row per run x model x benchmark, scores in range, and
   states covering all 35 Senate races.
 
@@ -29,8 +28,7 @@ import polars as pl
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from validate_models import (BENCHMARKS, backcast_states, backcast_summary, calibration, option_shares,
-                             run_stability, score_individuals, scored_rows, state_comparison,
-                             with_corrections)
+                             run_stability, score_individuals, scored_rows, state_comparison)
 
 OUTPUT = ROOT / "data/model_validation"
 SCHEMA = {"run": pl.String, "model_key": pl.String, "state": pl.String, "caseid": pl.Float64,
@@ -147,57 +145,18 @@ class BackcastTests(unittest.TestCase):
                       row(2, 2, (0.3, 0.7, 0.0, 0.0), state="B"),
                       row(2, 2, None, state="B", valid=False)])
         states = backcast_states(rows, self.ACTUAL)
-        a = states.filter(state="A").row(0, named=True)
-        self.assertAlmostEqual(a["error"], 0.1)
-        self.assertAlmostEqual(a["logit_error"], math.log(0.6 / 0.4))
+        self.assertAlmostEqual(states.filter(state="A")["error"].item(), 0.1)
         self.assertAlmostEqual(states.filter(state="B")["error"].item(), -0.1)
 
-    def test_summary_bias_and_spread(self):
+    def test_summary(self):
         rows = frame([row(1, 1, (0.6, 0.4, 0.0, 0.0), state="A"),
                       row(2, 2, (0.5, 0.5, 0.0, 0.0), state="B")])
         summary = backcast_summary(backcast_states(rows, self.ACTUAL)).row(0, named=True)
-        errors = [math.log(0.6 / 0.4), math.log(1.0) - math.log(0.4 / 0.6)]
-        self.assertAlmostEqual(summary["logit_bias"], sum(errors) / 2)
-        self.assertAlmostEqual(summary["logit_state_sd"], abs(errors[0] - errors[1]) / math.sqrt(2))
+        self.assertEqual(summary["states"], 2)
         self.assertAlmostEqual(summary["mean_error"], 0.1)
+        self.assertAlmostEqual(summary["mean_abs_error"], 0.1)
+        self.assertAlmostEqual(summary["max_abs_error"], 0.1)
         self.assertAlmostEqual(summary["winner_agreement"], 0.5)  # A's official 0.5 is not a Democratic win
-        self.assertIsNone(summary["calibration_residual_sd"])     # two states leave no residual df
-
-    def test_calibration_recovers_known_slope(self):
-        # Official logit shares are exactly 0.2 + 0.5 * the back-cast logit share.
-        logits = [-2.0, -1.0, 0.0, 1.0, 2.0]
-        expit = lambda x: 1 / (1 + math.exp(-x))
-        states = [chr(65 + i) for i in range(len(logits))]
-        rows = frame([row(1, 1, (expit(x), 1 - expit(x), 0.0, 0.0), state=s) for x, s in zip(logits, states)])
-        actual = pl.DataFrame({"state": states, "harris_two_party": [expit(0.2 + 0.5 * x) for x in logits]})
-        summary = backcast_summary(backcast_states(rows, actual)).row(0, named=True)
-        self.assertAlmostEqual(summary["calibration_slope"], 0.5)
-        self.assertAlmostEqual(summary["calibration_intercept"], 0.2)
-        self.assertAlmostEqual(summary["calibration_residual_sd"], 0.0)
-
-    def test_held_out_correction_ignores_the_state(self):
-        # Four states on an exact line plus one outlier. Correcting a line state
-        # without the outlier in the fit recovers it exactly, while the outlier's
-        # held-out correction comes only from the line and so misses it.
-        logits = [-2.0, -1.0, 0.0, 1.0, 2.0]
-        expit = lambda x: 1 / (1 + math.exp(-x))
-        truth = [expit(0.2 + 0.5 * x) for x in logits]
-        truth[4] = 0.9
-        states = [chr(65 + i) for i in range(len(logits))]
-        rows = frame([row(1, 1, (expit(x), 1 - expit(x), 0.0, 0.0), state=s) for x, s in zip(logits, states)])
-        actual = pl.DataFrame({"state": states, "harris_two_party": truth})
-        corrected = with_corrections(backcast_states(rows, actual))
-        outlier = corrected.filter(state="E").row(0, named=True)
-        self.assertAlmostEqual(outlier["held_out_two_party"], expit(0.2 + 0.5 * 2.0))
-        self.assertGreater(abs(outlier["held_out_error"]), abs(outlier["corrected_two_party"] - 0.9))
-        summary = backcast_summary(backcast_states(rows, actual)).row(0, named=True)
-        self.assertAlmostEqual(summary["held_out_max_abs_error"], abs(outlier["held_out_error"]))
-
-    def test_held_out_needs_four_states(self):
-        rows = frame([row(1, 1, (0.6, 0.4, 0.0, 0.0), state="A"),
-                      row(2, 2, (0.5, 0.5, 0.0, 0.0), state="B")])
-        corrected = with_corrections(backcast_states(rows, self.ACTUAL))
-        self.assertEqual(corrected["held_out_two_party"].null_count(), 2)
 
     def test_state_without_result_raises(self):
         rows = frame([row(1, 1, (0.6, 0.4, 0.0, 0.0), state="C")])
