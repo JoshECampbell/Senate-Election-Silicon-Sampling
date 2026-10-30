@@ -30,6 +30,7 @@ Usage (repository root): uv run python src/polling_forecast.py --fetch
 
 from argparse import ArgumentParser
 from collections import Counter
+import copy
 from datetime import date, datetime, timezone
 import json
 import os
@@ -122,6 +123,30 @@ def add_forecasts(history, root=ROOT):
         history['latest'][KEY] = day
     history['dates'] = sorted(history['snapshots'])
     history['date'] = history['dates'][-1]
+
+
+def carry_forward_forecasts(history):
+    """Fill later reporting-day displays, marking every reused benchmark value.
+
+    Actual archived forecasts and their source dates remain unchanged. Nothing
+    is filled before the first available forecast, and no network call is made.
+    history['latest'] continues to identify the latest actual API snapshot.
+    """
+    latest = None
+    source_day = None
+    for day in sorted(history['dates']):
+        models = history['snapshots'][day]['models']
+        entry = models.get(KEY)
+        if entry is not None and not entry.get('carried_forward'):
+            entry['source_date'] = day
+            entry['carried_forward'] = False
+            latest, source_day = entry, day
+        elif entry is None and latest is not None:
+            entry = copy.deepcopy(latest)
+            entry.update(date=day, source_date=source_day, carried_forward=True,
+                         run='Polling Forecast API (last available)')
+            models[KEY] = entry
+    return history
 
 
 if __name__ == '__main__':
