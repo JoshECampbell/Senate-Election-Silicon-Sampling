@@ -1,0 +1,11 @@
+{
+  "attempts": 2403,
+  "partial": false,
+  "source": "attempt_log",
+  "known_cost": 0.043101576,
+  "unknown_costs": 0,
+  "input_tokens": 1026228,
+  "unknown_input_tokens": 0,
+  "output_tokens": 129762,
+  "unknown_output_tokens": 0
+}

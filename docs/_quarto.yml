@@ -15,6 +15,9 @@ project:
     - .nojekyll
     - "!design/**"
 
+bibliography: references.bib
+link-citations: true
+
 website:
   title: "The Synthetic Senate"
 
@@ -27,7 +30,7 @@ format:
     page-layout: custom
     title-block-style: none
     include-after-body: components/_scripts.html
-    html-math-method: plain
+    html-math-method: mathml
 
 execute:
   enabled: false

@@ -86,7 +86,7 @@ its most recent complete day, labelled with that actual date.
 
 | File or folder | Purpose |
 | --- | --- |
-| `index.qmd` | Page content and layout. Temporary Latin: 325 introduction words, 1,500 Methods words, 1,500 Discussion words. Replace directly with your writing. |
+| `index.qmd` | Page content and layout. Methods text and validation figures are included here; the introduction and discussion still contain placeholder text. |
 | `site-config.yml` | Display models, shapes, study condition, sample, timezone, footer contacts, and fixed-seat baseline with provenance. |
 | `styles.css` | Fonts, colours, sizes, spacing, and responsive layout. |
 | `assets/site.js` | State, model, and date selectors; loads prepared figures. |
@@ -94,7 +94,7 @@ its most recent complete day, labelled with that actual date.
 | `../src/` | Website preparation, forecast collection and SVG generation. |
 | `../test/` | Data, query, persona and website tests. |
 | `design/` | Detailed requirements and approved mockup for reference. |
-| `references.bib` | Saved CES citation for your later writing. |
+| `references.bib` | Bibliography for the methods; citations are resolved by Quarto. |
 
 `index.html`, `data/`, `figures/`, `components/_generated/`, `site_libs/`, and
 `search.json` are generated: edit their sources and rebuild instead of editing
