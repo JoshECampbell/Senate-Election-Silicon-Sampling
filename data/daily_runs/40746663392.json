@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-28",
+  "run_name": "oct-28-no-luna",
+  "successful_models": [
+    "jev",
+    "mercury",
+    "decider"
+  ],
+  "polling_success": false,
+  "source_commit": "2df3758335cc3b76f2245eea8fc6cb42f26fbf23"
+}

@@ -105,6 +105,25 @@ h3 {
   font-size:19px;
   line-height:1.2;
   margin:0 0 10px}
+#methods > h3 {
+  font-size:26px;
+  line-height:1.25;
+  margin:32px 0 16px}
+.methods-equation {
+  margin:22px 0;
+  padding:18px 24px;
+  background:#f0eee8;
+  border-left:3px solid var(--rule);
+  overflow-x:auto;
+  text-align:center;
+  font-size:21px}
+.methods-equation p {
+  margin:0}
+#methods math {
+  font-family:"Cambria Math","STIX Two Math","Latin Modern Math",math}
+.methods-equation math {
+  font-size:1em;
+  line-height:normal}
 p {
   margin:0 0 18px}
 .snapshot-line {

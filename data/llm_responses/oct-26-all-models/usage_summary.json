@@ -1,0 +1,35 @@
+{
+  "jev": {
+    "attempts": 2401,
+    "partial": false,
+    "source": "attempt_log",
+    "known_cost": 0.043067808,
+    "unknown_costs": 0,
+    "input_tokens": 1025424,
+    "unknown_input_tokens": 0,
+    "output_tokens": 129654,
+    "unknown_output_tokens": 0
+  },
+  "mercury": {
+    "attempts": 2379,
+    "partial": false,
+    "source": "attempt_log",
+    "known_cost": 0.0,
+    "unknown_costs": 0,
+    "input_tokens": 427754,
+    "unknown_input_tokens": 0,
+    "output_tokens": 2379,
+    "unknown_output_tokens": 0
+  },
+  "decider": {
+    "attempts": 2379,
+    "partial": false,
+    "source": "attempt_log",
+    "known_cost": 0.00884564,
+    "unknown_costs": 0,
+    "input_tokens": 442282,
+    "unknown_input_tokens": 0,
+    "output_tokens": 2379,
+    "unknown_output_tokens": 0
+  }
+}

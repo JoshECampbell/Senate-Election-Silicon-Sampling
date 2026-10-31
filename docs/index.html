@@ -26,8 +26,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-.display.math{display: block; text-align: center; margin: 0.5rem auto;}
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -80,9 +98,8 @@ Latest model-implied projection · 100 seats
 <h3>
 TypeSafe Jev 1.13
 </h3>
-
 <p class="projection-outcome" style="color:#BD4942">
-Republican majority
+Republican Majority
 </p>
 <div class="seat-counts">
 <span><b style="color:#326A9D">46</b>Democratic seats</span><span><b style="color:#777777">2</b>Independent / other seats</span><span><b style="color:#BD4942">52</b>Republican seats</span>
@@ -99,9 +116,8 @@ Bootstrap Results
 <h3>
 Inception Mercury Decide
 </h3>
-
 <p class="projection-outcome" style="color:#BD4942">
-Republican majority
+Republican Majority
 </p>
 <div class="seat-counts">
 <span><b style="color:#326A9D">47</b>Democratic seats</span><span><b style="color:#777777">2</b>Independent / other seats</span><span><b style="color:#BD4942">51</b>Republican seats</span>
@@ -118,7 +134,6 @@ Bootstrap Results
 <h3>
 Perplexity Decider V1.2
 </h3>
-
 <p class="projection-outcome" style="color:#326A9D">
 Democrats lead; no outright majority
 </p>
@@ -25045,26 +25060,37 @@ Wyoming
 </div>
 <div id="methods" class="article-section">
 <h2 id="methods-heading">Methods</h2>
-<div class="prose-columns">
-<p>Integer vitae justo eget magna fermentum iaculis eu non diam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nullam quis risus eget urna mollis ornare vel eu leo. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Integer vitae justo eget magna fermentum iaculis eu non diam. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis, vestibulum id ligula</p>
-<p>porta felis euismod semper. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Nullam quis risus eget urna mollis ornare vel eu leo. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Nullam quis risus eget urna mollis ornare vel eu leo. Aliquam erat volutpat, nam libero tempore cum soluta nobis est</p>
-<p>eligendi optio. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Integer vitae justo eget magna fermentum iaculis eu non diam. Integer vitae justo eget magna fermentum iaculis eu non diam. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Integer vitae justo eget magna fermentum iaculis eu non diam. Maecenas faucibus</p>
-<p>mollis interdum, curabitur blandit tempus porttitor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Integer vitae justo eget magna fermentum iaculis eu non diam. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem.</p>
-<p>Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum</p>
-<p>massa justo sit amet risus. Integer vitae justo eget magna fermentum iaculis eu non diam. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Pellentesque habitant morbi tristique</p>
-<p>senectus et netus et malesuada fames ac turpis egestas. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Integer vitae justo eget magna fermentum iaculis eu non diam. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam quis risus eget urna mollis ornare vel eu leo. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Nullam quis risus eget urna mollis</p>
-<p>ornare vel eu leo. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Integer vitae justo eget magna fermentum iaculis eu non diam. Nullam quis risus eget urna mollis ornare vel eu leo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper.</p>
-<p>Nullam quis risus eget urna mollis ornare vel eu leo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Etiam sit amet orci eget eros faucibus tincidunt, duis leo sed fringilla mauris sit amet nibh. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo</p>
-<p>sit amet risus. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Integer vitae justo eget magna fermentum iaculis eu non diam. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Suspendisse potenti, vivamus sagittis lacus</p>
-<p>vel augue laoreet rutrum faucibus dolor auctor. Quisque rutrum aenean imperdiet, etiam ultricies nisi vel augue. Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa justo sit amet risus. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer vitae justo eget magna fermentum iaculis eu non diam. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Maecenas faucibus mollis interdum, curabitur blandit tempus porttitor. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Integer vitae</p>
-<p>justo eget magna fermentum iaculis eu non diam. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesuada magna mollis euismod. Aliquam erat volutpat, nam libero tempore cum soluta nobis est eligendi optio. Aliquam erat volutpat,</p>
-<p>nam libero tempore cum soluta nobis est eligendi optio. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum. Integer vitae justo eget magna fermentum iaculis eu non diam. Nam quam nunc blandit vel luctus pulvinar hendrerit id lorem. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Integer vitae justo eget magna fermentum iaculis eu non diam. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim</p>
-<p>ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Sed posuere consectetur est at lobortis, vestibulum id ligula porta felis euismod semper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse potenti, vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean lacinia bibendum nulla sed consectetur, cras mattis consectetur purus sit amet fermentum.</p>
+<p>We adapted the synthetic electoral sampling approach described by <span class="citation" data-cites="murray2026">Murray and Alexander (<a href="#ref-murray2026" role="doc-biblioref">2026</a>)</span> to produce daily estimates for the 35 U.S. Senate races in 2026. Our investigation looked into whether decision models from different providers could generate electoral response distributions from representative personas of the U.S. population, and how closely those responses agreed with recorded self-reported electoral behaviour. We were interested in comparing the trend of decision-model-derived electoral forecasts to an external forecast benchmark based on real polling data.</p>
+<p>Unlike large language models (LLMs), decision models return structured, probabilistic answers to predefined questions rather than free-form text. These models accept contextual information and assign probabilities to specified response options, making them useful for classification and decision tasks <span class="citation" data-cites="schmitt2026">(<a href="#ref-schmitt2026" role="doc-biblioref">Schmitt 2026</a>)</span>. TypeSafe AI’s Jev, released in September 2026, was the first notable decision model and sparked a larger discussion about areas in which decision models may be more appropriate than traditional LLMs <span class="citation" data-cites="jev_medium">(<a href="#ref-jev_medium" role="doc-biblioref"><em>What Is <span>Jev</span>? Inside <span>TypeSafe AI</span>’s Decision-First Model</em>, n.d.</a>)</span>.</p>
+<p>The underlying mechanism of these models is especially interesting in the context of synthetic electoral sampling, as traditional approaches using LLMs require additional work to post-process responses to extract voting preferences <span class="citation" data-cites="heath2026">(<a href="#ref-heath2026" role="doc-biblioref">Heath and Alexander 2026</a>)</span>. Decision models show potential to simplify this process by representing voting preferences as probabilities across electoral categories. Although the structured responses may simplify the workflow, this does not itself establish that the probabilities accurately reflect electoral behaviour.</p>
+<p>Our workflow began with preparation of respondent data from the 2025 Cooperative Election Study (CES) Common Content survey. We used survey-weighted sampling within each state to construct cohorts of 100 personas and assess their likeness to the CES respondent population within the state. The personas were then used to query three decision models about Democratic, Republican, third-party, and non-voting preferences. These responses were aggregated into state-level estimates as well as overall Senate control estimates. Separate evaluation questions assessed the agreement with respondents’ recorded 2024 presidential votes and 2026 House vote intentions, while forecasts from Polling Forecast provided an external reference for broad trends. Data collection, preparation, validation, and analysis were implemented in Python 3.14 <span class="citation" data-cites="python">(<a href="#ref-python" role="doc-biblioref">Python Software Foundation, n.d.-b</a>)</span> using the following packages: Matplotlib <span class="citation" data-cites="hunter2007">(<a href="#ref-hunter2007" role="doc-biblioref">Hunter 2007</a>)</span>, NumPy <span class="citation" data-cites="harris2020">(<a href="#ref-harris2020" role="doc-biblioref">Harris et al. 2020</a>)</span>, pandas <span class="citation" data-cites="mckinney2010">(<a href="#ref-mckinney2010" role="doc-biblioref">McKinney 2010</a>)</span>, Polars <span class="citation" data-cites="polars">(<a href="#ref-polars" role="doc-biblioref">Vink, n.d.</a>)</span>, PyArrow <span class="citation" data-cites="pyarrow">(<a href="#ref-pyarrow" role="doc-biblioref">Apache Software Foundation, n.d.</a>)</span>, PyYAML <span class="citation" data-cites="pyyaml">(<a href="#ref-pyyaml" role="doc-biblioref">Simonov, n.d.</a>)</span>, and Requests <span class="citation" data-cites="requests">(<a href="#ref-requests" role="doc-biblioref"><span class="nocase">Reitz et al.</span>, n.d.</a>)</span>. We also used Python’s standard library module pathlib <span class="citation" data-cites="pathlib">(<a href="#ref-pathlib" role="doc-biblioref">Python Software Foundation, n.d.-a</a>)</span>. Project dependencies and the Python environment were managed using Astral’s uv <span class="citation" data-cites="uv">(<a href="#ref-uv" role="doc-biblioref">Astral, n.d.</a>)</span>.</p>
+<h3 id="data-sources-and-preparation">Data Sources and Preparation</h3>
+<p>We used respondent-level data from the 2025 CES Common Content to construct demographic and political personas. The dataset contains 17,000 respondents and 341 variables, including demographic characteristics, political affiliations, and electoral behaviour <span class="citation" data-cites="ces2025">(<a href="#ref-ces2025" role="doc-biblioref">Schaffner et al. 2026</a>)</span>. These measures enable both persona construction and comparisons between model-generated responses and self-reported electoral behaviour.</p>
+<p>The raw survey data were downloaded from Harvard Dataverse, and supporting documentation was reviewed to interpret variable definitions and response codes <span class="citation" data-cites="ces2025">(<a href="#ref-ces2025" role="doc-biblioref">Schaffner et al. 2026</a>)</span>.</p>
+<p>We retained 17 variables covering demographic and political characteristics, voting patterns, and survey weights. Demographic characteristics included identification number, race, gender, state, education, religious affiliation, marital status, sexual orientation, family income, and birth year. Political characteristics included voter registration status, three- and seven-category party identification, and political ideology. The remaining variables corresponded to intended party vote for the upcoming 2026 House elections, voting history in the 2024 presidential election, and the Common Content survey weight.</p>
+<p>Variable selection was guided by the persona construction and sampling procedure of <span class="citation" data-cites="murray2026">Murray and Alexander (<a href="#ref-murray2026" role="doc-biblioref">2026</a>)</span>, as discussed in the following section. The House vote-intention and prior voting variables were excluded from persona construction and retained for comparison with model-generated electoral patterns. This evaluation approach follows methods outlined in <span class="citation" data-cites="argyle2023">Argyle et al. (<a href="#ref-argyle2023" role="doc-biblioref">2023</a>)</span>, who compared model-generated responses with corresponding human respondents’ self-reported answers in the American National Election Studies (ANES).</p>
+<p>Data preparation consisted of selecting the retained variables from the raw dataset and saving them in Parquet format. All 17,000 respondents were preserved along with their original response codes and missing values. Validation tests checked respondent counts, identifier uniqueness, column names and data types, admissible response codes, and consistency between the retained raw variables and the prepared dataset. A detailed outline of the retained fields and their coding scheme can be found in <code>misc/CES_CODEBOOK_AND_CLEANING.md</code>.</p>
+<h3 id="persona-validation">Persona Construction and Validation</h3>
+<p>Personas were constructed from the demographic and political fields that were retained from the CES data. Following the sampling approach described by <span class="citation" data-cites="murray2026">Murray and Alexander (<a href="#ref-murray2026" role="doc-biblioref">2026</a>)</span>, respondents were sampled within each state with probabilities proportional to their Common Content survey weights as a method of post-stratification. These weights adjust each respondent’s relative influence on survey estimates by their persona prevalence within the U.S.</p>
+<p>To construct a cohort of personas to represent the state, each persona was drawn from the overall state population with probability equal to its weight divided by the sum of the weights for the given state.</p>
+<div class="methods-equation">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Pr</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>I</mi><mi>s</mi></msub><mo>=</mo><mi>i</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><msub><mi>w</mi><mi>i</mi></msub><mrow><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><msub><mi>S</mi><mi>s</mi></msub></mrow></munder><msub><mi>w</mi><mi>j</mi></msub></mrow></mfrac><mo>,</mo><mspace width="2.0em"></mspace><mi>i</mi><mo>∈</mo><msub><mi>S</mi><mi>s</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\Pr(I_s = i) = \frac{w_i}{\sum_{j \in S_s} w_j}, \qquad i \in S_s.
+</annotation></semantics></math></p>
 </div>
+<p>Here, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>S</mi><mi>s</mi></msub><annotation encoding="application/x-tex">S_s</annotation></semantics></math> is the set of CES respondents in state <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mi>i</mi></msub><annotation encoding="application/x-tex">w_i</annotation></semantics></math> is respondent <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>’s Common Content survey weight, and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>I</mi><mi>s</mi></msub><annotation encoding="application/x-tex">I_s</annotation></semantics></math> identifies the respondent selected on a single draw.</p>
+<p>Normalizing weights within states ensures that probabilities sum to one and relative influence is preserved within the state cohort. Respondents were sampled with replacement, allowing for independence in the sampling; however, this enabled a respondent to appear more than once within a cohort. This also permitted cohort sizes larger than the number of available respondents in some states, as was the case in Alaska (CES respondents: 23). Consequently, cohort size represents the number of independent draws rather than the number of unique respondents. The cohort size and random seed were recorded for reproducibility and can be found in the GitHub repository at <code>data/personas/sample_##/persona_config.yaml</code>.</p>
+<p>This sampling method serves as a way to post-stratify our cohorts but does not guarantee that the sampled cohort matches that state’s population. To assess how closely the sampled cohorts reproduce the CES state population, we compared the distribution of demographic features at the state level. For each category, the reference proportion was calculated as the sum of survey weights for respondents in that category divided by the total survey weight within the state. Persona proportions were calculated using unweighted characteristic frequencies because selection probabilities already incorporated the survey weights. Since birth year was reported in the survey, age was derived using 2025 as the reference year. The resulting bins were chosen following the stratification of age in <span class="citation" data-cites="wang2015">Wang et al. (<a href="#ref-wang2015" role="doc-biblioref">2015</a>)</span>.</p>
+<p>Category-level variations were expressed as percentage-point differences between persona and reference proportions. The maximum percentage-point differences are expressed below each feature plot in the following figure. To summarize disagreement across an entire feature, total variation distance (TVD) was calculated <span class="citation" data-cites="tvd_wikipedia">(<a href="#ref-tvd_wikipedia" role="doc-biblioref">Wikipedia contributors, n.d.</a>)</span>. TVD ranges from zero for identical distributions to one for distributions with no overlap. It can be interpreted as the fraction of probability mass that would need to be redistributed across categories to match the reference.</p>
+<div class="methods-equation">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">T</mi><mi mathvariant="normal">V</mi><mi mathvariant="normal">D</mi></mrow><mrow><mi>s</mi><mo>,</mo><mi>f</mi></mrow></msub><mo>=</mo><mstyle displaystyle="false"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><msubsup><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>K</mi><mi>f</mi></msub></msubsup><mo stretchy="false" form="prefix">|</mo><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>s</mi><mo>,</mo><mi>f</mi><mo>,</mo><mi>k</mi></mrow></msub><mo>−</mo><msubsup><mi>p</mi><mrow><mi>s</mi><mo>,</mo><mi>f</mi><mo>,</mo><mi>k</mi></mrow><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">E</mi><mi mathvariant="normal">S</mi></mrow></msubsup><mo stretchy="false" form="postfix">|</mo></mrow><annotation encoding="application/x-tex">
+\mathrm{TVD}_{s,f} = \tfrac{1}{2}\sum\nolimits_{k=1}^{K_f}
+\lvert\hat{p}_{s,f,k} - p^{\mathrm{CES}}_{s,f,k}\rvert
+</annotation></semantics></math></p>
 </div>
-<div id="persona-validation" class="article-section">
-<h2 id="how-closely-do-the-personas-match-ces-respondents">How closely do the personas match CES respondents?</h2>
+<p>Here, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>K</mi><mi>f</mi></msub><annotation encoding="application/x-tex">K_f</annotation></semantics></math> is the number of categories for feature <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>p</mi><mo accent="true">̂</mo></mover><mrow><mi>s</mi><mo>,</mo><mi>f</mi><mo>,</mo><mi>k</mi></mrow></msub><annotation encoding="application/x-tex">\hat{p}_{s,f,k}</annotation></semantics></math> is the sampled cohort’s proportion in category <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> within state <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>, and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>p</mi><mrow><mi>s</mi><mo>,</mo><mi>f</mi><mo>,</mo><mi>k</mi></mrow><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">E</mi><mi mathvariant="normal">S</mi></mrow></msubsup><annotation encoding="application/x-tex">p^{\mathrm{CES}}_{s,f,k}</annotation></semantics></math> is the corresponding survey-weighted CES reference proportion.</p>
+<p>We compared cohorts of 25, 50, and 100 draws per state. Across the six characteristics displayed on the website and 35 states, giving each state–characteristic comparison equal weight, mean TVD decreased from 0.128 for 25 draws to 0.089 for 50 draws and 0.066 for 100 draws. This corresponds to an average reduction in TVD of 48.3% relative to 25 draws and 26.0% relative to 50 draws. These findings supported selecting 100 draws per state as the cohort size with the closest average agreement among those evaluated.</p>
+<p>The table below summarizes the average TVD comparison across cohorts of 25, 50, and 100 draws per state.</p>
 <div class="section-toolbar">
 <label for="validation-state">State <select id="validation-state"><option value="alabama" selected="">Alabama</option><option value="alaska">Alaska</option><option value="arkansas">Arkansas</option><option value="colorado">Colorado</option><option value="delaware">Delaware</option><option value="florida">Florida</option><option value="georgia">Georgia</option><option value="idaho">Idaho</option><option value="illinois">Illinois</option><option value="iowa">Iowa</option><option value="kansas">Kansas</option><option value="kentucky">Kentucky</option><option value="louisiana">Louisiana</option><option value="maine">Maine</option><option value="massachusetts">Massachusetts</option><option value="michigan">Michigan</option><option value="minnesota">Minnesota</option><option value="mississippi">Mississippi</option><option value="montana">Montana</option><option value="nebraska">Nebraska</option><option value="new-hampshire">New Hampshire</option><option value="new-jersey">New Jersey</option><option value="new-mexico">New Mexico</option><option value="north-carolina">North Carolina</option><option value="ohio">Ohio</option><option value="oklahoma">Oklahoma</option><option value="oregon">Oregon</option><option value="rhode-island">Rhode Island</option><option value="south-carolina">South Carolina</option><option value="south-dakota">South Dakota</option><option value="tennessee">Tennessee</option><option value="texas">Texas</option><option value="virginia">Virginia</option><option value="west-virginia">West Virginia</option><option value="wyoming">Wyoming</option></select></label>
 <div class="legend">
@@ -25240,9 +25266,49 @@ Party identification
 <p class="figure-caption">
 TVD (total variation distance) ranges from 0 to 1; lower values indicate closer agreement with the weighted state CES reference. Each cohort contains the stated number of draws per state, with replacement. These comparisons describe one saved cohort at each size, not repeated sampling experiments.
 </p>
-</div>
-<div id="model-validation" class="article-section">
-<h2 id="how-well-do-the-models-recover-ces-responses">How well do the models recover CES responses?</h2>
+<h3 id="models-prompts-and-response-validation">Models, Prompts and Response Validation</h3>
+<p>We used three decision models accessed through OpenRouter: TypeSafe AI’s Jev 1.13 <span class="citation" data-cites="jev113">(<a href="#ref-jev113" role="doc-biblioref">TypeSafe 2026</a>)</span>, Perplexity’s Decider V1.2 <span class="citation" data-cites="decider12">(<a href="#ref-decider12" role="doc-biblioref">Perplexity 2026</a>)</span>, and Inception’s Mercury Decide <span class="citation" data-cites="mercurydecide">(<a href="#ref-mercurydecide" role="doc-biblioref">Inception 2026</a>)</span>. These models were selected because they were accessible through OpenRouter’s decision API and supported similar structured requests and responses. The decision model framework allowed us to request probabilities over predefined electoral categories without extracting voting preferences from free-form text.</p>
+<p>Each request contained a persona description, the electoral question, and four response options: “Democrat”, “Republican”, “Third party”, and “Would not vote”. The returned probabilities represented the model’s assigned likelihood of each voting or non-voting behaviour of the supplied persona.</p>
+<p>Persona descriptions followed the characteristic sets described by <span class="citation" data-cites="murray2026">Murray and Alexander (<a href="#ref-murray2026" role="doc-biblioref">2026</a>)</span>. Although the framework outlined descriptions containing three, nine, or eleven demographic characteristics, this analysis used the nine-characteristic specification. This included race, gender, state of residence, education, religious affiliation, marital status, sexual orientation, voter registration, and family income. Missing characteristics were omitted from the request rather than imputed.</p>
+<p>We selected the nine-characteristic specification to provide demographic context without explicitly including party identification or political ideology, the two additional characteristics in the eleven-characteristic specification. This choice was informed by Murray and Alexander’s findings regarding sensitivity to persona detail <span class="citation" data-cites="murray2026">(<a href="#ref-murray2026" role="doc-biblioref">2026</a>)</span>. Gordon et al.’s finding that richer personas do not necessarily improve accuracy further motivated treating persona detail as a design choice rather than assuming that additional characteristics improve predictions <span class="citation" data-cites="gordon2026">(<a href="#ref-gordon2026" role="doc-biblioref">2026</a>)</span>. The same sentence-format role-play structure was applied across all three models, with no news context. The context structure began with “You are [persona description]” followed by the question “If the 2026 US Senate election in [state] were held today, how would you vote?” A detailed example of the request-response structure is shown below.</p>
+<pre class="text"><code>Prompt:
+You are a White woman living in Georgia who has a 4-year college
+degree, is Protestant, is married, is straight, is registered to
+vote, and has an annual family income of $60,000 to $69,999.
+Question:
+If the 2026 US Senate election in Georgia were held today,
+how would you vote?
+Illustrative parsed response—not an observed model result:
+Democrat:       0.45
+Republican:     0.40
+Third party:    0.05
+Would not vote: 0.10</code></pre>
+<p>Because sampling occurred with replacement, some respondents appeared multiple times within a state cohort. In cases of repeated draws, the model was queried a single time and the output was applied to each draw equally, thus preserving the respondent’s sampled frequency when calculating the cohort averages.</p>
+<p>An automated suite of tests was performed to check the numerical validity of each response. Responses were required to contain one numerical probability for each of the four response options. Each probability had to fall within the inclusive interval [0, 1], and their sum had to differ from one by no more than <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>6</mn></mrow></msup><annotation encoding="application/x-tex">10^{-6}</annotation></semantics></math> (to accommodate floating-point errors).</p>
+<p>Responses that failed any of the tests were treated as unresolved, and the requests were retried using the same prompt and configuration, with up to three additional requests after the initial attempt. Responses that remained unresolved were treated as invalid. For daily publication, each model is evaluated independently and requires valid responses for the entire cohort of 100 draws in each of the 35 states. These checks ensure consistent response coverage and probabilities; they do not establish the accuracy or calibration of the electoral predictions.</p>
+<h3 id="model-validation">Model Validation</h3>
+<p>To evaluate how closely each model reproduces the electoral behaviour of CES respondents, we compared model-generated responses with the two withheld fields: self-reported presidential vote in 2024 and intended House vote in 2026. These evaluations used the same 100 persona draws within each of the 35 states, applying the same persona characteristics and prompt style. We modified the electoral questions to match the CES questions, and models received the same response options as in the CES codebook.</p>
+<p><strong>Electoral Question #1:</strong></p>
+<p>“Do you intend to vote in the 2026 election, and if so, which party’s candidate for the U.S. House of Representatives are you likely to support?”</p>
+<p><strong>Possible answers:</strong></p>
+<ul>
+<li><p>Do not intend to vote in the 2026 election</p></li>
+<li><p>Likely to vote for the Democratic US House candidate</p></li>
+<li><p>Likely to vote for the Republican US House candidate</p></li>
+<li><p>Not sure</p></li>
+</ul>
+<p><strong>Electoral Question #2:</strong></p>
+<p>“In the 2024 US presidential election in [state], how did you vote?”</p>
+<p><strong>Possible answers:</strong></p>
+<ul>
+<li><p>Voted for Kamala Harris, the Democratic candidate</p></li>
+<li><p>Voted for Donald Trump, the Republican candidate</p></li>
+<li><p>Voted for an independent or third-party candidate</p></li>
+<li><p>Did not vote in this election</p></li>
+</ul>
+<p>For each model, state, and evaluation question, predicted category proportions were calculated by averaging the returned probabilities across model responses. We calculated reference proportions similarly, using respondents’ recorded answers.</p>
+<p>To validate the performance of each model in electoral forecasting, we tested each model’s ability to reproduce selected withheld fields for each persona. These fields included the self-reported 2024 presidential vote and the intended 2026 House vote. We queried the models using the same 100 personas for each of the 35 states and provided response options that were the same as those found in the CES questionnaire. We then aggregated the responses to calculate the percentage-point difference from each model across the various fields.</p>
+<p>Agreement between model-generated responses and respondents’ recorded answers was summarized using percentage-point differences for each state, category, and model combination. Positive differences indicate that the model overstates a given category, while negative differences indicate an understatement. These comparisons assess whether models reproduce the aggregate electoral patterns of the sampled personas to provide a qualitative assessment of their appropriateness for 2026 Senate forecasting.</p>
 <p class="source-note">
 Separate evaluation requests use the manuscript’s House and presidential questions and response categories.
 </p>
@@ -45141,6 +45207,28 @@ Would not vote
 </section>
 </div>
 </div>
+<h3 id="aggregation-and-senate-projections">Aggregation and Senate Projections</h3>
+<p>To translate model responses into Senate projections, we averaged the four response probabilities across the 100 persona draw positions within each state. Each draw contributed equally, including repeated respondents, to preserve the sampling frequency. The state’s seat was assigned to the category with the highest average probability among Democrat, Republican, and Third party. Exact ties were left unassigned, and “Would not vote” was not included as a possible seat outcome. For each model, the 35 forecasted outcomes were added to a fixed baseline of 32 Democratic, 31 Republican, and two independent seats <span class="citation" data-cites="senate270">(<a href="#ref-senate270" role="doc-biblioref"><span class="nocase">270toWin</span>, n.d.</a>)</span>. An outright party majority required 51 seats.</p>
+<p>To estimate variation associated with the makeup of the sampled cohort, we performed 10,000 bootstrap resamples. Within each state, each resample selected 100 draw positions with replacement and equal probability from the original cohort. We then recalculated the state averages and seat allocation using the same procedure as the original projection. Combining the state outcomes produced 10,000 full Senate projections for each model.</p>
+<p>Bootstrap standard errors were calculated as the standard deviation of the 10,000 resulting estimates. We report the original cohort estimates alongside their bootstrap standard errors for both state-level response probabilities and Senate seat counts. Seat-count distributions are displayed using 25 dots per party, with each dot representing approximately 4% of that party’s 10,000 bootstrap outcomes.</p>
+<p>These distributions describe variation from resampling the existing cohort while holding model responses fixed. They do not capture all uncertainty associated with the CES sample, model predictions, turnout, or the eventual election outcome.</p>
+<h3 id="external-forecast-benchmark">External Forecast Benchmark</h3>
+<p>To benchmark our synthetic electoral projections across the 35 U.S. Senate races, we used forecast estimates from Polling Forecast as an external reference <span class="citation" data-cites="pollingforecast">(<a href="#ref-pollingforecast" role="doc-biblioref">Polling Forecast, n.d.-a</a>)</span>. Polling Forecast aggregates polling estimates from across the U.S. and combines them with electoral fundamentals to estimate candidate margins and winning probabilities. We included this benchmark to contextualize both the partisan direction and approximate magnitude of our synthetic sampling results over time.</p>
+<p>Forecast data were retrieved using Polling Forecast’s public API and stored in JSON format as a dated snapshot. Polling Forecast makes its forecast outputs available for reuse under the CC BY 4.0 licence, which requires attribution <span class="citation" data-cites="pollingforecast_data">(<a href="#ref-pollingforecast_data" role="doc-biblioref">Polling Forecast, n.d.-b</a>)</span>. The API includes candidate information, historical state partisan lean, polling averages, fundamentals-based margins, adjusted forecasted margins, and winning probabilities.</p>
+<p>We used Polling Forecast’s “best-bet margin” to derive the voting shares for the Democratic (or main independent) candidate and the Republican candidate. This margin combines the polling average with a fundamentals-based margin, incorporating factors such as incumbency and state partisan lean. The poll weight determines the relative contribution of polling to the “best-bet margin”, with better-supported polling evidence receiving greater influence. Polling uncertainty is therefore directly included in Polling Forecast’s weighting procedure, although our conversion of the “best-bet margin” to voting shares produces a point estimate rather than uncertainty intervals.</p>
+<p>The forecasted margin is expressed in percentage points as the Democratic (or main independent) candidate’s margin over the Republican candidate. We converted this margin into implied two-candidate vote shares as follows:</p>
+<div class="methods-equation">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi mathvariant="normal">l</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">t</mi></mrow></msub><mo>=</mo><mfrac><mrow><mn>100</mn><mo>+</mo><mi>m</mi></mrow><mn>200</mn></mfrac><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>p</mi><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">g</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">t</mi></mrow></msub><mo>=</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mrow><mi mathvariant="normal">l</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">t</mi></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+p_{\mathrm{left}} = \frac{100 + m}{200}, \qquad
+p_{\mathrm{right}} = 1 - p_{\mathrm{left}}.
+</annotation></semantics></math></p>
+</div>
+<p>Here, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math> is the best-bet margin in percentage points, and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mrow><mi mathvariant="normal">l</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">t</mi></mrow></msub><annotation encoding="application/x-tex">p_{\mathrm{left}}</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">g</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">t</mi></mrow></msub><annotation encoding="application/x-tex">p_{\mathrm{right}}</annotation></semantics></math> are the implied two-candidate vote shares, expressed as proportions.</p>
+<p>This conversion assumed that the two candidates’ shares sum to one, neglecting the effects of third-party voting. By contrast, our synthetic electoral sampling distributes probabilities across Democratic, Republican, third-party, and non-voting responses. The displayed proportions therefore use different denominators and should not be interpreted as directly equivalent quantities. We included the benchmark to provide context for broad patterns, including partisan direction and changes over time, rather than a direct comparison to measure the accuracy of the synthetic electoral sampling.</p>
+<h3 id="reproducibility-and-automation">Reproducibility and Automation</h3>
+<p>To ensure reproducibility of our work, all external data downloads were done using code rather than manual processes, following the practices outlined by <span class="citation" data-cites="wilson2017">Wilson et al. (<a href="#ref-wilson2017" role="doc-biblioref">2017</a>)</span>. Test suites and simulated data were also provided to check that the data pipeline produced the expected results. User-defined settings, including sampling seeds, persona characteristics, model selections, and prompt style, were defined through YAML configuration files and command-line arguments. The settings used for each run were recorded in the corresponding output metadata. Model responses and external benchmark data were also saved so that further analysis could be performed using identical observations without repeating requests. This allows the analysis to be reproduced, although querying the models again may produce varied results.</p>
+<p>To automate the data collection process and website updates, we implemented GitHub Actions workflows scheduled daily at 9:00 a.m. Toronto time. The workflows query the decision models, record their responses, and retrieve the external forecasting data from Polling Forecast. To avoid merge conflicts from adding the new data directly to the main branch of the repository, the results are saved to a separate branch called “daily-data”. This branch acts as a data warehouse for responses and metadata, while the configuration and analysis code remain on the main branch.</p>
+<p>Following collection, a separate workflow rebuilds and publishes the website using the saved results. If new Polling Forecast data are unavailable, the most recent saved values are retained with their original date. Each model is evaluated independently using the response-validation procedure described above. Automatic updates to the website require at least one model to return valid responses for all 100 persona draws across all 35 states. If none of the models meet this criterion, the website is not updated, and the previous version remains available.</p>
 </div>
 <div id="discussion" class="article-section">
 <h2 id="discussion-heading">Discussion</h2>
@@ -45267,6 +45355,89 @@ $0.29372
 Cumulative usage for the selected source run per model/day across the displayed dates.
 </p>
 </div>
+<section id="references" class="article-section">
+<h2>References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-senate270" class="csl-entry" role="listitem">
+<span class="nocase">270toWin</span>. n.d. <em>2026 <span>Senate</span> Election Interactive Map</em>. Accessed October 30, 2026. <a href="https://www.270towin.com/2026-senate-election/">https://www.270towin.com/2026-senate-election/</a>.
+</div>
+<div id="ref-pyarrow" class="csl-entry" role="listitem">
+Apache Software Foundation. n.d. <em><span>PyArrow</span>: <span>Apache Arrow</span> <span>Python</span> Bindings</em>. Software documentation. Accessed October 30, 2026. <a href="https://arrow.apache.org/docs/python/">https://arrow.apache.org/docs/python/</a>.
+</div>
+<div id="ref-argyle2023" class="csl-entry" role="listitem">
+Argyle, Lisa P., Ethan C. Busby, Nancy Fulda, Joshua R. Gubler, Christopher Rytting, and David Wingate. 2023. <span>“Out of One, Many: Using Language Models to Simulate Human Samples.”</span> <em>Political Analysis</em> 31 (3): 337–51. <a href="https://doi.org/10.1017/pan.2023.2">https://doi.org/10.1017/pan.2023.2</a>.
+</div>
+<div id="ref-uv" class="csl-entry" role="listitem">
+Astral. n.d. <em><span class="nocase">uv</span>: <span>Python</span> Package and Project Manager</em>. Software documentation. Accessed October 30, 2026. <a href="https://docs.astral.sh/uv/">https://docs.astral.sh/uv/</a>.
+</div>
+<div id="ref-gordon2026" class="csl-entry" role="listitem">
+Gordon, Andrew, Nora Petrova, John Burden, Oriol Bosch, and Ning Ding. 2026. <em>Do Richer Personas Improve <span>LLM</span> Survey Simulation? A Fidelity Paradox</em>. SSRN. <a href="https://doi.org/10.2139/ssrn.7306183">https://doi.org/10.2139/ssrn.7306183</a>.
+</div>
+<div id="ref-harris2020" class="csl-entry" role="listitem">
+Harris, Charles R., K. Jarrod Millman, Stéfan J. van der Walt, et al. 2020. <span>“Array Programming with <span>NumPy</span>.”</span> <em>Nature</em> 585 (7825): 357–62. <a href="https://doi.org/10.1038/s41586-020-2649-2">https://doi.org/10.1038/s41586-020-2649-2</a>.
+</div>
+<div id="ref-heath2026" class="csl-entry" role="listitem">
+Heath, Oscar, and Rohan Alexander. 2026. <em>Correcting Mode Collapse in Silicon Sampling with Semantic Similarity Rating</em>. <a href="https://arxiv.org/abs/2607.28550">https://arxiv.org/abs/2607.28550</a>.
+</div>
+<div id="ref-hunter2007" class="csl-entry" role="listitem">
+Hunter, John D. 2007. <span>“<span>Matplotlib</span>: A <span>2D</span> Graphics Environment.”</span> <em>Computing in Science &amp; Engineering</em> 9 (3): 90–95. <a href="https://doi.org/10.1109/MCSE.2007.55">https://doi.org/10.1109/MCSE.2007.55</a>.
+</div>
+<div id="ref-mercurydecide" class="csl-entry" role="listitem">
+Inception. 2026. <em><span>Mercury Decide</span></em>. OpenRouter model documentation. <a href="https://openrouter.ai/inception/mercury-decide">https://openrouter.ai/inception/mercury-decide</a>.
+</div>
+<div id="ref-mckinney2010" class="csl-entry" role="listitem">
+McKinney, Wes. 2010. <span>“Data Structures for Statistical Computing in <span>Python</span>.”</span> <em>Proceedings of the 9th Python in Science Conference</em>, 56–61. <a href="https://doi.org/10.25080/Majora-92bf1922-00a">https://doi.org/10.25080/Majora-92bf1922-00a</a>.
+</div>
+<div id="ref-murray2026" class="csl-entry" role="listitem">
+Murray, Ellie, and Rohan Alexander. 2026. <em>How Analyst Choices Affect Silicon Samples from the 2025 <span>CES</span></em>. SocArXiv. <a href="https://osf.io/preprints/socarxiv/cxrk6_v1/">https://osf.io/preprints/socarxiv/cxrk6_v1/</a>.
+</div>
+<div id="ref-decider12" class="csl-entry" role="listitem">
+Perplexity. 2026. <em><span>Decider V1.2</span></em>. OpenRouter model documentation. <a href="https://openrouter.ai/perplexity/pplx-decider-v1.2">https://openrouter.ai/perplexity/pplx-decider-v1.2</a>.
+</div>
+<div id="ref-pollingforecast" class="csl-entry" role="listitem">
+Polling Forecast. n.d.-a. <em>2026 <span>Senate</span> Forecast: Every Race</em>. Accessed October 30, 2026. <a href="https://www.pollingforecast.com/us/senate">https://www.pollingforecast.com/us/senate</a>.
+</div>
+<div id="ref-pollingforecast_data" class="csl-entry" role="listitem">
+Polling Forecast. n.d.-b. <em>United States: Data Downloads and <span>API</span></em>. Accessed October 30, 2026. <a href="https://www.pollingforecast.com/us/data">https://www.pollingforecast.com/us/data</a>.
+</div>
+<div id="ref-pathlib" class="csl-entry" role="listitem">
+Python Software Foundation. n.d.-a. <em><span class="nocase">pathlib</span>: Object-Oriented Filesystem Paths</em>. Accessed October 30, 2026. <a href="https://docs.python.org/3.14/library/pathlib.html">https://docs.python.org/3.14/library/pathlib.html</a>.
+</div>
+<div id="ref-python" class="csl-entry" role="listitem">
+Python Software Foundation. n.d.-b. <em><span>Python</span></em>. Computer software. Accessed October 30, 2026. <a href="https://docs.python.org/3.14/">https://docs.python.org/3.14/</a>.
+</div>
+<div id="ref-requests" class="csl-entry" role="listitem">
+<span class="nocase">Reitz, Kenneth et al.</span> n.d. <em><span>Requests</span>: <span>HTTP</span> for Humans</em>. Software documentation. Accessed October 30, 2026. <a href="https://requests.readthedocs.io/en/latest/">https://requests.readthedocs.io/en/latest/</a>.
+</div>
+<div id="ref-ces2025" class="csl-entry" role="listitem">
+Schaffner, Brian, Jeremy Pope, and Marissa Shih. 2026. <em><span>CES Common Content, 2025</span></em>. Harvard Dataverse. <a href="https://doi.org/10.7910/DVN/DFUGJR">https://doi.org/10.7910/DVN/DFUGJR</a>.
+</div>
+<div id="ref-schmitt2026" class="csl-entry" role="listitem">
+Schmitt, Jacob. 2026. <em>What Are Decision Models? Uses, Examples, and Tradeoffs</em>. CircleCI. <a href="https://circleci.com/blog/decision-models/">https://circleci.com/blog/decision-models/</a>.
+</div>
+<div id="ref-pyyaml" class="csl-entry" role="listitem">
+Simonov, Kirill. n.d. <em><span>PyYAML</span></em>. Computer software. Accessed October 30, 2026. <a href="https://pyyaml.org/">https://pyyaml.org/</a>.
+</div>
+<div id="ref-jev113" class="csl-entry" role="listitem">
+TypeSafe. 2026. <em><span>Jev 1.13</span></em>. OpenRouter model documentation. <a href="https://openrouter.ai/typesafe/jev-1.13">https://openrouter.ai/typesafe/jev-1.13</a>.
+</div>
+<div id="ref-polars" class="csl-entry" role="listitem">
+Vink, Ritchie. n.d. <em><span>Polars</span></em>. Computer software. Accessed October 30, 2026. <a href="https://pypi.org/project/polars/">https://pypi.org/project/polars/</a>.
+</div>
+<div id="ref-wang2015" class="csl-entry" role="listitem">
+Wang, Wei, David Rothschild, Sharad Goel, and Andrew Gelman. 2015. <span>“Forecasting Elections with Non-Representative Polls.”</span> <em>International Journal of Forecasting</em> 31 (3): 980–91. <a href="https://doi.org/10.1016/j.ijforecast.2014.06.001">https://doi.org/10.1016/j.ijforecast.2014.06.001</a>.
+</div>
+<div id="ref-jev_medium" class="csl-entry" role="listitem">
+<em>What Is <span>Jev</span>? Inside <span>TypeSafe AI</span>’s Decision-First Model</em>. n.d. Medium. <a href="https://medium.com/aiguys/what-is-jev-inside-typesafe-ais-decision-first-model-728cbc19f447">https://medium.com/aiguys/what-is-jev-inside-typesafe-ais-decision-first-model-728cbc19f447</a>.
+</div>
+<div id="ref-tvd_wikipedia" class="csl-entry" role="listitem">
+Wikipedia contributors. n.d. <em>Total Variation Distance of Probability Measures</em>. Wikipedia. Accessed October 30, 2026. <a href="https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures">https://en.wikipedia.org/wiki/Total_variation_distance_of_probability_measures</a>.
+</div>
+<div id="ref-wilson2017" class="csl-entry" role="listitem">
+Wilson, Greg, Jennifer Bryan, Karen Cranston, Justin Kitzes, Lex Nederbragt, and Tracy K. Teal. 2017. <span>“Good Enough Practices in Scientific Computing.”</span> <em><span>PLOS Computational Biology</span></em> 13 (6): e1005510. <a href="https://doi.org/10.1371/journal.pcbi.1005510">https://doi.org/10.1371/journal.pcbi.1005510</a>.
+</div>
+</div>
+</section>
 </main>
 <footer class="site-footer">
 <div>
