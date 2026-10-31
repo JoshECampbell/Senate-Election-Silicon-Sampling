@@ -1,0 +1,29 @@
+{
+  "automation": true,
+  "date": "2026-10-31",
+  "published_models": [
+    "jev",
+    "mercury",
+    "decider"
+  ],
+  "models": {
+    "jev": {
+      "model": "jev",
+      "date": "2026-10-31",
+      "returncode": 0,
+      "complete": true
+    },
+    "mercury": {
+      "model": "mercury",
+      "date": "2026-10-31",
+      "returncode": 0,
+      "complete": true
+    },
+    "decider": {
+      "model": "decider",
+      "date": "2026-10-31",
+      "returncode": 0,
+      "complete": true
+    }
+  }
+}
