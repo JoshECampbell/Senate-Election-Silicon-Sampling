@@ -22,8 +22,10 @@ import polars as pl
 
 from site_figures import (senate_figure, response_figure, state_figure, validation_figure, seat_distribution_figure,
                           backcast_figure, error_figure, calibration_figure)
-from polling_forecast import add_forecasts
-from forecast import add_bootstrap_forecasts
+from polling_forecast import add_forecasts, carry_forward_forecasts
+from bootstrap_responses import add_response_bootstraps
+from site_figures import bootstrap_seat_dot_figure
+from site_evaluation import bootstrap_headline, matched_validation_section
 
 
 def percent(value, digits=0):
@@ -229,7 +231,9 @@ def overview_records(history, state, selection):
         day = history['latest'][key] if selection=='latest' else selection
         entry = history['snapshots'].get(day,{}).get('models',{}).get(key)
         if entry:
-            values[key] = {**entry['states'][state], 'date':day}
+            values[key] = {**entry['states'][state],
+                           'date': day + ('*' if entry.get('carried_forward') else ''),
+                           **({'source_date': entry['source_date']} if entry.get('carried_forward') else {})}
     return values
 
 
@@ -345,6 +349,9 @@ def response_inputs(history, state, day):
         models = {}
         for key,entry in history['snapshots'][d]['models'].items():
             models[key] = {k:entry[k] for k in ('model_id','model_snapshots','collected_at')}
+            for field in ('source_date', 'carried_forward'):
+                if field in entry:
+                    models[key][field] = entry[field]
             models[key]['states'] = {state:entry['states'][state]}
         snapshots[d] = {'models':models}
     return {'dates':dates,'models':history['models'],'states':{state:{'name':history['states'][state]['name']}},'snapshots':snapshots}
@@ -353,13 +360,14 @@ def response_inputs(history, state, day):
 def prepare(root=ROOT, output=None):
     history = load_history(root)
     add_forecasts(history, root)
-    add_bootstrap_forecasts(history)
+    carry_forward_forecasts(history)
     site = output or root/'docs'
     generated = site/'components/_generated'
     latest = history['date']
     models = history['models']
     history['validation_prefix']=f'figures/personas/{history["sample"]}'
     cache = FigureCache(site)
+    add_response_bootstraps(history, site, cache, bootstrap_seat_dot_figure)
     # Recheck saved inputs each time, but render only changed/missing figures.
     for day in history['dates']:
         figures = site/'figures'/day
@@ -407,13 +415,13 @@ def prepare(root=ROOT, output=None):
         counts = ''.join(f'<span><b style="color:{categories[k][3]}">{totals[k]}</b>{escape(categories[k][1])}</span>' for k in ('democrat','independent','republican'))
         if totals['unallocated']:
             counts += f'<span><b>{totals["unallocated"]}</b>Unallocated seats</span>'
-        raw_label = '' if model.get('kind') == 'external_forecast' else '<p class="eyebrow">Projection</p>'
-        bootstrap = forecast_headline(key, model, day, entry['forecast']) if entry.get('forecast') else ''
+        raw_label = ''
+        bootstrap = bootstrap_headline(key, model, day, entry)
         headlines.append(f'<article class="headline-result"><h3>{escape(full_name)}</h3>{model_details}{raw_label}<p class="projection-outcome" style="color:{outcome_colour}">{escape(outcome)}</p><div class="seat-counts">{counts}</div><img class="wide-figure" src="figures/{day}/senate/{key}.svg" alt="{escape(model["label"])}: {totals["democrat"]} Democratic, {totals["republican"]} Republican, {totals["independent"]} independent/other seats">{bootstrap}</article>')
     fixed=history['baseline']['fixed_seats']
     baseline_note=f"{fixed['democrat']} Democratic, {fixed['republican']} Republican and {fixed['independent']} independent seats"
-    write(generated/'_headline.html',''.join(headlines)+f'<p class="data-note">Each model is projected independently. An outright party majority requires 51 seats. Independent/other seats remain unassigned to either party. The fixed baseline is {baseline_note}. The projection allocates 35 contests using the largest average voting-category probability, excluding "Would Not Vote". The bootstrap range resamples each state\'s 100 personas {history["forecast_settings"]["draws"]:,} times and gives each state to the party with the larger two-party share; the chart shows how often each Democratic seat total occurs (blue: Democratic majority, red: Republican majority, grey: neither). It reflects persona sampling only, not model error or a national swing. Polling Forecast allocates each contest to its implied two-candidate leader. Synthetic results, not measured voter intentions.</p>')
-    write(generated/'_forecast.html',forecast_table(history))
+    write(generated/'_headline.html',''.join(headlines)+f'<p class="data-note">Each model is projected independently. An outright party majority requires 51 seats. Independent/other seats remain unassigned to either party. The fixed baseline is {baseline_note}. The original projection uses all 100 draw positions and allocates 35 contests to the largest average voting-category probability, excluding &ldquo;Would not vote&rdquo;. 25 dots per party; each dot represents approximately 4% of that party’s 10,000 resamples. Estimates &plusmn; SE use all resamples and appear inside the plot. These distributions and standard errors reflect cohort-resampling variation only.</p>')
+    write(generated/'_forecast.html','')
     symbols = {'circle':'&#9679;','triangle':'&#9650;','square':'&#9632;', 'diamond':'&#9670;'}
     toggles = ''.join(f'<label><input type="checkbox" data-model-toggle="{key}" checked><span aria-hidden="true">{symbols[model["shape"]]}</span>{escape(model["label"])}</label>' for key,model in models.items())
     panels = ''.join('<div class="response-panel">'+(site/'figures'/latest/f'responses/georgia-{column}.svg').read_text(encoding='utf-8')+'</div>' for column,_,_ in CATEGORIES)
@@ -427,9 +435,11 @@ def prepare(root=ROOT, output=None):
 <div class="section-toolbar"><label for="response-state">State <select id="response-state">{options(history['states'],'georgia')}</select></label><fieldset><legend>Models / benchmark</legend>{toggles}</fieldset></div>
 <div id="response-chart" class="response-chart">{panels}</div>
 <p id="model-empty" class="empty-state" hidden>Select at least one model to view response probabilities.</p>
-<p class="figure-caption">Dots show variation among sampled personas, not a confidence interval. Lines show average model responses across all 100 sampled draws, including repeated respondents. Shapes identify models; horizontal jitter exposes overlap and is not a collection time.</p>
-<table class="accessible-summary"><caption>Selected state's synthetic means and implied forecast shares</caption><thead><tr><th>Date</th><th>Model</th><th scope="col" data-category="p_democrat">Democrat</th><th scope="col" data-category="p_republican">Republican</th><th scope="col" data-category="p_third_party">Third party</th><th scope="col" data-category="p_would_not_vote">Would not vote</th></tr></thead><tbody id="response-means"></tbody></table>
-<details><summary>Daily coverage and source runs</summary><table class="cost-table"><thead><tr><th>Date</th><th>Model</th><th>Complete states</th><th>Source run</th></tr></thead><tbody>{''.join(coverage)}</tbody></table><p class="source-note">Incomplete state samples are unavailable. No older snapshot is substituted into a historical date. The headline and Latest overview may use older complete model results, labelled with their actual dates.</p></details>
+<p class="figure-caption">Jitter shows variation among sampled personas.</p>
+<table class="accessible-summary" aria-describedby="response-summary-note"><thead><tr><th>Date</th><th>Model</th><th scope="col" data-category="p_democrat">Democrat</th><th scope="col" data-category="p_republican">Republican</th><th scope="col" data-category="p_third_party">Third party</th><th scope="col" data-category="p_would_not_vote">Would not vote</th></tr></thead><tbody id="response-means"></tbody></table>
+<p id="response-summary-note" class="figure-caption">Selected state’s original means &plusmn; bootstrap SE (percentage points); benchmark shares have no bootstrap SE</p>
+<p class="figure-caption">&#42; The last available external forecast is reused on this reporting day. Hover over its marker or table date for the original forecast date.</p>
+<details><summary>Daily coverage and source runs</summary><table class="cost-table"><thead><tr><th>Date</th><th>Model</th><th>Complete states</th><th>Source run</th></tr></thead><tbody>{''.join(coverage)}</tbody></table><p class="source-note">Incomplete synthetic samples remain unavailable. Only the external benchmark is carried forward, marked with an asterisk and its original source date. The headline and Latest overview may use older complete model results, labelled with their actual dates.</p></details>
 <p id="chart-announcement" class="sr-only" aria-live="polite"></p>''')
     cards = ''.join(f'<article class="state-card"><h3>{escape(info["name"])}</h3><img data-state="{key}" src="{latest_prefix}/{key}.svg" alt="{escape(info["name"])}: latest synthetic response shares for all study models" loading="lazy"></article>' for key,info in history['states'].items())
     dates = ''.join(f'<option value="{day}">{day}</option>' for day in reversed(history['dates']))
@@ -439,7 +449,7 @@ def prepare(root=ROOT, output=None):
         metric = history['states']['alabama']['validation'][f['key']]
         features.append(f'<article class="validation-card"><h3>{escape(f["name"])}</h3><img data-feature="{f["key"]}" src="{history['validation_prefix']}/alabama-{f["key"]}.svg" alt="Alabama: {escape(f["name"])} persona shares versus weighted CES reference" loading="lazy"><p data-metric="{f["key"]}">TV {100*metric["tv"]:.1f}% &middot; Largest gap {metric["max_gap_pp"]:.1f} pp</p></article>')
     comparison = validation_comparison_table(history['states']['alabama'], history['features'])
-    write(generated/'_validation.html',f'<div class="section-toolbar"><label for="validation-state">State <select id="validation-state">{options(history["states"],"alabama")}</select></label>{legend(True)}</div><p class="source-note">Plots show the 100-draw cohort for the six characteristics displayed below.</p><div class="validation-grid">{"".join(features)}</div><p class="figure-caption">Draw frequencies versus the weighted state CES reference. TV is total variation distance, displayed as a percentage in the plots; pp means percentage points. The table below reports TVD on its 0–1 scale.</p>{comparison}')
+    write(generated/'_validation.html',f'<div class="section-toolbar"><label for="validation-state">State <select id="validation-state">{options(history["states"],"alabama")}</select></label>{legend(True)}</div><p class="source-note">Plots show the 100-draw cohort for the six characteristics displayed below.</p><div class="validation-grid">{"".join(features)}</div>{comparison}')
     costs=[]
     all_entries=[]
     def usage_cells(cost):
@@ -463,8 +473,8 @@ def prepare(root=ROOT, output=None):
         all_entries.extend(entries)
         costs.append(f'<tr><th scope="row">{escape(model["label"])}</th>{usage_cells(cumulative_usage(entries))}</tr>')
     total=usage_cells(cumulative_usage(all_entries)) if all_entries else '<td colspan="4">Unavailable</td>'
-    write(generated/'_costs.html',f'<table class="cost-table"><caption>Running totals: {history["dates"][0]} through {latest}</caption><thead><tr><th>Model</th><th>Recorded attempts</th><th>Input tokens</th><th>Output tokens</th><th>Reported API cost (USD)</th></tr></thead><tbody>{"".join(costs)}</tbody><tfoot><tr><th scope="row">Total</th>{total}</tr></tfoot></table><p class="source-note">Cumulative usage for the selected source run per model/day across the displayed dates.</p>{backcast_costs(root,models)}')
-    write(generated/'_model_validation.html',model_validation_section(root,site,cache,models))
+    write(generated/'_costs.html',f'<table class="cost-table"><caption>Running totals: {history["dates"][0]} through {latest}</caption><thead><tr><th>Model</th><th>Recorded attempts</th><th>Input tokens</th><th>Output tokens</th><th>Reported API cost (USD)</th></tr></thead><tbody>{"".join(costs)}</tbody><tfoot><tr><th scope="row">Total</th>{total}</tr></tfoot></table><p class="source-note">Cumulative usage for the selected source run per model/day across the displayed dates.</p>')
+    write(generated/'_model_validation.html',matched_validation_section(root,models,site))
     last_run=max(datetime.fromisoformat(entry['collected_at'])
                  for snapshot in history['snapshots'].values()
                  for entry in snapshot['models'].values()

@@ -13,6 +13,7 @@ import json
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
+import math
 
 import polars as pl
 import yaml
@@ -59,6 +60,16 @@ def check_site(site):
         if not path.is_relative_to(site) or not path.is_file():
             raise ValueError(f"Missing or out-of-bundle resource: {resource}")
     snapshot = json.loads((site / "data/history.json").read_text(encoding="utf-8"))
+    bootstrap_settings = snapshot.get('response_bootstrap_settings', {})
+    if bootstrap_settings.get('resamples') != 10_000 or bootstrap_settings.get('draws_per_resample') != 100:
+        raise ValueError('Expected 10,000 four-category resamples of 100 draw positions.')
+    bootstrap_summary = pl.read_parquet(site/'data/response_bootstrap_summary.parquet')
+    averages = pl.read_parquet(site/'data/evaluation_state_averages.parquet')
+    if averages.height != 24 or not (averages['state_count'] == 35).all():
+        raise ValueError('Expected two matched evaluations, three models, four options, averaged across 35 states.')
+    seat_draws = pl.read_parquet(site/'data/senate_bootstrap_draws.parquet')
+    if not (seat_draws.select(pl.sum_horizontal('democrat', 'republican', 'independent', 'unallocated')).to_series() == 100).all():
+        raise ValueError('Bootstrap seats must account for the full 100-seat chamber, including exact ties.')
     if page.state_cards != 35 or page.validation_cards != len(snapshot["features"]):
         raise ValueError("State/validation chart coverage does not match the prepared data.")
     expected_features = yaml.safe_load((ROOT/'docs/site-config.yml').read_text(encoding='utf-8'))['validation_features']
@@ -89,6 +100,27 @@ def check_site(site):
             for state in entry['states'].values():
                 if entry.get('kind') != 'external_forecast' and state['eligible'] and (state['valid']!=100 or len(state['points'])!=100):
                     raise ValueError('An incomplete sample was published.')
+            if entry.get('kind') != 'external_forecast':
+                for state_key, values in entry['states'].items():
+                    if not values['eligible']:
+                        continue
+                    records = bootstrap_summary.filter((pl.col('date') == day) & (pl.col('model_key') == key)
+                                                       & (pl.col('state') == snapshot['states'][state_key]['name']))
+                    if records.height != 4:
+                        raise ValueError('Every eligible state requires all four bootstrap category summaries.')
+                    for record in records.iter_rows(named=True):
+                        metric = values['bootstrap'][record['option']]
+                        if not math.isclose(metric['mean'], values['means'][record['option']], abs_tol=1e-12):
+                            raise ValueError('Bootstrap must preserve the original displayed point estimate.')
+                        if metric['sem'] != record['sem'] or metric['sem'] < 0:
+                            raise ValueError('Displayed bootstrap standard error differs from the export.')
+                if entry.get('bootstrap_senate'):
+                    figure = site/f'figures/{day}/bootstrap/{key}.svg'
+                    content = figure.read_text(encoding='utf-8')
+                    if (content.count('data-resamples="10000"') != 2
+                            or content.count('data-display-count="25"') != 2
+                            or content.count('class="bootstrap-summary-dot"') != 50):
+                        raise ValueError('Headline dot plot must summarise 10,000 D/R replicates with 50 display dots.')
         for state in snapshot['states']:
             if day==snapshot['date']:
                 for column in ('p_democrat','p_republican','p_third_party','p_would_not_vote'):

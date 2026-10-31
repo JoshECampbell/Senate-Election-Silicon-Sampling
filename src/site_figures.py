@@ -109,6 +109,9 @@ def response_figure(state_key, history, column, through_date):
                      f'{100*values["means"][column]:.2f}%; ')
             if model.get('kind') == 'external_forecast':
                 title += 'Implied two-candidate forecast share; not a measured polling share.'
+                if entry.get('carried_forward'):
+                    title += f' * Reused forecast from {entry["source_date"]}.'
+                    body.append(text(x+8, mean_y-5, '*', size=14, fill=INK))
             else:
                 title += (f'{entry["model_id"]}; snapshot {", ".join(entry["model_snapshots"])}; '
                           f'{values["valid"]}/100 valid sampled draws; {values["unique"]} unique respondents.')
@@ -134,7 +137,7 @@ def state_figure(state, records, models):
             if values['means'][column] is None:
                 continue
             width = values['means'][column]*224
-            basis = 'implied two-candidate share' if model.get('kind') else '100/100 valid'
+            basis = ('implied two-candidate share' + (f'; reused from {values["source_date"]}' if values.get('source_date') else '')) if model.get('kind') else '100/100 valid'
             body.append(rect(x,y+5,width,16,colour,f'{model["label"]}; {values["date"]}; {label}: {100*values["means"][column]:.2f}%; {basis}.'))
             x += width
     bottom = 43*len(models)
@@ -159,6 +162,112 @@ def senate_figure(senate):
     totals = senate['totals']
     title = f'100-seat Senate projection: {totals["democrat"]} Democratic, {totals["republican"]} Republican, {totals["independent"]} independent/other, {unallocated} unallocated.'
     return svg(900,70,title,''.join(body))
+
+
+def matched_comparison_figure(state, evaluation, rows, models, aggregate=False):
+    """Paired dots compare model category means with matched recorded CES shares."""
+    left, right = 148, 490
+    body = [text(12, 22, state, size=17, weight='600'),
+            text(left, 43, '○ Recorded CES    ● Model', size=12, fill=MUTED)]
+    groups = {}
+    for row in rows:
+        groups.setdefault(row['option'], []).append(row)
+    y = 68
+    for option, records in groups.items():
+        body.append(text(12, y, option, size=14, weight='600'))
+        y += 22
+        for row in sorted(records, key=lambda r: r['model_key']):
+            label = models.get(row['model_key'], {}).get('label', row['model_key'])
+            body.append(text(12, y+4, label, size=12, fill=MUTED))
+            if row['eligible_draws']:
+                actual = left + row['actual']*(right-left)
+                predicted = left + row['predicted']*(right-left)
+                title = (f'{label}; {option}; model {100*row["predicted"]:.1f}%; '
+                         f'CES {100*row["actual"]:.1f}%; {row["difference_pp"]:+.1f} pp; '
+                         f'{row["eligible_draws"]} eligible draws')
+                if aggregate:
+                    title += f'; equal weight across {row["state_count"]} states'
+                body.append(line(actual, y, predicted, y, RULE, 2))
+                body.append(f'<circle class="ces-reference-dot" cx="{actual:.3f}" cy="{y}" r="4" '
+                            f'fill="{PAPER}" stroke="{MUTED}" stroke-width="1.5"><title>{escape(title)}</title></circle>')
+                body.append(marker('circle', predicted, y, 4, INK, 'matched-model-dot', title))
+                body.append(text(506, y+4, f'{row["difference_pp"]:+.1f} pp', size=12))
+            else:
+                body.append(text(left, y+4, 'No eligible survey responses', size=12, fill=MUTED))
+            y += 23
+        y += 13
+    bottom = y+2
+    for share in (0, .25, .5, .75, 1):
+        x = left + share*(right-left)
+        body.append(line(x, 53, x, bottom, RULE, .6))
+        body.append(text(x, bottom+21, f'{100*share:.0f}%', size=12, anchor='middle'))
+    body.append(line(left, bottom, right, bottom, INK))
+    axis_label = 'Mean category share; equal state weight' if aggregate else 'Share of eligible persona draws'
+    body.append(text((left+right)/2, bottom+43, axis_label, size=12, anchor='middle'))
+    return svg(580, bottom+55, f'{state}: {evaluation}; paired model and recorded CES category proportions.', ''.join(body))
+
+
+def bootstrap_seat_dot_figure(label, totals, classic=None, summary=None):
+    """Fifty display dots summarise all replicates: 25 dots per party.
+
+    Largest-remainder allocation rounds each party's histogram to 25 dots.
+    Dot counts are a display approximation; all 10,000 replicates determine SE.
+    """
+    from collections import Counter
+    import math
+    classic, summary = classic or {}, summary or {}
+    colours = {'democrat': '#326A9D', 'republican': '#BD4942'}
+    names = {'democrat': 'Democrats', 'republican': 'Republicans',
+             'independent': 'Independent / other', 'unallocated': 'Unallocated'}
+    body = []
+    y = 20
+    for party in names:
+        if party not in classic:
+            continue
+        if party == 'unallocated' and not classic[party] and not summary.get(party, {}).get('mean'):
+            continue
+        error = summary.get(party, {}).get('sem')
+        estimate = str(classic[party]) + (f' \u00b1 {error:.2f}' if error is not None else '')
+        body.append(text(450, y, f'{names[party]}: {estimate} seats', size=10,
+                         fill=colours.get(party, MUTED), weight='600', anchor='end'))
+        y += 14
+    display = {}
+    for party, values in totals.items():
+        if not values:
+            raise ValueError('Cannot plot an empty bootstrap distribution.')
+        counts = Counter(values)
+        quotas = {seat: 25*count/len(values) for seat, count in counts.items()}
+        allocation = {seat: math.floor(q) for seat, q in quotas.items()}
+        remaining = 25-sum(allocation.values())
+        for seat in sorted(counts, key=lambda n: (-(quotas[n]-allocation[n]), n))[:remaining]:
+            allocation[seat] += 1
+        display[party] = (counts, allocation)
+    minimum = min(min(values) for values in totals.values())-1
+    maximum = max(max(values) for values in totals.values())+1
+    left, right = 30, 450
+    peak = max(max(allocation.values()) for _, allocation in display.values())
+    bottom = max(82, y+14) + peak*5.5
+    for party, (counts, allocation) in display.items():
+        body.append(f'<g class="bootstrap-seat-stack" data-party="{party}" data-resamples="{len(totals[party])}" data-display-count="25">')
+        for seats, count in sorted(allocation.items()):
+            x = left+(seats-minimum)/(maximum-minimum)*(right-left)
+            x += -2.5 if party == 'democrat' else 2.5
+            for level in range(count):
+                yy = bottom-4-level*5.5
+                title = (f'{names[party]}: {seats} seats; {counts[seats]:,} of '
+                         f'{len(totals[party]):,} resamples ({100*counts[seats]/len(totals[party]):.2f}%). '
+                         'Display rounded to 25 dots per party.')
+                body.append(marker('circle', x, yy, 2.15, colours[party], 'bootstrap-summary-dot', title))
+        body.append('</g>')
+    body.append(line(left, bottom+3, right, bottom+3, INK))
+    step = max(1, math.ceil((maximum-minimum)/9))
+    for seats in range(minimum, maximum+1):
+        x = left+(seats-minimum)/(maximum-minimum)*(right-left)
+        body.append(line(x, bottom+3, x, bottom+8, INK))
+        if (seats-minimum)%step == 0 or seats == maximum:
+            body.append(text(x, bottom+23, seats, size=11, anchor='middle'))
+    body.append(text(240, bottom+42, 'Senate Seats', size=12, anchor='middle'))
+    return svg(480, bottom+53, f'{label}: 50 stacked display dots summarising Democratic and Republican bootstrap seat distributions.', ''.join(body))
 
 
 def seat_distribution_figure(seats, label):

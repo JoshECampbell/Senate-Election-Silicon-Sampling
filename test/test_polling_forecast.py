@@ -20,12 +20,40 @@ import unittest
 from unittest.mock import patch
 from urllib.error import URLError
 
-from polling_forecast import KEY, add_forecasts, fetch_forecast, implied_shares
+from polling_forecast import KEY, add_forecasts, fetch_forecast, implied_shares, carry_forward_forecasts
 from site_figures import response_figure
 from src.create_personas import SENATE_STATES_2026
 
 
 class PollingForecastTests(unittest.TestCase):
+    def test_carry_forward_only_uses_earlier_actual_snapshots(self):
+        def entry(day, share):
+            return {'date': day, 'kind': 'external_forecast', 'states': {'a': {'means': {'p_democrat': share}}}}
+        history = {'dates': ['2026-10-26', '2026-10-27', '2026-10-28', '2026-10-29', '2026-10-30'],
+                   'latest': {KEY: '2026-10-29'}, 'snapshots': {
+                       '2026-10-26': {'models': {}},
+                       '2026-10-27': {'models': {KEY: entry('2026-10-27', .4)}},
+                       '2026-10-28': {'models': {}},
+                       '2026-10-29': {'models': {KEY: entry('2026-10-29', .45)}},
+                       '2026-10-30': {'models': {}}}}
+        carry_forward_forecasts(history)
+        self.assertNotIn(KEY, history['snapshots']['2026-10-26']['models'])
+        reused = history['snapshots']['2026-10-28']['models'][KEY]
+        self.assertTrue(reused['carried_forward'])
+        self.assertEqual(reused['source_date'], '2026-10-27')
+        self.assertEqual(reused['states']['a']['means']['p_democrat'], .4)
+        latest = history['snapshots']['2026-10-30']['models'][KEY]
+        self.assertEqual(latest['source_date'], '2026-10-29')
+        self.assertEqual(latest['states']['a']['means']['p_democrat'], .45)
+        self.assertEqual(history['latest'][KEY], '2026-10-29')
+        reused['states']['a']['means']['p_democrat'] = .1
+        self.assertEqual(history['snapshots']['2026-10-27']['models'][KEY]['states']['a']['means']['p_democrat'], .4)
+
+    def test_no_benchmark_is_a_safe_noop(self):
+        history = {'dates': ['2026-10-30'], 'snapshots': {'2026-10-30': {'models': {}}}}
+        carry_forward_forecasts(history)
+        self.assertEqual(history['snapshots']['2026-10-30']['models'], {})
+
     def test_fetch_accepts_matching_date_and_rejects_bad_date_or_coverage(self):
         data = {'dataset': 'senate', 'asOf': '2026-10-28', 'rows': [
             {'name': name + ' Senate', 'left_party': 'D', 'best_bet_margin': 6}

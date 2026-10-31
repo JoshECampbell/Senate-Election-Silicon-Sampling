@@ -1,0 +1,72 @@
+{
+  "house": {
+    "jev": {
+      "attempts": 2379,
+      "partial": false,
+      "source": "attempt_log",
+      "known_cost": 0.045546438,
+      "unknown_costs": 0,
+      "input_tokens": 1084439,
+      "unknown_input_tokens": 0,
+      "output_tokens": 127935,
+      "unknown_output_tokens": 0
+    },
+    "mercury": {
+      "attempts": 2379,
+      "partial": false,
+      "source": "attempt_log",
+      "known_cost": 0.00988346,
+      "unknown_costs": 0,
+      "input_tokens": 494173,
+      "unknown_input_tokens": 0,
+      "output_tokens": 2379,
+      "unknown_output_tokens": 0
+    },
+    "decider": {
+      "attempts": 2379,
+      "partial": false,
+      "source": "attempt_log",
+      "known_cost": 0.0101201,
+      "unknown_costs": 0,
+      "input_tokens": 506005,
+      "unknown_input_tokens": 0,
+      "output_tokens": 2379,
+      "unknown_output_tokens": 0
+    }
+  },
+  "president": {
+    "jev": {
+      "attempts": 2379,
+      "partial": true,
+      "source": "latest_results",
+      "known_cost": 0.04346958,
+      "unknown_costs": 0,
+      "input_tokens": 1034990,
+      "unknown_input_tokens": 0,
+      "output_tokens": null,
+      "unknown_output_tokens": 2379
+    },
+    "mercury": {
+      "attempts": 2379,
+      "partial": true,
+      "source": "latest_results",
+      "known_cost": 0.00892322,
+      "unknown_costs": 0,
+      "input_tokens": 446161,
+      "unknown_input_tokens": 0,
+      "output_tokens": null,
+      "unknown_output_tokens": 2379
+    },
+    "decider": {
+      "attempts": 2379,
+      "partial": true,
+      "source": "latest_results",
+      "known_cost": 0.00922628,
+      "unknown_costs": 0,
+      "input_tokens": 461314,
+      "unknown_input_tokens": 0,
+      "output_tokens": null,
+      "unknown_output_tokens": 2379
+    }
+  }
+}

@@ -1,6 +1,6 @@
 ---
 title: ""
-pagetitle: "The Synthetic Electorate — 2026 Senate research"
+pagetitle: "The Synthetic Senate — 2026 Senate research"
 title-block-banner: false
 ---
 
@@ -8,7 +8,7 @@ title-block-banner: false
 <div class="paper">
 <header class="masthead">
  <div class="edition"><span>Research edition</span><span>2026 U.S. Senate</span></div>
- <h1 class="publication-title">The Synthetic Electorate</h1>
+ <h1 class="publication-title">The Synthetic Senate</h1>
  <nav aria-label="Page sections"><a href="#results">Results</a><a href="#introduction">Introduction</a><a href="#methods">Methods</a><a href="#discussion">Discussion</a><a href="#costs">Costs</a></nav>
 </header>
 <main>
@@ -46,12 +46,6 @@ leo. Donec ullamcorper nulla non metus auctor fringilla, etiam porta sem malesua
 ## How simulated responses & polling change over time.
 
 {{< include components/_generated/_responses.html >}}
-:::
-
-::: {#state-forecasts .article-section}
-## State forecasts with bootstrap ranges.
-
-{{< include components/_generated/_forecast.html >}}
 :::
 
 ::: {#across-the-states .article-section}
@@ -98,13 +92,13 @@ ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
 :::
 
 ::: {#persona-validation .article-section}
-## How closely do the personas match CES?
+## How closely do the personas match CES respondents?
 
 {{< include components/_generated/_validation.html >}}
 :::
 
 ::: {#model-validation .article-section}
-## How well do the models recover 2024?
+## How well do the models recover CES responses?
 
 {{< include components/_generated/_model_validation.html >}}
 :::

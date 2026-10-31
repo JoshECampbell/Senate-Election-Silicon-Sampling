@@ -194,6 +194,15 @@ uv run python -m unittest discover -s test -p 'test_*.py' -v
 
 These checks do not replace reviewing the page in a browser.
 
+The current headline preserves the classic 100-draw Senate projection and adds
+10,000 full-Senate bootstrap replicates as Democratic/Republican dot plots.
+All four response categories participate in the resampling and original seat
+rule; third-party victories and exact ties are retained in the exported totals.
+The headline and time-series table show bootstrap SE, not SD/sqrt(10000).
+The time-series plot itself is unchanged. The old two-party forecast table is
+replaced by these displays. Matched CES evaluations have a separate state selector.
+See `misc/MATCHED_VALIDATION_AND_BOOTSTRAP.md` for collection and scoring commands.
+
 The website displays six validation characteristics: race/ethnicity, gender,
 education, marital status, voter registration, and party identification.
 These are selected by `validation_features` in `site-config.yml`; the underlying

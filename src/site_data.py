@@ -52,9 +52,9 @@ def headline_outcome(totals):
     and not an outright Democratic majority.
     """
     if totals['democrat']>=51:
-        return 'Democratic majority', '#326A9D'
+        return 'Democratic Majority', '#326A9D'
     if totals['republican']>=51:
-        return 'Republican majority', '#BD4942'
+        return 'Republican Majority', '#BD4942'
     if totals['democrat']>totals['republican']:
         return 'Democrats lead; no outright majority', '#326A9D'
     if totals['republican']>totals['democrat']:
