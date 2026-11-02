@@ -178,3 +178,7 @@ Query tests use synthetic fixtures and mocked providers; no tests send live LLM
 requests. All test scripts start with a bullet list describing their checks.
 The rendered-bundle check and JavaScript controller checks are described in
 `docs/README.md`.
+
+## AI Disclosure 
+Graham used Claude Code, with Claude Opus 5.5 (claude-opus-5-5) to write src/simulate_data.py, src/validate_models.py, src/election_results_pull.py, src/forecast.py, src/site_figures.py and the matching tests in test/, and we reviewed and edited that code. Graham used Claude to draft the introduction and discussion sections, and to check the grammar once he had edited/rewritten them.
+
