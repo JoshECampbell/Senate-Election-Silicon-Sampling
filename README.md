@@ -182,7 +182,7 @@ The rendered-bundle check and JavaScript controller checks are described in
 ## AI Disclosure 
 Graham used Claude Code, with Claude Opus 5.5 (claude-opus-5-5) to write src/simulate_data.py, src/validate_models.py, src/election_results_pull.py, src/forecast.py, src/site_figures.py and the matching tests in test/, and we reviewed and edited that code. Graham used Claude to draft the introduction and discussion sections, and to check the grammar once he had edited/rewritten them.
 
-Johs used GPT-6.1 Sol to create the files in `src/` listed below, with assistance
+Josh used GPT-6.1 Sol through the Codex harness to create the files in `src/` listed below, with assistance
 from the same model for tests and corresponding documentation. The code was
 reviewed by a human.
 
